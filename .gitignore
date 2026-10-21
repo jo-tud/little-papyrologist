@@ -1,0 +1,13 @@
+# Internal – never commit
+AUFTRAG.md
+notes/
+private/
+
+# Build / tooling
+node_modules/
+dist/
+.vite/
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
