@@ -1,0 +1,34 @@
+# Badges. Conditions use the same keys as ranks (see src/rules.ts):
+#   answers, points, honesty_points, sets_done, levels_done, honest_calls,
+#   letters_right, empty_streak, clean_streak, false_alarms, calibration, badges
+# Keep the ids stable: earned badges are stored by id in the player's browser.
+
+badges:
+  - id: first-set
+    title: First set
+    how: Finish any exercise set.
+    requires: { sets_done: 1 }
+  - id: apprentice
+    title: Alphabet apprentice
+    how: Finish all five look-alike sets.
+    requires: { levels_done: [0] }
+  - id: sigma-spotter
+    title: Sigma spotter
+    how: Tell Ϲ and Ε apart correctly three times.
+    requires: { letters_right: { letters: [Ϲ, Ε], count: 3 } }
+  - id: no-false-alarms
+    title: No false alarms in a row
+    how: Say “no letter” on five empty tiles in a row.
+    requires: { empty_streak: 5 }
+  - id: honest-eye
+    title: Honest eye
+    how: Answer “can't tell” five times where nobody could tell.
+    requires: { honest_calls: 5 }
+  - id: steady-hand
+    title: Steady hand
+    how: Ten good or honest answers in a row.
+    requires: { clean_streak: 10 }
+  - id: calibrated
+    title: Well calibrated
+    how: At least 20 answers marked “sure”, and nine in ten of them right.
+    requires: { calibration: { sure_answers: 20, right_share: 0.9 } }

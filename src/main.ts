@@ -14,6 +14,8 @@ import { renderDrill } from "./views/drill";
 import { renderResults } from "./views/results";
 import { renderLearn } from "./views/learn";
 import { renderAbout } from "./views/about";
+import { renderRanks } from "./views/ranks";
+import { syncRankChip } from "./progress-ui";
 
 type Cleanup = (() => void) | void;
 
@@ -21,9 +23,10 @@ const routes: [RegExp, string, (main: HTMLElement, ...args: string[]) => Cleanup
   [/^#?\/?$/, "Path", renderHome],
   [/^#\/alphabet$/, "Alphabet", renderAlphabet],
   [/^#\/drill\/([a-z0-9-]+)$/, "Exercise", renderDrill],
-  [/^#\/results$/, "My results", renderResults],
+  [/^#\/results$/, "My results", (main) => renderResults(main)],
   [/^#\/learn$/, "Keep learning", renderLearn],
   [/^#\/about$/, "About", renderAbout],
+  [/^#\/ranks$/, "Ranks", renderRanks],
 ];
 
 let cleanup: Cleanup;
@@ -45,6 +48,7 @@ function route(): void {
     if (here) a.setAttribute("aria-current", "page");
     else a.removeAttribute("aria-current");
   });
+  syncRankChip();
   window.scrollTo(0, 0);
   if (match && hash !== "#/") main.focus({ preventScroll: true });
 }

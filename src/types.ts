@@ -11,6 +11,7 @@ export interface Source {
   title: string;
   url?: string;
   kind: string;
+  note?: string;
   checked: string;
 }
 
@@ -72,6 +73,8 @@ export interface Hero {
 
 export interface QuizItem {
   id: string;
+  /** Items with the same set are played together; defaults to one set per level. */
+  set?: string;
   level: number;
   degradation: number;
   image: string;
@@ -105,4 +108,28 @@ export interface AnswerRecord {
   verdict: string;
   reading_points: number;
   honesty_points: number;
+}
+
+export interface PlaySet {
+  id: string;
+  level: number;
+  title: string;
+  href: string;
+}
+
+export interface BadgeDef {
+  id: string;
+  title: string;
+  how: string;
+  requires: import("./rules").Requirements;
+}
+
+export interface RankDef {
+  id: string;
+  title: string;
+  blurb: string;
+  /** Shown as "???" until reached. */
+  secret?: boolean;
+  sources?: string[];
+  requires: import("./rules").Requirements;
 }

@@ -157,7 +157,7 @@ a {
 .topbar {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 0.5rem 1.5rem;
   max-width: var(--wide);
@@ -839,4 +839,217 @@ th.num {
   background: var(--wrong-soft);
   border-radius: var(--radius);
   max-width: 40rem;
+}
+
+/* ---------- Ranks ---------- */
+.seal {
+  width: 2.4rem;
+  height: 2.4rem;
+  flex: none;
+}
+.seal text {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 15px;
+}
+.seal-edge {
+  stroke: var(--basalt);
+  stroke-width: 1.2;
+}
+.seal-ring {
+  fill: none;
+  stroke: var(--basalt);
+  stroke-width: 0.8;
+  opacity: 0.5;
+}
+.seal-current .seal-edge {
+  fill: var(--teal);
+}
+.seal-current text {
+  fill: var(--on-teal);
+}
+.seal-reached .seal-edge {
+  fill: var(--ochre);
+}
+.seal-reached text {
+  fill: var(--basalt);
+}
+.seal-locked .seal-edge {
+  fill: transparent;
+  stroke-dasharray: 2 2;
+  stroke: var(--slate);
+}
+.seal-locked .seal-ring {
+  display: none;
+}
+.seal-locked text {
+  fill: var(--slate);
+}
+.rank-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  text-decoration: none;
+  color: var(--basalt);
+  font-weight: 700;
+  font-size: var(--step--1);
+  border: 1px solid var(--rule);
+  background: var(--sheet);
+  border-radius: 999px;
+  padding: 0.15rem 0.8rem 0.15rem 0.2rem;
+  margin-right: auto;
+}
+.rank-chip .seal {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+.rank-chip:empty {
+  display: none;
+}
+.rank-now {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  max-width: 46rem;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+}
+.rank-now .seal {
+  width: 4rem;
+  height: 4rem;
+}
+.rank-now h3 {
+  margin: 0 0 0.2rem;
+  font-size: var(--step-1);
+}
+.rank-now p {
+  margin: 0 0 0.6rem;
+}
+.checks {
+  list-style: none;
+  padding: 0;
+  margin: 0.3rem 0 0;
+  display: grid;
+  gap: 0.45rem;
+}
+.checks li {
+  display: grid;
+  grid-template-columns: 1.3rem 1fr;
+  gap: 0.2rem 0.5rem;
+  font-size: var(--step--1);
+}
+.checks .tick {
+  font-weight: 700;
+  color: var(--slate);
+}
+.checks .met .tick {
+  color: var(--teal);
+}
+.checks .bar {
+  grid-column: 2;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--rule);
+  overflow: hidden;
+  max-width: 18rem;
+}
+.checks .bar span {
+  display: block;
+  height: 100%;
+  background: var(--teal);
+}
+.ladder {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  max-width: 46rem;
+  display: grid;
+  gap: 0.2rem;
+}
+.ladder > li {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 0.9rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.ladder > li > .seal {
+  width: 3rem;
+  height: 3rem;
+}
+.ladder h2 {
+  font-size: var(--step-0);
+  font-family: var(--sans);
+  margin: 0.2rem 0 0.2rem;
+}
+.ladder p {
+  margin: 0 0 0.3rem;
+  font-size: var(--step--1);
+}
+.ladder .is-current {
+  background: var(--teal-soft);
+  border-radius: var(--radius);
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+}
+.rank-up {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+  margin: 0 0 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius);
+  background: var(--ochre-soft);
+  border: 1.5px solid var(--ochre);
+}
+.rank-up .seal {
+  width: 3.2rem;
+  height: 3.2rem;
+  animation: stamp 0.6s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+.rank-up p {
+  margin: 0;
+}
+@keyframes stamp {
+  from {
+    transform: scale(1.8) rotate(-18deg);
+    opacity: 0;
+  }
+}
+
+/* Backup: tucked away at the end of My results */
+.backup {
+  margin-top: 2.5rem;
+  max-width: 50rem;
+  border-top: 1px solid var(--rule);
+  padding-top: 0.8rem;
+  font-size: var(--step--1);
+}
+.backup summary {
+  cursor: pointer;
+  color: var(--slate);
+  padding: 0.3rem 0;
+}
+.backup[open] summary {
+  margin-bottom: 0.5rem;
+}
+.backup button,
+.backup .button {
+  font-size: var(--step--1);
+  min-height: 40px;
+}
+.backup .quiet {
+  border-color: transparent;
+  background: transparent;
+  color: var(--wrong);
+  text-decoration: underline;
+  padding-left: 0;
+}
+input[type="file"]:focus-visible + .button {
+  outline: 3px solid var(--focus);
+}
+#paste-area[hidden] {
+  display: none;
 }

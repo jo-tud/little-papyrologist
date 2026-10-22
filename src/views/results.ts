@@ -1,5 +1,6 @@
 import { itemSetVersion, LEVELS } from "../data";
-import { clearAll, isPersistent, state } from "../store";
+import { clearAll, exportPayload, importText, isPersistent, state } from "../store";
+import { progressAfterAnswer } from "../progress-ui";
 import type { AnswerRecord } from "../types";
 import { tip } from "../ui";
 import { esc, pct } from "../util";
@@ -75,16 +76,7 @@ function calibration(answers: AnswerRecord[]): string {
 }
 
 function exportText(): string {
-  const s = state();
-  const payload = {
-    app: "little-papyrologist",
-    app_version: APP_VERSION,
-    item_set: itemSetVersion(),
-    exported_at: new Date().toISOString(),
-    note: "Answers from The Little Papyrologist. Level 0 tiles are drawings made for the trainer.",
-    answers: s.answers,
-  };
-  return JSON.stringify(payload, null, 2);
+  return JSON.stringify(exportPayload(APP_VERSION, itemSetVersion()), null, 2);
 }
 
 function download(): void {
@@ -99,7 +91,7 @@ function download(): void {
   window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-export function renderResults(main: HTMLElement): void {
+export function renderResults(main: HTMLElement, openBackup = false): void {
   const answers = state().answers;
   const rows = summarise(answers);
   const conf = confusions(answers);
@@ -108,8 +100,8 @@ export function renderResults(main: HTMLElement): void {
   <h1>My results</h1>
   ${
     isPersistent()
-      ? `<p>Your answers are saved in this browser only. Nothing is sent anywhere. To keep or share them, export a file.</p>`
-      : `<p><strong>This browser does not allow saving.</strong> Your answers are kept only until you close the page. Export them before you leave.</p>`
+      ? `<p>Your answers are saved in this browser only. Nothing is sent anywhere.</p>`
+      : `<p><strong>This browser does not allow saving.</strong> Your answers are kept only until you close the page.</p>`
   }
   ${
     answers.length === 0
@@ -156,25 +148,41 @@ export function renderResults(main: HTMLElement): void {
   <p class="small muted">If “Sure” is right much more often than “Guessing”, your sense of certainty is working.</p>`
   }
 
-  <h2>Export or clear</h2>
-  <p>The file contains, for each answer: tile, level, degradation, whether you saw text, the letters you gave,
-  how sure you were, and how long you took.</p>
-  <div class="row">
-    <button type="button" class="primary" id="export" ${answers.length ? "" : "disabled"}>Export my answers (JSON)</button>
-    <button type="button" id="copy" ${answers.length ? "" : "disabled"}>Copy as text</button>
-    <button type="button" id="clear" ${answers.length ? "" : "disabled"}>Clear my answers</button>
-  </div>
-  <p id="copy-note" class="small muted" role="status"></p>
-  <textarea id="copy-box" class="copy-box" rows="8" readonly hidden aria-label="Your answers as JSON"></textarea>
-  <div id="confirm-clear" class="confirm" hidden>
-    <p><strong>Delete all your answers, points and badges from this browser?</strong> This cannot be undone.</p>
+  <details class="backup" id="backup">
+    <summary>Back up or move your progress</summary>
+    <p class="small">Your progress lives only in this browser. To keep a copy or move to another
+    browser, save it as a file and load it there. Loading adds to what is already here; nothing is
+    overwritten.</p>
     <div class="row">
-      <button type="button" id="clear-yes">Delete everything</button>
-      <button type="button" class="primary" id="clear-no">Keep my answers</button>
+      <button type="button" id="export" ${answers.length ? "" : "disabled"}>Save as file</button>
+      <button type="button" id="copy" ${answers.length ? "" : "disabled"}>Copy as text</button>
+      <input type="file" id="import-file" class="visually-hidden" accept="application/json,.json">
+      <label class="button" for="import-file">Load from file</label>
+      <button type="button" id="paste-open">Paste text</button>
     </div>
-  </div>`;
+    <p id="copy-note" class="small muted" role="status"></p>
+    <textarea id="copy-box" class="copy-box" rows="8" readonly hidden aria-label="Your progress as text"></textarea>
+    <div id="paste-area" hidden>
+      <textarea id="paste-box" class="copy-box" rows="6" aria-label="Paste a saved progress text here"></textarea>
+      <div class="row"><button type="button" id="paste-load">Load pasted text</button></div>
+    </div>
+    <p class="small">The file holds, for each answer: tile, level, degradation, whether you saw text,
+    the letters you gave, how sure you were and how long you took. It also holds your finished sets,
+    badges and ranks.</p>
+    <div class="row">
+      <button type="button" id="clear" class="quiet" ${answers.length ? "" : "disabled"}>Delete my progress</button>
+    </div>
+    <div id="confirm-clear" class="confirm" hidden>
+      <p><strong>Delete all your answers, points, badges and ranks from this browser?</strong> This cannot be undone.</p>
+      <div class="row">
+        <button type="button" id="clear-yes">Delete everything</button>
+        <button type="button" class="primary" id="clear-no">Keep my progress</button>
+      </div>
+    </div>
+  </details>`;
 
   const $ = <T extends HTMLElement>(sel: string) => main.querySelector<T>(sel)!;
+  if (openBackup) $<HTMLDetailsElement>("#backup").open = true;
   $("#export").addEventListener("click", download);
   $("#copy").addEventListener("click", async () => {
     const text = exportText();
@@ -190,6 +198,30 @@ export function renderResults(main: HTMLElement): void {
       $("#copy-note").textContent = "Copying is blocked here. The text below is selected; copy it with your keyboard.";
     }
   });
+  const note = (text: string) => ($("#copy-note").textContent = text);
+  const load = (text: string) => {
+    try {
+      const r = importText(text);
+      progressAfterAnswer();
+      renderResults(main, true);
+      const extra = [r.duplicates ? `${r.duplicates} were already here` : "", r.skipped ? `${r.skipped} could not be read and were skipped` : ""]
+        .filter(Boolean)
+        .join("; ");
+      main.querySelector<HTMLElement>("#copy-note")!.textContent = `Loaded ${r.added} answers${extra ? ` (${extra})` : ""}.`;
+    } catch (e) {
+      note(e instanceof Error ? e.message : "This file could not be loaded.");
+    }
+  };
+  $<HTMLInputElement>("#import-file").addEventListener("change", (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    file.text().then(load, () => note("This file could not be read."));
+  });
+  $("#paste-open").addEventListener("click", () => {
+    $("#paste-area").hidden = false;
+    $("#paste-box").focus();
+  });
+  $("#paste-load").addEventListener("click", () => load($<HTMLTextAreaElement>("#paste-box").value));
   $("#clear").addEventListener("click", () => {
     $("#confirm-clear").hidden = false;
     $("#clear-no").focus();
@@ -200,6 +232,7 @@ export function renderResults(main: HTMLElement): void {
   });
   $("#clear-yes").addEventListener("click", () => {
     clearAll();
+    progressAfterAnswer();
     renderResults(main);
   });
 }

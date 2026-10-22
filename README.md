@@ -11,6 +11,7 @@ Points are given for honest answers as well as for correct ones. A correct "no l
 ## Status
 
 - **Stage 0 (the scribes' alphabet) is playable.** It covers the 24 letters as drawn for this trainer, plus five sets of look-alikes (Ε/Ϲ/Ο/Θ, Α/Λ/Δ, Η/Ν/Π, Ι/Τ/Γ, Μ/Ν) with empty and damaged tiles.
+- **Ranks and badges** follow your path through the levels. Both are defined in `data/ranks.yaml` and `data/badges.yaml`. New material counts towards them automatically.
 - **Levels 1–3, with real images, are in preparation.** Their images will be added once their use is cleared.
 
 ## Run it
@@ -30,7 +31,8 @@ npm run build    # checks the data, builds one self-contained dist/index.html
 | `data/glyphs.yaml` | the letter drawings, one named path per stroke |
 | `data/stage0.yaml` | facts with sources, look-alike sets and drawn tiles |
 | `data/items.yaml` | quiz items for levels 1–3 (image, reading, source, license, date checked) |
-| `data/sources.yaml` | every source the site cites |
+| `data/sources.yaml` | every source the site cites, plus related projects |
+| `data/ranks.yaml`, `data/badges.yaml` | ranks and badges, with their conditions |
 | `src/` | the page (TypeScript, no framework) |
 | `tools/validate-data.mjs` | refuses items without a reliable answer, a source, a license or a check date |
 | `tools/check-public.mjs` | stops local paths and private terms from reaching the repo or the site |
@@ -39,7 +41,7 @@ New tiles and quiz items go into `data/`. Adding them needs no code changes.
 
 ## Your data
 
-There is no server and no tracking. Answers stay in your browser's local storage. **My results → Export** saves them as a JSON file, if you want to keep them.
+There is no server and no tracking. Answers, badges and ranks stay in your browser's local storage. At the end of **My results** you can save your progress as a file and load it in another browser.
 
 ## Licenses
 

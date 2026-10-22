@@ -15,6 +15,11 @@ const { letters: glyphs } = read("data/glyphs.yaml");
 const { sources } = read("data/sources.yaml");
 const stage0 = read("data/stage0.yaml");
 const items = read("data/items.yaml").items ?? [];
+const { badges } = read("data/badges.yaml");
+const { ranks } = read("data/ranks.yaml");
+// Keep in step with REQUIREMENT_KEYS in src/rules.ts.
+const REQUIREMENT_KEYS = ["answers", "points", "honesty_points", "sets_done", "levels_done", "honest_calls",
+  "letters_right", "empty_streak", "clean_streak", "false_alarms", "calibration", "badges"];
 
 // Sources
 const sourceIds = new Set();
@@ -23,6 +28,7 @@ for (const s of sources) {
   sourceIds.add(s.id);
   if (!DATE.test(String(s.checked))) fail(`sources: ${s.id} has no valid "checked" date`);
   if (s.kind !== "book" && s.kind !== "own" && !s.url) fail(`sources: ${s.id} has no url`);
+  if (s.kind === "related" && !s.note) fail(`sources: related project ${s.id} needs a one-sentence note`);
 }
 const checkSources = (where, ids = []) => ids.forEach((id) => sourceIds.has(id) || fail(`${where}: unknown source "${id}"`));
 
@@ -90,8 +96,36 @@ for (const level of [1, 2, 3]) {
   if (list.length && share(list) < NULL_SHARE_MIN) fail(`level ${level}: only ${Math.round(100 * share(list))} % empty tiles`);
 }
 
+// Badges and ranks
+const badgeIds = new Set();
+function checkRequires(where, req) {
+  if (!req || typeof req !== "object") return fail(`${where}: "requires" must be a map ({} for none)`);
+  for (const [key, value] of Object.entries(req)) {
+    if (!REQUIREMENT_KEYS.includes(key)) fail(`${where}: unknown condition "${key}"`);
+    if (key === "levels_done" && !(Array.isArray(value) && value.every((l) => [0, 1, 2, 3].includes(l))))
+      fail(`${where}: levels_done must list levels 0–3`);
+    if (key === "badges") for (const id of value ?? []) if (!badgeIds.has(id)) fail(`${where}: unknown badge "${id}"`);
+    if (key === "letters_right") for (const l of value?.letters ?? []) if (!glyphByChar.has(l)) fail(`${where}: unknown letter ${l}`);
+  }
+}
+for (const b of badges) {
+  if (badgeIds.has(b.id)) fail(`badge ${b.id}: duplicate id`);
+  badgeIds.add(b.id);
+  if (!b.title || !b.how) fail(`badge ${b.id}: needs a title and a "how"`);
+}
+for (const b of badges) checkRequires(`badge ${b.id}`, b.requires);
+const rankIds = new Set();
+ranks.forEach((r, i) => {
+  if (rankIds.has(r.id)) fail(`rank ${r.id}: duplicate id`);
+  rankIds.add(r.id);
+  if (!r.title || !r.blurb) fail(`rank ${r.id}: needs a title and a blurb`);
+  checkRequires(`rank ${r.id}`, r.requires);
+  checkSources(`rank ${r.id}`, r.sources);
+  if (i === 0 && Object.keys(r.requires ?? {}).length) fail(`rank ${r.id}: the first rank must have no conditions`);
+});
+
 if (errors.length) {
   console.error(`Data check failed (${errors.length}):\n  - ${errors.join("\n  - ")}`);
   process.exit(1);
 }
-console.log(`Data check passed: ${glyphs.length} letters, ${stage0.drills.length} drawn tiles (${Math.round(100 * share(stage0.drills))} % empty), ${items.length} quiz items, ${sources.length} sources.`);
+console.log(`Data check passed: ${glyphs.length} letters, ${stage0.drills.length} drawn tiles (${Math.round(100 * share(stage0.drills))} % empty), ${items.length} quiz items, ${sources.length} sources, ${badges.length} badges, ${ranks.length} ranks.`);

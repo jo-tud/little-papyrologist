@@ -1,0 +1,59 @@
+# Ranks, lowest first. A rank is reached when all its conditions are met
+# (same condition keys as badges, see src/rules.ts). The player's rank is the highest
+# rank in this list whose conditions are met.
+#
+# When new material is added:
+#   - new exercise sets count automatically towards their level (levels_done);
+#   - adjust point thresholds here if a level gets much longer;
+#   - new ranks can be inserted anywhere. Keep ids stable.
+
+ranks:
+  - id: ash-sifter
+    title: Ash sifter
+    blurb: Everyone starts here, among the ash. Answer a few tiles to move on.
+    requires: {}
+  - id: fibre-counter
+    title: Fibre counter
+    blurb: You have looked closely at papyrus. Fibres are not letters, and you know it.
+    requires: { answers: 10 }
+  - id: stroke-spotter
+    title: Stroke spotter
+    blurb: You can tell a stroke of ink from a crack, a blot or a fibre.
+    requires: { sets_done: 2, points: 30 }
+  - id: letter-apprentice
+    title: Letter apprentice
+    blurb: All look-alike sets done. Ε and Ϲ no longer fool you. Mostly.
+    requires: { levels_done: [0] }
+  - id: honest-reader
+    title: Honest reader
+    blurb: >-
+      You say “can't tell” when nobody could tell, and you rarely see letters that are not
+      there. That is rarer than it sounds.
+    requires:
+      levels_done: [0]
+      honest_calls: 5
+      false_alarms: { max_share: 0.2, min_tiles: 7 }
+  - id: line-reader
+    title: Line reader
+    blurb: You read letters where the ink can really be seen, in infrared photos of opened fragments.
+    requires: { levels_done: [0, 1] }
+  - id: column-reader
+    title: Column reader
+    blurb: You read letters that a model brought back from scrolls nobody can open.
+    requires: { levels_done: [0, 1, 2] }
+  - id: little-papyrologist
+    title: Little papyrologist
+    blurb: You have earned the name of this site. Still not a papyrologist, but a very good little one.
+    requires: { levels_done: [0, 1, 2, 3] }
+  - id: philodemus-proofreader
+    title: Philodemus's proofreader
+    secret: true
+    blurb: >-
+      Philodemus is the Epicurean philosopher best attested in the Herculaneum library, and two
+      titles read from closed scrolls, On Vices and On Gods, are his. You may now check his
+      letters. He did not ask for this.
+    sources: [preprint1667]
+    requires:
+      levels_done: [0, 1, 2, 3]
+      badges: [no-false-alarms, honest-eye, calibrated]
+      false_alarms: { max_share: 0.1, min_tiles: 20 }

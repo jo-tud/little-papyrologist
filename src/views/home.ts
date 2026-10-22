@@ -1,8 +1,10 @@
-import { BADGES, currentStreak } from "../badges";
-import { drills, groups, hero, LEVELS } from "../data";
+import { BADGES, currentStreak, rankStatus } from "../badges";
+import { drills, groups, hero, LEVELS, playSets } from "../data";
+import { levelDone, totalPoints } from "../rules";
 import { lineSvg } from "../glyphs/render";
 import { state } from "../store";
-import { badgeIcon, sourceLinks, tip } from "../ui";
+import { badgeIcon, rankSeal, sourceLinks, tip } from "../ui";
+import { checksList } from "./ranks";
 import { esc } from "../util";
 
 export function renderHome(main: HTMLElement): void {
@@ -15,10 +17,9 @@ export function renderHome(main: HTMLElement): void {
     pos += Array.from(w).length;
   }
   const setsDone = groups.filter((g) => (s.setsDone[g.id] ?? 0) > 0).length;
-  const stage0Done = setsDone === groups.length;
-  const reading = s.answers.reduce((n, a) => n + a.reading_points, 0);
-  const honesty = s.answers.reduce((n, a) => n + a.honesty_points, 0);
+  const { reading, honesty } = totalPoints(s);
   const streak = currentStreak(s);
+  const rank = rankStatus(s);
 
   const groupStops = groups
     .map((g) => {
@@ -33,13 +34,27 @@ export function renderHome(main: HTMLElement): void {
     })
     .join("");
 
-  const levelStops = LEVELS.map(
-    (l) => `<li class="stop locked">
-      <span class="mark" aria-hidden="true">${l.level}</span>
-      <div><h3>Level ${l.level}: ${esc(l.title)}</h3><p>${esc(l.text)}</p></div>
-      <span class="muted small">${stage0Done ? "Coming soon" : "Locked"}</span>
-    </li>`,
-  ).join("");
+  // Levels open one after the other. Their sets come from the data, so new material shows up here.
+  const levelStops = LEVELS.map((l) => {
+    const open = levelDone(s, l.level - 1);
+    const sets = playSets.filter((p) => p.level === l.level);
+    if (!sets.length)
+      return `<li class="stop locked">
+        <span class="mark" aria-hidden="true">${l.level}</span>
+        <div><h3>Level ${l.level}: ${esc(l.title)}</h3><p>${esc(l.text)}</p></div>
+        <span class="muted small">Coming soon</span>
+      </li>`;
+    return sets
+      .map((p) => {
+        const done = (s.setsDone[p.id] ?? 0) > 0;
+        return `<li class="stop ${done ? "done" : open ? "" : "locked"}">
+          <span class="mark" aria-hidden="true">${l.level}</span>
+          <div><h3>Level ${l.level}: ${esc(p.title)}</h3><p>${esc(l.text)}</p></div>
+          ${open ? `<a class="button ${done ? "" : "primary"}" href="${p.href}">${done ? "Play again" : "Start"}</a>` : `<span class="muted small">Finish ${l.level === 1 ? "stage 0" : `level ${l.level - 1}`} first</span>`}
+        </li>`;
+      })
+      .join("");
+  }).join("");
 
   main.innerHTML = `
   <section class="hero" aria-labelledby="hero-title">
@@ -83,6 +98,21 @@ export function renderHome(main: HTMLElement): void {
         ? `${streak} good answers in a row. Honest “can't tell” answers count, too.`
         : "Points for reading, and separate points for honesty. Both count.",
   )}
+
+  <h2>Your rank</h2>
+  <div class="rank-now">
+    ${rankSeal(rank.index + 1, "current")}
+    <div>
+      <h3>${esc(rank.rank.title)}</h3>
+      <p>${esc(rank.rank.blurb)}</p>
+      ${
+        rank.next
+          ? `<p class="small"><strong>Next: ${rank.next.secret ? "a secret rank" : esc(rank.next.title)}.</strong> To get there:</p>${checksList(rank.nextChecks)}`
+          : `<p class="small"><strong>This is the last rank.</strong> Thank you for reading so carefully.</p>`
+      }
+      <p class="small"><a href="#/ranks">See all ranks</a></p>
+    </div>
+  </div>
 
   <h2>So far</h2>
   <div class="tally">

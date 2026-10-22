@@ -2,7 +2,9 @@ import glyphData from "../data/glyphs.yaml";
 import stage0Data from "../data/stage0.yaml";
 import sourceData from "../data/sources.yaml";
 import itemData from "../data/items.yaml";
-import type { Drill, Fact, Glyph, Group, Hero, QuizItem, Source } from "./types";
+import badgeData from "../data/badges.yaml";
+import rankData from "../data/ranks.yaml";
+import type { BadgeDef, Drill, Fact, Glyph, Group, Hero, PlaySet, QuizItem, RankDef, Source } from "./types";
 
 export const glyphs = (glyphData as { letters: Glyph[] }).letters;
 export const glyphByChar = new Map(glyphs.map((g) => [g.char, g]));
@@ -34,3 +36,19 @@ export const LEVELS = [
   { level: 2, title: "Ink revealed by a model", text: "Images of closed scrolls, with readings checked by papyrologists." },
   { level: 3, title: "Harder", text: "Blur, noise, low contrast and coarse resolution. First: is there text at all?" },
 ] as const;
+
+export const badgeDefs = (badgeData as { badges: BadgeDef[] }).badges;
+export const rankDefs = (rankData as { ranks: RankDef[] }).ranks;
+
+/**
+ * Every playable set, from all levels. Stage 0 sets are the look-alike groups; quiz sets come
+ * from the "set" field of the quiz items. Progress, levels and ranks are all counted over this
+ * list, so new material counts automatically.
+ */
+export const playSets: PlaySet[] = [
+  ...groups.map((g) => ({ id: g.id, level: 0, title: g.title, href: `#/drill/${g.id}` })),
+  ...[...new Set(quizItems.map((i) => i.set ?? `level-${i.level}`))].map((id) => {
+    const first = quizItems.find((i) => (i.set ?? `level-${i.level}`) === id)!;
+    return { id, level: first.level, title: id, href: `#/quiz/${id}` };
+  }),
+];

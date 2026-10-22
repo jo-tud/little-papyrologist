@@ -74,6 +74,35 @@ sources:
     title: G. Cavallo, Libri scritture scribi a Ercolano (Cronache Ercolanesi, Suppl. 1, 1983)
     kind: book
     checked: 2026-10-22
+  # Related projects: not used as evidence, only linked for further practice.
+  - id: ancient-lives
+    title: Ancient Lives (University of Oxford, Egypt Exploration Society, Zooniverse)
+    url: https://www.zooniverse.org/projects/zooniverse/ancient-lives
+    kind: related
+    note: >-
+      Volunteers marked Greek letters on papyri from Oxyrhynchus: first whether a fragment has
+      writing, then which letters. Its page says the project is finished and out of data.
+    checked: 2026-10-22
+  - id: reading-papyri
+    title: Reading the Papyri (University of Michigan Library)
+    url: https://apps.lib.umich.edu/files/collections/papyrus/k12/reading/index.html
+    kind: related
+    note: Guided reading of real Greek and Latin papyri, starting with an easy-to-read book hand.
+    checked: 2026-10-22
+  - id: xeirographa
+    title: Xeirographa
+    url: https://xeirographa.com/
+    kind: related
+    note: >-
+      Twelve lessons for transcribing Greek New Testament manuscripts, from capital letters to
+      later minuscule hands.
+    checked: 2026-10-22
+  - id: pappal
+    title: PapPal – Papyrology and Palaeography
+    url: https://www.pappal.info/
+    kind: related
+    note: Images of dated papyri, to compare how letter shapes changed over time.
+    checked: 2026-10-22
   - id: drawn
     title: Drawn for this trainer
     kind: own

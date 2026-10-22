@@ -1,10 +1,10 @@
-import { BADGES, earnedNow } from "../badges";
 import { drills, glyphs, groups } from "../data";
+import { progressAfterAnswer, rankUpBanner } from "../progress-ui";
 import { tileSvg } from "../glyphs/render";
 import { score, type Score } from "../scoring";
-import { addAnswer, grantBadges, markSetDone, state } from "../store";
+import { addAnswer, markSetDone } from "../store";
 import type { AnswerRecord, Drill, SaidText } from "../types";
-import { sourceLinks, tip, toast } from "../ui";
+import { sourceLinks, tip } from "../ui";
 import { esc, shuffle } from "../util";
 
 const CANT_TELL = "?";
@@ -82,6 +82,8 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
   let pick: Pick = {};
   let shownAt = performance.now();
   let checked: Score | null = null;
+  let newRank: string | undefined; // rank reached with the current answer
+  const ranksThisSet: string[] = [];
   const results: AnswerRecord[] = [];
 
   function progress(): string {
@@ -155,7 +157,7 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
   }
 
   function feedback(d: Drill, s: Score): string {
-    return `<div class="verdict v-${s.verdict}">
+    return `${newRank ? rankUpBanner(newRank) : ""}<div class="verdict v-${s.verdict}">
       <h2 id="verdict" tabindex="-1">${esc(headline(d, pick, s))}</h2>
       <dl class="compare">
         <dt>You said</dt><dd>${esc(givenText(pick))}</dd>
@@ -193,26 +195,26 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
     addAnswer(record);
     results.push(record);
     checked = s;
-    announceBadges();
+    noteProgress();
     renderRound();
     main.querySelector<HTMLElement>("#verdict")?.focus();
   }
 
-  function announceBadges(): void {
-    const fresh = grantBadges(earnedNow(state()));
-    for (const id of fresh) {
-      const b = BADGES.find((x) => x.id === id);
-      if (b) toast(`New badge: ${b.title}`);
-    }
+  function noteProgress(): void {
+    const news = progressAfterAnswer();
+    newRank = news.rank?.id;
+    if (newRank) ranksThisSet.push(newRank);
   }
 
   function next(): void {
     index++;
     pick = {};
     checked = null;
+    newRank = undefined;
     if (index >= order.length) {
       markSetDone(group!.id);
-      announceBadges();
+      noteProgress();
+      newRank = undefined;
       renderSummary();
       return;
     }
@@ -228,7 +230,8 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
     const nulls = results.filter((r) => r.truth === "none").length;
     const nextGroup = groups[groups.findIndex((g) => g.id === group!.id) + 1];
     main.innerHTML = `
-      <h1>${esc(group!.title)}: done</h1>
+      <h1 tabindex="-1">${esc(group!.title)}: done</h1>
+      ${ranksThisSet.length ? rankUpBanner(ranksThisSet[ranksThisSet.length - 1]) : ""}
       <div class="tally">
         <div><strong>${count("right")}</strong><span class="muted">read correctly</span></div>
         <div class="honesty"><strong>${count("honest") + count("careful")}</strong><span class="muted">honest calls</span></div>
@@ -249,6 +252,7 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
     main.querySelector("#again")?.addEventListener("click", () => {
       index = 0;
       results.length = 0;
+      ranksThisSet.length = 0;
       order.splice(0, order.length, ...shuffle(order));
       shownAt = performance.now();
       renderRound();

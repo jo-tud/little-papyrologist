@@ -23,9 +23,9 @@ export function renderAbout(main: HTMLElement): void {
   go into the quiz.</p>
 
   <h2>Your data</h2>
-  <p>The page has no server, no tracking and no analytics. Your answers are stored in your
-  browser's local storage. They leave your computer only if you press “Export my answers”
-  on <a href="#/results">My results</a> and pass the file on yourself.</p>
+  <p>The page has no server, no tracking and no analytics. Your answers, badges and ranks are
+  stored in your browser's local storage. They leave your computer only if you save them as a
+  file yourself (at the end of <a href="#/results">My results</a>).</p>
 
   <h2>Licenses</h2>
   <p>The letter drawings and exercise tiles are our own. Fonts: Gentium Book Plus (SIL International) and

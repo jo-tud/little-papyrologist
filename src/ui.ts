@@ -46,3 +46,25 @@ export function badgeIcon(): string {
     <path d="M10 17 L14.5 21 L22 11" fill="none" stroke="var(--basalt)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>`;
 }
+
+/** A round seal with the rank's number. State decides the colour. */
+export function rankSeal(n: number, state: "reached" | "current" | "locked", label = ""): string {
+  const points: string[] = [];
+  for (let i = 0; i < 24; i++) {
+    const a = (i / 24) * Math.PI * 2;
+    const r = i % 2 ? 18.2 : 19.6;
+    points.push(`${(20 + Math.cos(a) * r).toFixed(2)},${(20 + Math.sin(a) * r).toFixed(2)}`);
+  }
+  return `<svg class="seal seal-${state}" viewBox="0 0 40 40" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'}>
+    <polygon class="seal-edge" points="${points.join(" ")}"/>
+    <circle class="seal-ring" cx="20" cy="20" r="14.5"/>
+    <text x="20" y="20" dy="0.36em" text-anchor="middle">${n}</text>
+  </svg>`;
+}
+
+/** Updates the rank shown in the top bar. Imported lazily to avoid a cycle with badges.ts. */
+export function refreshRankChip(title: string, n: number): void {
+  const chip = document.getElementById("rank-chip");
+  if (!chip) return;
+  chip.innerHTML = `${rankSeal(n, "current")}<span><span class="visually-hidden">Your rank: </span>${title}</span>`;
+}
