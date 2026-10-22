@@ -8,6 +8,8 @@ Points are given for honest answers as well as for correct ones. A correct "no l
 
 **Not affiliated with the Vesuvius Challenge.**
 
+**Try it:** https://jo-tud.github.io/little-papyrologist/
+
 ## Status
 
 - **Stage 0 (the scribes' alphabet) is playable.** It covers the 24 letters as drawn for this trainer, plus five sets of look-alikes (Ε/Ϲ/Ο/Θ, Α/Λ/Δ, Η/Ν/Π, Ι/Τ/Γ, Μ/Ν) with empty and damaged tiles.
@@ -23,6 +25,7 @@ npm run build    # checks the data, builds one self-contained dist/index.html
 ```
 
 `dist/index.html` also works when opened straight from the folder.
+Every push to `main` builds the site and publishes it on GitHub Pages (`.github/workflows/deploy.yml`).
 
 ## How it is organised
 
