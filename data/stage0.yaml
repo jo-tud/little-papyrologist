@@ -1,0 +1,310 @@
+# Stage 0: the scribes' alphabet.
+# Every fact names its source (ids from sources.yaml).
+# Exercise tiles are our own drawings, so their answers are true by construction.
+
+hero:
+  line: ΠΙΤΕΠΟΡΦΥΡΑϹΚΑΙ
+  words: [ΠΙ, ΤΕ, ΠΟΡΦΥΡΑϹ, ΚΑΙ]
+  edition: πί τε πορφύραϲ καὶ
+  where: PHerc. Paris 4, column −12, line 4
+  note: >-
+    The first word started on the line above: ἐ- | πί. Lines break in the middle of words, too.
+  gloss: >-
+    πορφύραϲ (porphyras) means "purple". It was the first word read from inside a closed
+    Herculaneum scroll, in 2023.
+  sources: [cerc54, firstletters]
+
+facts:
+  - id: no-spaces
+    title: No spaces
+    text: Words run on without gaps. Finding where one word ends is part of reading.
+    quote: texts from this time didn't use spaces, making it harder to determine word boundaries
+    sources: [firstletters]
+  - id: round-sigma
+    title: Sigma is round
+    text: Sigma is written as a half moon, Ϲ, not as Σ. In this trainer you type it with S.
+    quote: "The letters in this ancient script look more like this: ΠΟΡΦΥΡΑϹ."
+    sources: [firstletters]
+  - id: editors-add
+    title: Accents come from the editors
+    text: >-
+      The scroll shows ΓΕΙΝΕϹΘΑΙ in capitals, with no accents. The printed edition gives the
+      same line as γείνεϲθαι, in lower case with an accent added by the editors. Compare the
+      image of column −8 with line 5 of the edition.
+    sources: [grandprize, cerc54]
+  - id: columns
+    title: Narrow columns
+    text: >-
+      In PHerc. Paris 4 the columns are about 6 cm wide, with about 1.7 cm of blank papyrus
+      between them, and up to 18 lines are preserved per column.
+    quote: columns measuring around 62 mm wide, separated by blank spaces of about 17 mm
+    sources: [cerc54]
+  - id: experts-check
+    title: Experts check twice
+    text: >-
+      The editors of PHerc. Paris 4 compared several images before accepting a trace. Some
+      apparent strokes turned out to be noise. That is why this trainer rewards an honest
+      "can't tell".
+    quote: >-
+      there were ambiguous cases where we were unsure if what appeared to be ink was actually
+      ink, or merely noise amplified by the AI, resulting in hallucinations
+    sources: [cerc54]
+  - id: confidence
+    title: Say how sure you are
+    text: >-
+      When the first word was read from a closed scroll, each papyrologist marked how sure they
+      were of every letter. You do the same here.
+    quote: Independently and unanimously, they annotated 13 letters, albeit with varying levels of confidence.
+    sources: [firstletters]
+
+groups:
+  - id: esot
+    title: Round letters
+    letters: [Ε, Ϲ, Ο, Θ]
+    intro: >-
+      Four round letters. What tells them apart is a middle bar and whether the right side is
+      closed.
+  - id: ald
+    title: Peaked letters
+    letters: [Α, Λ, Δ]
+    intro: Two legs meeting at the top. Look for a crossbar or a base line.
+  - id: hnp
+    title: Two uprights
+    letters: [Η, Ν, Π]
+    intro: >-
+      Two uprights, joined by a bar in the middle, a diagonal, or a bar on top. The organizers
+      once described a single trace as "a pi or the bottom of a capital eta".
+    sources: [firstletters]
+  - id: itg
+    title: Single uprights
+    letters: [Ι, Τ, Γ]
+    intro: One upright, with or without a top bar. Where the bar sits decides the letter.
+  - id: mn
+    title: Mu and nu
+    letters: [Μ, Ν]
+    intro: Both have strokes going down and across. Μ has a V in the middle, Ν one diagonal.
+
+# truth: a letter, "?" (cannot be decided from what is visible; list candidates), or "none".
+# damage: holes in the papyrus, as boxes in the 100 × 130 drawing.
+drills:
+  # Round letters
+  - id: d-esot-1
+    group: esot
+    draw: { letter: Ε }
+    truth: Ε
+    explain: Round, open on the right, with a bar in the middle. That is Ε.
+  - id: d-esot-2
+    group: esot
+    draw: { letter: Ε, hide: [bar] }
+    truth: Ϲ
+    explain: The arc is complete and there is no bar, and nothing is missing. That is Ϲ.
+  - id: d-esot-3
+    group: esot
+    draw: { letter: Ε, hide: [bar] }
+    damage: [{ x: 26, y: 50, w: 40, h: 26 }]
+    truth: "?"
+    candidates: [Ε, Ϲ]
+    explain: >-
+      A hole sits exactly where Ε would have its bar. It could be Ε or Ϲ. The honest answer is
+      "can't tell".
+  - id: d-esot-4
+    group: esot
+    draw: { letter: Θ }
+    truth: Θ
+    explain: A closed oval with a bar across it. That is Θ.
+  - id: d-esot-5
+    group: esot
+    draw: { letter: Ο }
+    truth: Ο
+    explain: A closed oval with nothing inside. That is Ο.
+  - id: d-esot-6
+    group: esot
+    draw: { letter: Θ }
+    damage: [{ x: 58, y: 18, w: 34, h: 90 }]
+    truth: "?"
+    candidates: [Θ, Ε]
+    explain: >-
+      The right side is lost. With the bar visible it is Θ if the oval was closed, or Ε if it
+      was open. You cannot see which.
+  - id: d-esot-7
+    group: esot
+    draw: { empty: blot }
+    truth: none
+    explain: >-
+      A dark patch with no strokes in it. Letters are built from strokes. A blot is not a
+      letter.
+  # Peaked letters
+  - id: d-ald-1
+    group: ald
+    draw: { letter: Α }
+    truth: Α
+    explain: Two legs and a crossbar. That is Α.
+  - id: d-ald-2
+    group: ald
+    draw: { letter: Λ }
+    truth: Λ
+    explain: Two legs, nothing between them, and nothing missing. That is Λ.
+  - id: d-ald-3
+    group: ald
+    draw: { letter: Δ }
+    truth: Δ
+    explain: Two legs closed by a base line. That is Δ.
+  - id: d-ald-4
+    group: ald
+    draw: { letter: Λ }
+    damage: [{ x: 8, y: 58, w: 86, h: 52 }]
+    truth: "?"
+    candidates: [Α, Λ, Δ]
+    explain: >-
+      Only the top survives. A crossbar or a base line could have been in the lost part, so it
+      could be Α, Λ or Δ.
+  - id: d-ald-5
+    group: ald
+    draw: { letter: Α }
+    damage: [{ x: 6, y: 86, w: 90, h: 24 }]
+    truth: Α
+    explain: >-
+      The feet are lost, but the crossbar is still there, and only Α has one. Damage does not
+      always make a letter uncertain.
+  - id: d-ald-6
+    group: ald
+    draw: { empty: shuffle, pieces: [[Α, bar, -14, -34, 8], [Ξ, mid, -16, 38, -4], [Κ, leg, 12, -8, 0]] }
+    truth: none
+    explain: >-
+      Three short strokes that never touch. Real-looking pieces of ink, but no letter is built
+      like this.
+  - id: d-ald-7
+    group: ald
+    draw: { empty: fibres }
+    truth: none
+    explain: Only papyrus fibres. Nothing here.
+  # Two uprights
+  - id: d-hnp-1
+    group: hnp
+    draw: { letter: Η }
+    truth: Η
+    explain: Two uprights and a bar in the middle. That is Η.
+  - id: d-hnp-2
+    group: hnp
+    draw: { letter: Ν }
+    truth: Ν
+    explain: Two uprights and a diagonal. That is Ν.
+  - id: d-hnp-3
+    group: hnp
+    draw: { letter: Π }
+    truth: Π
+    explain: Two uprights under a bar. That is Π.
+  - id: d-hnp-4
+    group: hnp
+    draw: { letter: Π, hide: [top] }
+    damage: [{ x: 6, y: 12, w: 90, h: 56 }]
+    truth: "?"
+    candidates: [Π, Η]
+    explain: >-
+      Only the lower halves of two uprights remain. This is "a pi or the bottom of a capital
+      eta", exactly the case the organizers described.
+    sources: [firstletters]
+  - id: d-hnp-5
+    group: hnp
+    draw: { letter: Ν, hide: [diag] }
+    damage: [{ x: 29, y: 27, w: 42, h: 68 }]
+    truth: "?"
+    candidates: [Η, Ν]
+    explain: >-
+      The space between the uprights is lost. A bar (Η) or a diagonal (Ν) could have been
+      there. Π is ruled out, because the tops are visible and have no bar.
+  - id: d-hnp-6
+    group: hnp
+    draw: { empty: streaks }
+    truth: none
+    explain: >-
+      Two dark lines along the fibres, running the full height of the tile. Letters stop at
+      the line height. These are fibres.
+  - id: d-hnp-7
+    group: hnp
+    draw: { empty: fibres }
+    truth: none
+    explain: Only papyrus fibres. Nothing here.
+  # Single uprights
+  - id: d-itg-1
+    group: itg
+    draw: { letter: Ι }
+    truth: Ι
+    explain: One upright with nothing on top. That is Ι.
+  - id: d-itg-2
+    group: itg
+    draw: { letter: Τ }
+    truth: Τ
+    explain: A top bar with the upright in the middle. That is Τ.
+  - id: d-itg-3
+    group: itg
+    draw: { letter: Γ }
+    truth: Γ
+    explain: A top bar running to the right only. That is Γ.
+  - id: d-itg-4
+    group: itg
+    draw: { letter: Τ, hide: [top] }
+    damage: [{ x: 8, y: 10, w: 86, h: 30 }]
+    truth: "?"
+    candidates: [Ι, Τ, Γ]
+    explain: >-
+      The top is lost, and the top is exactly what tells Ι, Τ and Γ apart. Only "can't tell"
+      is honest here.
+  - id: d-itg-5
+    group: itg
+    draw: { letter: Τ }
+    damage: [{ x: 8, y: 12, w: 38, h: 30 }]
+    truth: "?"
+    candidates: [Τ, Γ]
+    explain: >-
+      The bar runs to the right of the upright; its left half is lost. If it went on to the
+      left, Τ. If it stopped at the upright, Γ.
+  - id: d-itg-6
+    group: itg
+    draw: { empty: crack }
+    truth: none
+    explain: >-
+      A pale, jagged line with sharp edges is a crack in the papyrus. Ink is dark. A crack is
+      not an Ι.
+  # Mu and nu
+  - id: d-mn-1
+    group: mn
+    draw: { letter: Μ }
+    truth: Μ
+    explain: Two outer legs with a V between them. That is Μ.
+  - id: d-mn-2
+    group: mn
+    draw: { letter: Ν }
+    truth: Ν
+    explain: Two uprights and one diagonal. That is Ν.
+  - id: d-mn-3
+    group: mn
+    draw: { letter: Μ }
+    damage: [{ x: 46, y: 14, w: 50, h: 96 }]
+    truth: "?"
+    candidates: [Μ, Ν]
+    explain: >-
+      Only the left half survives: a leg and a stroke going down to the right. The other half
+      decides between Μ and Ν.
+  - id: d-mn-4
+    group: mn
+    draw: { letter: Ν }
+    damage: [{ x: 52, y: 14, w: 44, h: 96 }]
+    truth: "?"
+    candidates: [Ν, Μ]
+    explain: >-
+      An upright and the start of a stroke going down to the right. Μ starts much the same
+      way. Only the lost right half would decide.
+  - id: d-mn-5
+    group: mn
+    draw: { letter: Μ }
+    damage: [{ x: 36, y: 66, w: 28, h: 40 }]
+    truth: Μ
+    explain: >-
+      The point of the V is lost, but both arms come down from the two top corners. Ν has only
+      one diagonal, so this is Μ.
+  - id: d-mn-6
+    group: mn
+    draw: { empty: fibres }
+    truth: none
+    explain: Only papyrus fibres. Nothing here.

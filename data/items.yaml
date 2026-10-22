@@ -1,0 +1,21 @@
+# Quiz items for levels 1–3 (image crops). Empty until the image licensing is settled.
+#
+# Each item:
+#   id:          unique, stable (used in exported results)
+#   level:       1, 2 or 3
+#   degradation: 0 = as published; 1–5 = steps of the degradation ladder
+#   image:       path below data/images/
+#   alt:         describes the tile without giving the answer away
+#   truth:       the letters as read (capitals, Ϲ for sigma, "?" for an unreadable letter),
+#                or "none" for a tile without text
+#   uncertain:   optional list of positions (0-based) the edition marks as uncertain
+#   reading:     where the reading comes from, e.g. "col. −12, line 4"
+#   source:      ids from sources.yaml: one for the reading, one for the image
+#   license:     license of the image, e.g. "CC BY-NC 4.0"
+#   changes:     what we changed (cropped, scaled, degraded …)
+#   checked:     date the reading and the crop were last checked by a person
+#   explain:     1–3 sentences: how to tell, what misleads
+#
+# The build refuses items without truth, source, license or checked date.
+
+items: []

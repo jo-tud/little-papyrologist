@@ -1,0 +1,183 @@
+# Our own simplified drawings of the Greek bookhand letters.
+# Coordinates: viewBox 0 0 100 130, top of letters at y≈25, baseline at y=100.
+# Each letter is a list of named strokes, so exercises can hide or damage single strokes.
+# Drawn after the letters in the published images of PHerc. Paris 4
+# (https://scrollprize.org/grandprize). Not traced from any image.
+
+letters:
+  - char: Α
+    name: alpha
+    latin: a
+    strokes:
+      left: M48 26 L20 100
+      right: M48 26 L80 100
+      bar: M30 76 L62 66
+    look_for: Two legs meeting at the top, plus a crossbar. Without the bar it reads as Λ.
+  - char: Β
+    name: beta
+    latin: b
+    strokes:
+      stem: M28 26 L28 100
+      upper: M28 26 C62 22 66 58 30 61
+      lower: M30 61 C76 58 78 104 28 100
+    look_for: An upright with two bowls on its right.
+  - char: Γ
+    name: gamma
+    latin: g
+    strokes:
+      stem: M30 26 L30 100
+      top: M30 26 L76 24
+    look_for: An upright with a top bar that runs to the right only. If the bar runs both ways, think of Τ.
+  - char: Δ
+    name: delta
+    latin: d
+    strokes:
+      left: M50 24 L20 100
+      right: M50 24 L82 100
+      base: M18 100 L84 100
+    look_for: A triangle. Two legs and a closed base line.
+  - char: Ε
+    name: epsilon
+    latin: e
+    strokes:
+      arc: M78 36 C66 20 24 22 22 62 C22 98 64 106 80 88
+      bar: M24 62 L60 62
+    look_for: Round, like Ϲ with a bar in the middle.
+  - char: Ζ
+    name: zeta
+    latin: z
+    strokes:
+      top: M24 27 L76 27
+      diag: M76 27 L22 100
+      base: M22 100 L80 100
+    look_for: Top bar, diagonal, bottom bar.
+  - char: Η
+    name: eta
+    latin: h
+    strokes:
+      left: M24 26 L24 100
+      right: M76 26 L76 100
+      bar: M24 62 L76 62
+    look_for: Two uprights joined by a bar in the middle.
+  - char: Θ
+    name: theta
+    latin: u
+    strokes:
+      bowl: M50 22 C16 22 16 102 50 102 C84 102 84 22 50 22 Z
+      bar: M28 62 L72 62
+    look_for: A closed oval with a bar across the middle. Open on the right, it becomes Ε.
+  - char: Ι
+    name: iota
+    latin: i
+    strokes:
+      stem: M50 26 L50 100
+    look_for: One upright stroke. Many things look like one, so this is the letter to be most careful with.
+  - char: Κ
+    name: kappa
+    latin: k
+    strokes:
+      stem: M28 26 L28 100
+      arm: M74 26 L30 66
+      leg: M42 56 L78 100
+    look_for: An upright, an arm up to the right, a leg down to the right.
+  - char: Λ
+    name: lambda
+    latin: l
+    strokes:
+      left: M50 24 L20 100
+      right: M50 24 L82 100
+    look_for: Two legs meeting at the top, and nothing between them.
+  - char: Μ
+    name: mu
+    latin: m
+    strokes:
+      left: M18 100 L26 26
+      middle: M26 26 L50 82 L74 26
+      right: M74 26 L82 100
+    look_for: Two outer legs with a deep V between them. Lose one side and it can look like Ν.
+  - char: Ν
+    name: nu
+    latin: n
+    strokes:
+      left: M24 26 L24 100
+      diag: M24 26 L76 100
+      right: M76 26 L76 100
+    look_for: Two uprights and one diagonal from top left to bottom right.
+  - char: Ξ
+    name: xi
+    latin: j
+    strokes:
+      top: M24 26 L76 26
+      mid: M32 62 L68 62
+      base: M24 100 L76 100
+    look_for: Three bars stacked.
+  - char: Ο
+    name: omicron
+    latin: o
+    strokes:
+      bowl: M50 26 C20 26 20 100 50 100 C80 100 80 26 50 26 Z
+    look_for: A closed oval with nothing inside.
+  - char: Π
+    name: pi
+    latin: p
+    strokes:
+      top: M14 27 L86 25
+      left: M28 26 L28 100
+      right: M72 26 L72 100
+    look_for: Two uprights under a top bar. Lose the top and it looks like the lower half of Η.
+  - char: Ρ
+    name: rho
+    latin: r
+    strokes:
+      stem: M30 26 L30 122
+      bowl: M30 26 C78 22 78 66 30 64
+    look_for: An upright with a bowl at the top. In our drawing the upright reaches below the line.
+  - char: Ϲ
+    name: sigma (lunate)
+    latin: s
+    strokes:
+      arc: M78 36 C66 20 24 22 22 62 C22 98 64 106 80 88
+    look_for: The round sigma. The scrolls use this form, not Σ.
+  - char: Τ
+    name: tau
+    latin: t
+    strokes:
+      top: M16 26 L84 26
+      stem: M50 26 L50 100
+    look_for: A top bar with the upright in the middle.
+  - char: Υ
+    name: upsilon
+    latin: y
+    strokes:
+      left: M20 24 C34 44 44 58 50 62
+      right: M80 24 C66 44 56 58 50 62
+      stem: M50 62 L50 100
+    look_for: Two arms meeting on a stem, like Y.
+  - char: Φ
+    name: phi
+    latin: f
+    strokes:
+      stem: M50 10 L50 122
+      bowl: M50 38 C12 38 12 90 50 90 C88 90 88 38 50 38 Z
+    look_for: A large oval crossed by an upright that sticks out above and below.
+  - char: Χ
+    name: chi
+    latin: x
+    strokes:
+      a: M20 26 L80 100
+      b: M80 26 L20 100
+    look_for: Two crossing diagonals.
+  - char: Ψ
+    name: psi
+    latin: c
+    strokes:
+      cup: M16 30 C18 74 82 74 84 30
+      stem: M50 14 L50 116
+    look_for: A cup on a long upright.
+  - char: Ω
+    name: omega
+    latin: v
+    strokes:
+      bowl: M22 40 C8 84 32 108 50 82 C68 108 92 84 78 40
+      mid: M50 82 L50 58
+    look_for: In our drawing low and round, shaped like ω.

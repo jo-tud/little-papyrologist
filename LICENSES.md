@@ -7,6 +7,22 @@
 
 The code in this repository is planned to be released under the MIT License (see `LICENSE`, to be added).
 
+## Our own drawings
+
+The letter drawings (`data/glyphs.yaml`) and the drawn exercise tiles of stage 0 are made for this trainer.
+They are drawn freehand as vector paths, after the letter shapes visible in the published images of PHerc. Paris 4 (https://scrollprize.org/grandprize).
+Nothing is traced from those images.
+They are released together with the code.
+
+## Fonts
+
+The fonts are bundled so that the trainer works offline. Both are licensed under the SIL Open Font License 1.1 (https://openfontlicense.org):
+
+- **Gentium Book Plus**, © SIL International.
+- **Atkinson Hyperlegible Next**, © The Atkinson Hyperlegible Next Project Authors.
+
+Both come from the Fontsource packages.
+
 ## Images derived from Vesuvius Challenge data
 
 The images planned for this repository are derived from data published by the Vesuvius Challenge.

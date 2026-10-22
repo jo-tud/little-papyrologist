@@ -1,0 +1,80 @@
+# Primary sources. Every fact, reading and image on the site points to one of these ids.
+# "checked" is the date someone last opened the source and confirmed the cited passage.
+
+sources:
+  - id: firstletters
+    title: First Letters Prize (Vesuvius Challenge)
+    url: https://scrollprize.org/firstletters
+    kind: organizers
+    checked: 2026-10-22
+  - id: grandprize
+    title: Grand Prize 2023 (Vesuvius Challenge)
+    url: https://scrollprize.org/grandprize
+    kind: organizers
+    checked: 2026-10-22
+  - id: firstscroll
+    title: PHerc. 1667, the first scroll read in full (Vesuvius Challenge)
+    url: https://scrollprize.org/firstscroll
+    kind: organizers
+    checked: 2026-10-22
+  - id: tutorial5
+    title: Tutorial – Ink detection (Vesuvius Challenge)
+    url: https://scrollprize.org/tutorial5
+    kind: organizers
+    checked: 2026-10-22
+  - id: data
+    title: Data and licenses (Vesuvius Challenge)
+    url: https://scrollprize.org/data
+    kind: organizers
+    checked: 2026-10-22
+  - id: substack
+    title: Vesuvius Challenge newsletter archive
+    url: https://scrollprize.substack.com/archive
+    kind: organizers
+    checked: 2026-10-22
+  - id: cerc54
+    title: >-
+      F. Nicolardi, D. Delattre, G. Del Mastro, R. Fowler, R. Janko,
+      "The final columns of PHerc.Paris. 4 revealed through virtual unwrapping",
+      Cronache Ercolanesi 54 (2024) 9–27
+    url: https://iris.unina.it/handle/11588/985203
+    kind: edition
+    checked: 2026-10-22
+  - id: preprint1667
+    title: >-
+      G. Angelotti, S. Parsons, F. Nicolardi et al.,
+      "Complete virtual unwrapping and reading of a rolled Herculaneum papyrus" (2026)
+    url: https://arxiv.org/abs/2606.29085
+    kind: edition
+    checked: 2026-10-22
+  - id: educelab2023
+    title: >-
+      S. Parsons et al., "EduceLab-Scrolls: Verifiable Recovery of Text from Herculaneum Papyri
+      using X-ray CT" (2023)
+    url: https://doi.org/10.48550/arXiv.2304.02084
+    kind: paper
+    checked: 2026-10-22
+  - id: parsons-diss
+    title: >-
+      S. Parsons, "Hard-Hearted Scrolls: A Noninvasive Method for Reading the Herculaneum Papyri"
+      (PhD thesis, University of Kentucky, 2023)
+    url: https://uknowledge.uky.edu/cs_etds/138/
+    kind: paper
+    checked: 2026-10-22
+  - id: chartes
+    title: Chartes – catalogue of the Herculaneum papyri (CISPE)
+    url: https://www.chartes.it/
+    kind: catalogue
+    checked: 2026-10-22
+  - id: cavallo-maehler
+    title: G. Cavallo, H. Maehler, Hellenistic Bookhands (De Gruyter 2008)
+    kind: book
+    checked: 2026-10-22
+  - id: cavallo1983
+    title: G. Cavallo, Libri scritture scribi a Ercolano (Cronache Ercolanesi, Suppl. 1, 1983)
+    kind: book
+    checked: 2026-10-22
+  - id: drawn
+    title: Drawn for this trainer
+    kind: own
+    checked: 2026-10-22
