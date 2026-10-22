@@ -28,7 +28,7 @@ export function renderAbout(main: HTMLElement): void {
   file yourself (at the end of <a href="#/results">My results</a>).</p>
 
   <h2>Licenses</h2>
-  <p>The letter drawings and exercise tiles are our own. Fonts: Gentium Book Plus (SIL International) and
+  <p>The code, the letter drawings and the exercise tiles are released under the MIT License. Fonts: Gentium Book Plus (SIL International) and
   Atkinson Hyperlegible Next (The Atkinson Hyperlegible Next Project Authors), both under the
   SIL Open Font License 1.1.
   Images derived from Vesuvius Challenge data will carry their license (CC BY-NC 4.0) and

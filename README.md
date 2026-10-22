@@ -48,4 +48,5 @@ There is no server and no tracking. Answers, badges and ranks stay in your brows
 
 ## Licenses
 
-See [LICENSES.md](LICENSES.md).
+Code and our own letter drawings: MIT, see [LICENSE](LICENSE).
+Fonts and any images derived from Vesuvius Challenge data keep their own licenses, see [LICENSES.md](LICENSES.md).
