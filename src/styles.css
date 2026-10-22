@@ -56,6 +56,7 @@
     --hole-edge: #0f0d0a;
     --crack: #d9cfb8;
     --focus: #7ab8ff;
+    color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
@@ -79,6 +80,7 @@
   --hole-edge: #0f0d0a;
   --crack: #d9cfb8;
   --focus: #7ab8ff;
+  color-scheme: dark;
 }
 
 /* ---------- Base ---------- */
@@ -814,4 +816,27 @@ th.num {
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+.copy-box {
+  display: block;
+  width: 100%;
+  max-width: 50rem;
+  font: 0.8rem/1.4 ui-monospace, monospace;
+  margin-top: 0.6rem;
+  background: var(--sheet);
+  color: var(--basalt);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+}
+.copy-box[hidden],
+.confirm[hidden] {
+  display: none;
+}
+.confirm {
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  border: 1.5px solid var(--wrong);
+  background: var(--wrong-soft);
+  border-radius: var(--radius);
+  max-width: 40rem;
 }

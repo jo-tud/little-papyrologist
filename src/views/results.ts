@@ -74,7 +74,7 @@ function calibration(answers: AnswerRecord[]): string {
     .join("");
 }
 
-function download(): void {
+function exportText(): string {
   const s = state();
   const payload = {
     app: "little-papyrologist",
@@ -84,7 +84,11 @@ function download(): void {
     note: "Answers from The Little Papyrologist. Level 0 tiles are drawings made for the trainer.",
     answers: s.answers,
   };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  return JSON.stringify(payload, null, 2);
+}
+
+function download(): void {
+  const blob = new Blob([exportText()], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -157,14 +161,45 @@ export function renderResults(main: HTMLElement): void {
   how sure you were, and how long you took.</p>
   <div class="row">
     <button type="button" class="primary" id="export" ${answers.length ? "" : "disabled"}>Export my answers (JSON)</button>
+    <button type="button" id="copy" ${answers.length ? "" : "disabled"}>Copy as text</button>
     <button type="button" id="clear" ${answers.length ? "" : "disabled"}>Clear my answers</button>
+  </div>
+  <p id="copy-note" class="small muted" role="status"></p>
+  <textarea id="copy-box" class="copy-box" rows="8" readonly hidden aria-label="Your answers as JSON"></textarea>
+  <div id="confirm-clear" class="confirm" hidden>
+    <p><strong>Delete all your answers, points and badges from this browser?</strong> This cannot be undone.</p>
+    <div class="row">
+      <button type="button" id="clear-yes">Delete everything</button>
+      <button type="button" class="primary" id="clear-no">Keep my answers</button>
+    </div>
   </div>`;
 
-  main.querySelector("#export")?.addEventListener("click", download);
-  main.querySelector("#clear")?.addEventListener("click", () => {
-    if (window.confirm("Delete all your answers, points and badges from this browser? This cannot be undone.")) {
-      clearAll();
-      renderResults(main);
+  const $ = <T extends HTMLElement>(sel: string) => main.querySelector<T>(sel)!;
+  $("#export").addEventListener("click", download);
+  $("#copy").addEventListener("click", async () => {
+    const text = exportText();
+    try {
+      await navigator.clipboard.writeText(text);
+      $("#copy-note").textContent = "Copied. Paste it into a file to keep it.";
+    } catch {
+      // Clipboard not available: show the text so it can be selected by hand.
+      const box = $<HTMLTextAreaElement>("#copy-box");
+      box.value = text;
+      box.hidden = false;
+      box.select();
+      $("#copy-note").textContent = "Copying is blocked here. The text below is selected; copy it with your keyboard.";
     }
+  });
+  $("#clear").addEventListener("click", () => {
+    $("#confirm-clear").hidden = false;
+    $("#clear-no").focus();
+  });
+  $("#clear-no").addEventListener("click", () => {
+    $("#confirm-clear").hidden = true;
+    $("#clear").focus();
+  });
+  $("#clear-yes").addEventListener("click", () => {
+    clearAll();
+    renderResults(main);
   });
 }
