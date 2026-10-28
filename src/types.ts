@@ -84,6 +84,8 @@ export interface QuizItem {
   reading?: string;
   source: string[];
   license: string;
+  /** Credit line shown with the image (see LICENSES.md). */
+  credit: string;
   changes?: string;
   checked: string;
   explain: string;

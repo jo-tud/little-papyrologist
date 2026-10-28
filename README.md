@@ -14,7 +14,7 @@ Points are given for honest answers as well as for correct ones. A correct "no l
 
 - **Stage 0 (the scribes' alphabet) is playable.** It covers the 24 letters as drawn for this trainer, plus five sets of look-alikes (Ε/Ϲ/Ο/Θ, Α/Λ/Δ, Η/Ν/Π, Ι/Τ/Γ, Μ/Ν) with empty and damaged tiles.
 - **Ranks and badges** follow your path through the levels. Both are defined in `data/ranks.yaml` and `data/badges.yaml`. New material counts towards them automatically.
-- **Levels 1–3, with real images, are in preparation.** Their images will be added once their use is cleared.
+- **Levels 1–3, with real images, are in preparation.** The Vesuvius Challenge has confirmed that the images may be used, with credit (see [LICENSES.md](LICENSES.md)).
 
 ## Run it
 

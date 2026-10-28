@@ -1,7 +1,7 @@
 # Licenses and data sources
 
 > No images from third-party data are in this repository yet.
-> Images will be added only after the open questions below are settled.
+> Their use in this trainer was confirmed by the Vesuvius Challenge on 2026-10-28 (see below).
 
 ## Code
 
@@ -25,6 +25,28 @@ The fonts are bundled so that the trainer works offline. Both are licensed under
 
 Both come from the Fontsource packages.
 
+## Permission from the Vesuvius Challenge
+
+On 2026-10-28 the Vesuvius Challenge confirmed by email that the images planned for this trainer may be used.
+These are the infrared photographs and ink tracings of opened fragments, and crops of the column images published on scrollprize.org.
+The conditions are:
+
+- credit the Vesuvius Challenge;
+- also credit EduceLab for any data derived from the original scans of Scrolls 1–4. This includes PHerc. Paris 4 (Scroll 1).
+
+The Vesuvius Challenge also confirmed that this trainer does not count as "publication" under the publication reservation for PHerc. Paris 4.
+
+## How images are credited
+
+Every image in the trainer shows these, next to it or in its answer card:
+
+1. **"Vesuvius Challenge"**, the license (CC BY-NC 4.0), a link to the source, and what we changed.
+2. If the image derives from the original scans of Scrolls 1–4 (for example PHerc. Paris 4 = Scroll 1), also **"EduceLab, University of Kentucky"**, citing:
+   S. Parsons et al., "EduceLab-Scrolls: Verifiable Recovery of Text from Herculaneum Papyri using X-ray CT" (2023), https://doi.org/10.48550/arXiv.2304.02084.
+3. The reading, with its own source (edition or paper, see below).
+
+Each item in `data/items.yaml` carries its credit line in a `credit` field. The build refuses items without one.
+
 ## Images derived from Vesuvius Challenge data
 
 The images planned for this repository are derived from data published by the Vesuvius Challenge.
@@ -44,14 +66,15 @@ Each image in `data/items` lists its exact source, license and retrieval date.
 
 ### Infrared photographs and ink tracings of opened fragments
 
-- Candidate source: `https://dl.ash2txt.org/fragments/PHerc0500P2/paths/2um_front_surface/`.
-- License: CC BY-NC 4.0, per the folder's `LICENSE.txt`.
-- Credit: Vesuvius Challenge for the photography, its registration and the letter tracing. The full credit line is still to be confirmed.
+- Planned source: `https://dl.ash2txt.org/fragments/PHerc0500P2/paths/2um_front_surface/`.
+- License: CC BY-NC 4.0, per the folder's `LICENSE.txt`, confirmed by the Vesuvius Challenge.
+- Credit: Vesuvius Challenge, for the photography, its registration and the letter tracing.
 - The objects are held by the Biblioteca Nazionale di Napoli "Vittorio Emanuele III" (Officina dei Papiri Ercolanesi).
 
 ### Images published on scrollprize.org
 
 - The site says: "Everything on this site is licensed CC BY-NC 4.0 unless otherwise noted … with the credit "Vesuvius Challenge"." (https://scrollprize.org/press)
+- Images of PHerc. Paris 4 and other scrolls derived from the original scans of Scrolls 1–4 also credit EduceLab (see above).
 
 ## Readings (answers in the quiz)
 
@@ -65,12 +88,12 @@ The answers shown in the quiz come only from:
 
 ## Not used
 
-- **EduceLab-Scrolls data** (DLS scans from 2023, Fragments 1–6): it has a different license, see https://dl.ash2txt.org/LICENSE.txt.
+- **Raw EduceLab-Scrolls data** (the 2023 DLS scan files, Fragments 1–6) is not copied into this repository. It has its own terms, see https://dl.ash2txt.org/LICENSE.txt. Images of Scrolls 1–4 appear here only as crops of images the Vesuvius Challenge has published, credited as above.
 - **Multispectral images of opened Herculaneum papyri** (Biblioteca Nazionale di Napoli / Brigham Young University, shown on Chartes): all rights reserved. We only link to them: https://www.chartes.it/
 - **Plates from Cavallo/Maehler, *Hellenistic Bookhands*** (De Gruyter 2008): the book is cited as further reading only.
 
-## Open questions (to be settled before images are added)
+## Open question
 
-1. Confirm that CC BY-NC 4.0 applies to the infrared photographs and ink tracings on dl.ash2txt.org.
-2. Confirm that crops of the images on scrollprize.org may be used, given the underlying EduceLab license and the publication reservation for PHerc. Paris 4 until 2027-06-25.
-3. Confirm the credit line for the infrared photographs.
+We know of no published reading of the traced letters on the opened fragments.
+Until one exists, tiles from those photographs only ask whether there is ink.
+Where they name letters, those letters are marked as unconfirmed.

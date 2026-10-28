@@ -12,10 +12,13 @@
 #   reading:     where the reading comes from, e.g. "col. −12, line 4"
 #   source:      ids from sources.yaml: one for the reading, one for the image
 #   license:     license of the image, e.g. "CC BY-NC 4.0"
+#   credit:      credit line shown with the image: always "Vesuvius Challenge"; add
+#                "EduceLab, University of Kentucky" for anything derived from the original
+#                scans of Scrolls 1–4 (e.g. PHerc. Paris 4). See LICENSES.md.
 #   changes:     what we changed (cropped, scaled, degraded …)
 #   checked:     date the reading and the crop were last checked by a person
 #   explain:     1–3 sentences: how to tell, what misleads
 #
-# The build refuses items without truth, source, license or checked date.
+# The build refuses items without truth, source, license, credit or checked date.
 
 items: []

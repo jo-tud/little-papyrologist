@@ -78,13 +78,14 @@ if (share(stage0.drills) < NULL_SHARE_MIN) fail(`stage 0: only ${Math.round(100 
 const itemIds = new Set();
 for (const it of items) {
   const where = `item ${it.id ?? "(no id)"}`;
-  for (const key of ["id", "level", "image", "alt", "truth", "source", "license", "checked", "explain"])
+  for (const key of ["id", "level", "image", "alt", "truth", "source", "license", "credit", "checked", "explain"])
     if (it[key] === undefined || it[key] === "" || it[key] === null) fail(`${where}: missing "${key}"`);
   if (itemIds.has(it.id)) fail(`${where}: duplicate id`);
   itemIds.add(it.id);
   if (![1, 2, 3].includes(it.level)) fail(`${where}: level must be 1, 2 or 3`);
   if (!Number.isInteger(it.degradation ?? 0)) fail(`${where}: degradation must be a whole number`);
   if (!LICENSES.includes(it.license)) fail(`${where}: license "${it.license}" is not cleared for this repo`);
+  if (typeof it.credit === "string" && !it.credit.includes("Vesuvius Challenge")) fail(`${where}: credit must name the Vesuvius Challenge`);
   if (!DATE.test(String(it.checked))) fail(`${where}: "checked" must be a date`);
   if (typeof it.truth === "string" && it.truth !== "none" && !/^[ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡϹΤΥΦΧΨΩ?]+$/u.test(it.truth))
     fail(`${where}: truth must be capitals (Ϲ for sigma), "?" or "none"`);
