@@ -7,6 +7,8 @@ export interface Truth {
   candidates?: string[];
   /** Positions the edition marks as uncertain. */
   uncertain?: number[];
+  /** A source reading does not establish visibility in an artificially altered view. */
+  simulated?: boolean;
 }
 
 export interface Given {
@@ -80,6 +82,11 @@ const chars = (s: string) => Array.from(s);
 export function score(truth: Truth, given: Given): Score {
   const sure = given.confidence === 3;
   const isNull = truth.text === "none";
+
+  if (truth.simulated && given.said === "unsure" && !given.letters.replace(/\?/g, "")) {
+    return { verdict: "careful", text_correct: false, letters_correct: truth.text === "none" || truth.text === "*" ? null : false,
+      reading: 0, honesty: 1, marks: truth.text === "none" || truth.text === "*" ? [] : chars(truth.text).map(() => "honest") };
+  }
 
   if (isNull) {
     if (given.said === "no")
@@ -183,15 +190,18 @@ function scoreLine(truth: Truth, given: Given, sure: boolean): Score {
       missing++;
       return "missing";
     }
+    if (g === "?") {
+      if (w === "?" || uncertain.has(i)) honesty += 1;
+      else {
+        carefulCalls++;
+        if (truth.simulated) honesty += 1;
+      }
+      return "honest";
+    }
     if (g === w) {
       ok++;
       reading += 1; // one point per letter: a line has many
       return "ok";
-    }
-    if (g === "?") {
-      if (uncertain.has(i)) honesty += 1;
-      else carefulCalls++;
-      return "honest";
     }
     wrong++;
     return "wrong";

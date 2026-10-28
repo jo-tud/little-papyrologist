@@ -22,6 +22,14 @@ export function renderAbout(main: HTMLElement): void {
   as uncertain, the trainer shows it as uncertain. A tile without a reliable answer does not
   go into the quiz.</p>
 
+  <h2>Learning through practice</h2>
+  <p>The guided path introduces shapes and reading methods; extra rounds let you revisit them.
+  Altered views reuse known source images. They can help you practise with less detail, but do not
+  replace encountering different handwriting. Results show repeated attempts and counts of source regions separately.</p>
+  <p>In level 3, blur, noise and partial covering are deliberate image exercises, not scans at a
+  different resolution. The unchanged source explains the answer; it does not guarantee that
+  every letter can still be recognized in the altered image. Saying “not sure” is welcome.</p>
+
   <h2>Your data</h2>
   <p>The page has no server, no tracking and no analytics. Your answers, badges and ranks are
   stored in your browser. You can save or copy them yourself to keep a backup or move them to

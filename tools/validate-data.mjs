@@ -97,7 +97,7 @@ for (const it of items) {
       if (typeof it[key] !== "string" || !it[key].trim()) fail(`${where}: identification needs "${key}"`);
   }
   if (it.task === "study") {
-    if (!it.answer_image) fail(`${where}: study examples need an answer image`);
+    if (!it.answer_image && !(it.edition && it.source?.includes("cerc54"))) fail(`${where}: study needs a traced photo or a published edition`);
     if (it.choices !== undefined) fail(`${where}: study examples must not have answer choices`);
   }
   for (const key of ["id", "level", "image", "alt", "truth", "source", "license", "credit", "checked", "explain"])
@@ -115,12 +115,28 @@ for (const it of items) {
     fail(`${where}: truth must be capitals (Ϲ for sigma), "?", "*" (ink, letters unconfirmed) or "none"`);
   for (const u of it.uncertain ?? []) if (!Number.isInteger(u) || u < 0 || u >= [...it.truth].length) fail(`${where}: uncertain position ${u} is outside the reading`);
   if (!quizSets.some((s) => s.id === it.set)) fail(`${where}: unknown set "${it.set}"`);
+  if (quizSets.find((s) => s.id === it.set)?.level !== it.level) fail(`${where}: item and set levels differ`);
+  if (it.practice_only !== undefined && typeof it.practice_only !== "boolean") fail(`${where}: practice_only must be boolean`);
+  if (it.guide !== undefined && it.guide !== it.truth) fail(`${where}: guide must match the verified reading`);
   if (it.answer_image && !existsSync(new URL(`../public/images/${it.answer_image}`, import.meta.url))) fail(`${where}: answer image ${it.answer_image} not found`);
   checkSources(where, it.source);
   if (it.image && !existsSync(new URL(`../public/images/${it.image}`, import.meta.url))) fail(`${where}: image ${it.image} not found`);
+  for (const key of ["reference_image", "reference_answer_image"]) {
+    if (it[key] && !existsSync(new URL(`../public/images/${it[key]}`, import.meta.url))) fail(`${where}: missing ${key}`);
+  }
 }
 const itemById = new Map(items.map((it) => [it.id, it]));
 for (const it of items) {
+  if (it.base_item && !itemById.has(it.base_item)) fail(`item ${it.id}: unknown base_item`);
+  if (it.simulated) {
+    const base = itemById.get(it.base_item);
+    if (!base || base.degradation !== 0 || !it.degradation_recipe || !it.reference_image || it.reference_image !== base.image)
+      fail(`item ${it.id}: simulated views need an unaltered base, reference and recipe`);
+    if (it.degradation < 1 || it.degradation > 5 || it.level !== 3) fail(`item ${it.id}: invalid simulated difficulty`);
+    if (it.task === "read" && (it.truth !== base?.truth || it.degradation > 3)) fail(`item ${it.id}: unsupported altered reading`);
+    if (JSON.stringify(it.source) !== JSON.stringify(base?.source) || it.credit !== base?.credit || it.license !== base?.license)
+      fail(`item ${it.id}: altered views must preserve source attribution`);
+  }
   if (it.compare_with === undefined) continue;
   const comparison = itemById.get(it.compare_with);
   if (!comparison || !["identify", "study"].includes(comparison.task) || comparison.truth !== it.truth)
@@ -128,7 +144,8 @@ for (const it of items) {
 }
 for (const level of [1, 2, 3]) {
   // Guided first-letter recognition introduces real ink before blank-tile discrimination.
-  const list = items.filter((i) => i.level === level && !["identify", "study"].includes(i.task));
+  // Optional practice is sampled with its own blank quota by planPractice.
+  const list = items.filter((i) => i.level === level && !i.practice_only && !["identify", "study"].includes(i.task));
   if (list.length && share(list) < NULL_SHARE_MIN) fail(`level ${level}: only ${Math.round(100 * share(list))} % empty tiles`);
 }
 

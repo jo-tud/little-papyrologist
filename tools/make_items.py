@@ -27,6 +27,8 @@ import yaml
 import tifffile
 from PIL import Image
 from scipy import ndimage
+from lesson_items import generate_lesson, generate_reading_practice, generate_extra_fragments
+from degrade_items import generate_degradations
 
 Image.MAX_IMAGE_PIXELS = None
 ROOT = Path(__file__).resolve().parent.parent
@@ -326,7 +328,7 @@ def photograph_tiles(cfg: dict, set_level: dict) -> list[dict]:
             "id": t["id"], "set": cfg["set"], "level": set_level[cfg["set"]],
             "degradation": 0, "task": task, "truth": truth, "uncertain": uncertain,
             "preparation": t["preparation"], "stage": t["stage"],
-            **{key: t[key] for key in ("choices", "question", "hint", "compare_with") if key in t},
+            **{key: t[key] for key in ("choices", "question", "hint", "compare_with", "practice_only") if key in t},
             "image": save_tile(photo, t["id"]),
             "answer_image": save_tile(Image.fromarray(overlay.astype(np.uint8)), t["id"] + "-traced"),
             "alt": f"Brightfield photograph of a named region of {row['papyrus_id']}",
@@ -352,7 +354,46 @@ def main() -> None:
         + line_tiles(cfg["lines"], cfg["sources"], set_level)
         + window_tiles(cfg["windows"], cfg["sources"], set_level)
     )
-    written = {i["image"] for i in items} | {i["answer_image"] for i in items if "answer_image" in i}
+    lesson_cfg = {**cfg["lesson"], "source_path": fetch("paris4-banner", "image", cfg["sources"]["paris4-banner"]["files"]["image"])}
+    lesson = generate_lesson(lesson_cfg, items, OUT, save_tile)
+    for item in lesson:
+        if item["task"] == "read" and len(item["truth"]) <= 4:
+            item["assisted"] = True
+    items += lesson
+    recall_fragments = generate_reading_practice(items)
+    for item in recall_fragments:
+        item.pop("assisted", None)
+    items += recall_fragments
+    items += generate_extra_fragments(lesson_cfg, items, OUT, save_tile)
+    # Recall uses the same named source images, with the published names available on request.
+    for base in list(items):
+        if base["set"] != cfg["photographs"]["set"] or base.get("practice_only"):
+            continue
+        recall = {**base, "id": base["id"] + "-recall", "task": "read", "practice_only": True,
+                  "base_item": base["id"], "guide": base["truth"], "stage": "Remember a named example",
+                  "preparation": "Revisit a named example from the first lesson. Try recalling its name; the reading guide is available if the handwriting is unfamiliar."}
+        for field in ("choices", "compare_with", "question", "hint"):
+            recall.pop(field, None)
+        items.append(recall)
+    items += generate_degradations(cfg["degradations"], items, OUT, save_tile)
+    practice_cfg = {"set": "harder-practice", "level": 3, "items": []}
+    for degree in range(1, 6):
+        bases = [i for i in items if i["set"] == cfg["ir_tiles"]["set"] and not i.get("practice_only")]
+        if degree <= 4:
+            bases += [i for i in items if i["set"] == cfg["windows"]["set"] and i["task"] == "detect"]
+        if degree <= 3:
+            bases += [i for i in items if i["set"] == cfg["lines"]["set"] and i["task"] == "read"]
+        for base in bases:
+            practice_cfg["items"].append({"id": f"practice-d{degree}-{base['id']}", "base": base["id"], "degradation": degree})
+    variants = generate_degradations(practice_cfg, items, OUT, save_tile)
+    for item in variants:
+        item["practice_only"] = True
+    items += variants
+    for item in items:
+        if item["task"] == "read":
+            item["guide"] = item["truth"]
+    image_keys = ("image", "answer_image", "reference_image", "reference_answer_image")
+    written = {i[key] for i in items for key in image_keys if i.get(key)}
     for stale in OUT.glob("*.webp"):
         if stale.name not in written:
             stale.unlink()
@@ -361,7 +402,7 @@ def main() -> None:
         "# Field meanings: see the comment at the top of data/crops.yaml and src/types.ts.\n"
         "# truth: capitals as read; \"*\" = ink present, letters not confirmed; \"none\" = no text.\n\n"
     )
-    sets = [{"id": s["id"], "level": s["level"], "title": s["title"]} for s in cfg["sets"]]
+    sets = cfg["sets"]
     body = yaml.safe_dump({"sets": sets, "items": items}, allow_unicode=True, sort_keys=False, width=100)
     (ROOT / "data" / "items.yaml").write_text(header + body)
     by_level: dict[int, list[dict]] = {}

@@ -36,8 +36,8 @@ export function itemSetVersion(): string {
 
 export const LEVELS = [
   { level: 1, title: "First real letters", text: "Start with clearer shapes and a letter pair, then explore unfamiliar handwriting with named examples." },
-  { level: 2, title: "Look closer", text: "Find ink in infrared photos, then read lines from a closed scroll against a published edition." },
-  { level: 3, title: "Harder", text: "Blur, noise, low contrast and coarse resolution. First: is there text at all?" },
+  { level: 2, title: "Your first lines", text: "Build a line a few letters at a time, find ink, and try reading with less help." },
+  { level: 3, title: "When the image gets harder", text: "Try controlled blur, noise and missing detail. Compare with the original and learn when to stop guessing." },
 ] as const;
 
 export const badgeDefs = (badgeData as { badges: BadgeDef[] }).badges;
@@ -51,6 +51,6 @@ export const rankDefs = (rankData as { ranks: RankDef[] }).ranks;
 export const playSets: PlaySet[] = [
   ...groups.map((g) => ({ id: g.id, level: 0, title: g.title, href: `#/drill/${g.id}` })),
   ...quizSets
-    .filter((s) => quizItems.some((i) => i.set === s.id))
+    .filter((s) => !s.practice_only && quizItems.some((i) => i.set === s.id && !i.practice_only))
     .map((s) => ({ id: s.id, level: s.level, title: s.title, href: `#/quiz/${s.id}` })),
 ];

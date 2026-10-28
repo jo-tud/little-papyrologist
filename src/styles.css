@@ -1475,3 +1475,14 @@ input[type="file"]:focus-visible + .button {
 .reset-progress h2 {
   font-size: var(--step-1);
 }
+
+/* Short lessons and repeatable practice share the same reading workspace. */
+.practice-library { margin-block: 2.5rem; }
+.practice-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); gap: 1rem; }
+.practice-card { padding: 1rem; border: 1px solid var(--rule); border-radius: .7rem; }
+.practice-card h3 { margin-top: 0; }
+.reading-guide { padding: .75rem 1rem; margin-bottom: 1rem; border: 1px solid var(--rule); border-radius: .5rem; }
+.reading-guide .greek { overflow-wrap: anywhere; }
+.simulation-note { border-left: 3px solid var(--teal); padding: .5rem .8rem; }
+.clean-reference img { width: auto; max-width: 100%; }
+.study-card .edition-line { overflow-wrap: anywhere; }

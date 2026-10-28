@@ -25,6 +25,7 @@ const routes: [RegExp, string, (main: HTMLElement, ...args: string[]) => Cleanup
   [/^#\/alphabet$/, "Alphabet", renderAlphabet],
   [/^#\/drill\/([a-z0-9-]+)$/, "Exercise", renderDrill],
   [/^#\/quiz\/([a-z0-9-]+)$/, "Quiz", renderQuiz],
+  [/^#\/practice\/([1-3])$/, "Practice", (main, level) => renderQuiz(main, `practice-${level}`)],
   [/^#\/results$/, "My results", (main) => renderResults(main)],
   [/^#\/learn$/, "Keep learning", renderLearn],
   [/^#\/about$/, "About", renderAbout],
@@ -47,7 +48,7 @@ function route(event?: Event): void {
 
   const top = "#/" + (hash.split("/")[1] ?? "");
   document.querySelectorAll<HTMLAnchorElement>(".topbar nav a").forEach((a) => {
-    const here = a.getAttribute("href") === top || ((top === "#/drill" || top === "#/quiz") && a.getAttribute("href") === "#/");
+    const here = a.getAttribute("href") === top || ((top === "#/drill" || top === "#/quiz" || top === "#/practice") && a.getAttribute("href") === "#/");
     if (here) a.setAttribute("aria-current", "page");
     else a.removeAttribute("aria-current");
   });

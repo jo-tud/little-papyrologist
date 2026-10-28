@@ -1,5 +1,6 @@
 import { BADGES, currentStreak, rankStatus } from "../badges";
-import { drills, groups, hero, LEVELS, playSets } from "../data";
+import { drills, groups, hero, LEVELS, playSets, quizItems } from "../data";
+import { summarizePractice } from "../practice";
 import { levelAvailable, totalPoints } from "../rules";
 import { lineSvg } from "../glyphs/render";
 import { state } from "../store";
@@ -112,6 +113,22 @@ export function renderHome(main: HTMLElement): void {
     ${groupStops}
     ${levelStops}
   </ol>
+
+  <section class="practice-library" aria-labelledby="practice-title">
+    <h2 id="practice-title">Make it familiar</h2>
+    <p>The lessons introduce the material. Short practice rounds help you return to it:
+    unfamiliar images and previous difficulties appear more often. Stop after one round or keep going.</p>
+    <div class="practice-cards">
+      ${LEVELS.map((l) => {
+        const counts = summarizePractice(quizItems, s.answers, l.level);
+        return `<article class="practice-card"><h3>Level ${l.level}</h3><p>${esc(l.title)}</p>
+          <p class="small muted">${counts.available} exercises · ${counts.originals} source regions</p>
+          ${levelAvailable(s, l.level) ? `<a class="button" href="#/practice/${l.level}">Practise ${Math.min(12, counts.available)} tiles</a>` : `<p class="small">Opens with level ${l.level}. <a href="#/results">Choose your level</a>.</p>`}</article>`;
+      }).join("")}
+    </div>
+    <p class="small muted">Altered versions are counted under the same source region. Some source regions overlap.
+    These rounds record practice answers; they do not complete lessons for you.</p>
+  </section>
 
   ${tip(
     s.answers.length === 0

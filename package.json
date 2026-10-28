@@ -10,7 +10,8 @@
     "check": "node tools/validate-data.mjs && node tools/check-public.mjs",
     "typecheck": "tsc --noEmit",
     "build": "npm run check && tsc --noEmit && vite build && node tools/check-public.mjs --dist",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test tests/*.test.mts"
   },
   "devDependencies": {
     "@fontsource/atkinson-hyperlegible-next": "5.3.0",

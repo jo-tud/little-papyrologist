@@ -32,12 +32,29 @@ sets:
   - id: first-letters-500p2
     level: 1
     title: First real letters
+    ordered: true
+  - id: first-line
+    level: 2
+    title: Your first line
+    ordered: true
+    intro: Start with one familiar shape, build a short group, then explore a whole published line. A reading guide is available whenever you need it.
   - id: ir-500p2
     level: 2
     title: Look closer — ink or papyrus?
+    intro: Now practise a different question. These infrared photographs show an opened fragment. Compare possible ink with the organizers' tracing; letter suggestions are welcome but are not graded.
   - id: paris4-col-8
     level: 2
-    title: PHerc. Paris 4, column −8, as the ink model shows it
+    title: More lines from PHerc. Paris 4
+    intro: Try eight published lines and seven small windows. Some lines are demanding; use the optional reading guide or ? for a letter you cannot read. You can return for more practice later.
+  - id: harder-images
+    level: 3
+    title: When the image gets harder
+    ordered: true
+    intro: Progress through five image changes, from mild blur to missing detail. These are teaching variants of known sources, not scans at a different resolution. Compare each answer with the unchanged reference.
+  - id: harder-practice
+    level: 3
+    title: Altered-image practice library
+    practice_only: true
 
 # Level 1 moves from clearer shapes to pairs, then unscored handwriting comparisons.
 # Every identity comes from the pinned manifest. Unfamiliar shapes are taught explicitly.
@@ -122,6 +139,27 @@ photographs:
         and the right upright extends only a little above it. That can make the shape look
         unlike printed Η. The source establishes the letter's identity; the photograph alone
         does not establish why a particular stroke is short.
+
+    - id: photo-250-rho
+      papyrus_dir: pherc0250
+      sample: ρ
+      practice_only: true
+      stage: A rounded head and a descending stroke
+      choices: [Ρ, Ο, Λ]
+      preparation: >-
+        Real ink may not form an uninterrupted outline. Here the rounded head has
+        a gap at its lower left. Compare the whole main shape, including the stroke
+        that continues below it.
+      question: Which letter has a rounded head with a stroke extending below it?
+      hint: >-
+        Follow the large central head and the descending stroke. The separate
+        fragments at the image edges are not the target.
+      explain: >-
+        The published sample is labelled Rho. Its main ink shape has a rounded head
+        and a stroke extending below it. The outline is interrupted: use the red
+        tracing to compare the visible marks. The photograph does not establish
+        why the gap is there. Printed Ρ is a reference for the letter's name,
+        not an exact drawing of this hand.
 
 # Later practice: infrared photo. The crops have no verified coordinate-matched letter
 # readings here, so only the presence of traced ink is scored.
@@ -209,3 +247,26 @@ windows:
     This is the blank space between columns {between}. In this scroll the columns are separated
     by about 17 mm of empty papyrus. The white specks are noise from the ink model: they are
     scattered and do not join into strokes.
+
+# Source-aligned fragments of the existing column −8, line 5.
+lesson:
+  set: first-line
+  level: 2
+
+# The source reading remains unchanged while its view becomes harder to inspect.
+degradations:
+  set: harder-images
+  level: 3
+  items:
+    - {id: harder-d1-ink, base: ir-500p2-a, degradation: 1}
+    - {id: harder-d1-blank, base: ir-500p2-x1, degradation: 1}
+    - {id: harder-d1-letters, base: first-line-gamma-epsilon-iota, degradation: 1}
+    - {id: harder-d2-blank, base: ir-500p2-x2, degradation: 2}
+    - {id: harder-d2-ink, base: ir-500p2-b, degradation: 2}
+    - {id: harder-d3-line, base: paris4-col-8-l05, degradation: 3}
+    - {id: harder-d3-ink, base: ir-500p2-c, degradation: 3}
+    - {id: harder-d3-blank, base: ir-500p2-x3, degradation: 3}
+    - {id: harder-d4-blank, base: ir-500p2-x4, degradation: 4}
+    - {id: harder-d4-ink, base: ir-500p2-d, degradation: 4}
+    - {id: harder-d5-ink, base: ir-500p2-e-v2, degradation: 5}
+    - {id: harder-d5-blank, base: ir-500p2-x1, degradation: 5}

@@ -1,4 +1,4 @@
-import { itemSetVersion, LEVELS, playSets } from "../data";
+import { itemSetVersion, LEVELS, playSets, quizItems } from "../data";
 import { clearAll, exportPayload, importText, isPersistent, setLevelOverride, state } from "../store";
 import { progressAfterAnswer, syncRankChip } from "../progress-ui";
 import type { AnswerRecord } from "../types";
@@ -104,6 +104,19 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
   const hasProgress = hasSavedProgress();
   const rows = summarise(answers);
   const conf = confusions(answers);
+  const realAnswers = answers.filter((a) => a.level > 0);
+  const byId = new Map(quizItems.map((i) => [i.id, i]));
+  const original = (id: string): string => {
+    const visited = new Set<string>();
+    while (byId.get(id)?.base_item && !visited.has(id)) { visited.add(id); id = byId.get(id)!.base_item!; }
+    return id;
+  };
+  const originals = new Set(realAnswers.map((a) => original(a.base_item ?? a.item_id))).size;
+  const modes = [
+    { title: "Recognition with choices", list: realAnswers.filter((a) => a.task === "identify") },
+    { title: "Reading with clues or a guide", list: realAnswers.filter((a) => a.task === "read" && a.help_used) },
+    { title: "Reading without clues or a guide", list: realAnswers.filter((a) => a.task === "read" && a.help_used === false) },
+  ];
 
   main.innerHTML = `
   <h1>My results</h1>
@@ -143,6 +156,19 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
   tiles without a confirmed reading are excluded. Level 1 uses clues, reference drawings and letter choices;
   those matches are assisted, not independent transcriptions. Its guided examples are not scored and add no answers here.
   Tiles where the deciding stroke is lost count under “can't tell”.</p>
+
+  <h2>Practice and support</h2>
+  <p>${realAnswers.length} answers on photographed or scan-derived material, from ${originals} source regions.
+  ${realAnswers.filter((a) => a.practice).length} answers came from extra practice rounds.
+  Altered versions count under their original region; some regions overlap. Returning to one image is repetition, not a new sample.</p>
+  <div class="table-wrap"><table><thead><tr><th>Reading mode</th><th class="num">Answers</th><th class="num">Fully matched</th></tr></thead><tbody>
+    ${modes.map(({ title, list }) => `<tr><td>${title}</td><td class="num">${list.length}</td><td class="num">${pct(list.filter((a) => a.letters_correct).length, list.length)}</td></tr>`).join("")}
+  </tbody></table></div>
+  <p class="small muted">Older saved answers may not record help use and are left out of the last two rows.
+  “Without clues or a guide” describes that attempt; a familiar image may have appeared before.</p>
+  ${answers.some((a) => a.simulated) ? `<h3>Altered-image practice</h3><div class="table-wrap"><table><thead><tr><th>Difficulty</th><th class="num">Answers</th><th class="num">Not sure</th></tr></thead><tbody>
+    ${[1, 2, 3, 4, 5].map((degree) => { const list = answers.filter((a) => a.simulated && a.degradation === degree); return `<tr><td>${degree}/5</td><td class="num">${list.length}</td><td class="num">${list.filter((a) => a.said_text === "unsure" || a.letters.includes("?")).length}</td></tr>`; }).join("")}
+    </tbody></table></div><p class="small muted">These are controlled image changes, not scanner resolutions. Their source readings do not establish what remains visible after alteration.</p>` : ""}
 
   <h2>Most frequent mix-ups</h2>
   ${

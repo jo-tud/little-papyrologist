@@ -80,6 +80,19 @@ export interface QuizItem {
   image: string;
   /** Optional second image shown with the answer, e.g. the organizers' ink tracing. */
   answer_image?: string;
+  /** Unchanged source, shown only after answering an altered image. */
+  reference_image?: string;
+  reference_answer_image?: string;
+  base_item?: string;
+  simulated?: boolean;
+  degradation_recipe?: Record<string, unknown>;
+  /** Extra practice does not add a required step to the path. */
+  practice_only?: boolean;
+  /** Optional reading guide; using it is recorded separately. */
+  guide?: string;
+  assisted?: boolean;
+  edition_indices?: [number, number];
+  source_crop?: [number, number, number, number];
   alt: string;
   /** Capitals as read; "*" = ink present, letters not confirmed; "none" = no text. */
   truth: string;
@@ -113,6 +126,10 @@ export interface AnswerRecord {
   item_id: string;
   /** Kept in exports so assisted recognition can be separated from transcription. */
   task?: "drawn" | Exclude<QuizItem["task"], "study">;
+  practice?: boolean;
+  help_used?: boolean;
+  base_item?: string;
+  simulated?: boolean;
   level: number;
   degradation: number;
   said_text: SaidText;
@@ -136,6 +153,9 @@ export interface QuizSet {
   id: string;
   level: number;
   title: string;
+  ordered?: boolean;
+  intro?: string;
+  practice_only?: boolean;
 }
 
 export interface PlaySet {

@@ -66,14 +66,16 @@ Each image in `data/items` lists its exact source, license and retrieval date.
 |---|---|---|---|
 | `photo-248-*`, `photo-250-*`, `photo-500p2-*` (level 1) | Named brightfield photographs in [Optical profilometry of opened Herculaneum papyri](https://huggingface.co/datasets/scrollprize/profilometer) | CC BY-NC 4.0 | Vesuvius Challenge |
 | `ir-500p2-*` (level 2) | Infrared photograph and ink tracing of PHerc. 500 P2, https://dl.ash2txt.org/fragments/PHerc0500P2/ | CC BY-NC 4.0 | Vesuvius Challenge |
-| `paris4-col-8-*` (level 2) | Grand Prize 2023 image of PHerc. Paris 4, https://scrollprize.org/grandprize | CC BY-NC 4.0 | Vesuvius Challenge; EduceLab, University of Kentucky |
+| `paris4-col-8-*`, `first-line-*` (level 2) | Grand Prize 2023 image of PHerc. Paris 4, https://scrollprize.org/grandprize | CC BY-NC 4.0 | Vesuvius Challenge; EduceLab, University of Kentucky |
+
+Altered-image exercises (`harder-*`, `practice-d*`) derive from these same sources, retain their credits and license, and include the unchanged reference. Their deterministic image-change parameters are recorded per item. They do not represent a different physical scan.
 
 Changes: cropped and scaled; answer images add the organizers' ink annotations in red where available.
 Readings for PHerc. Paris 4 are from *Cronache Ercolanesi* 54 (2024), see below.
 
 ### Named photographs from the profilometry dataset
 
-The six photographs of PHerc. 248, 250 and 500P2 and their ink annotations come from the official
+The seven photographs of PHerc. 248, 250 and 500P2 and their ink annotations come from the official
 Vesuvius Challenge dataset, revision `a806bead2f3b9100c20e19de37814fb285cfeefd`.
 Its [LICENSE](https://huggingface.co/datasets/scrollprize/profilometer/blob/a806bead2f3b9100c20e19de37814fb285cfeefd/LICENSE)
 explicitly permits non-commercial sharing and adaptation under CC BY-NC 4.0 (checked 2026-10-28).
@@ -81,14 +83,14 @@ Citation: G. Angelotti, F. Nicolardi, P. Henderson and W. B. Seales,
 *Ink detection from surface topography of the Herculaneum papyri*, Scientific Reports 16, 27835 (2026),
 https://doi.org/10.1038/s41598-026-58467-1.
 
-Letter identities come from the organizers' named samples in `manifest.csv` (248: ε; 250: ο; 500P2: η, ν, ν2, ιτ),
+Letter identities come from the organizers' named samples in `manifest.csv` (248: ε; 250: ο, ρ; 500P2: η, ν, ν2, ιτ),
 not from a model prediction. Figure 2 of the paper also identifies the 248 Epsilon and 500P2 Eta.
 These are brightfield photographs, not infrared images or tomographic ink maps.
 Whole photographs are scaled down; the answer image adds the published ink mask in red.
 The source TIFF files describe 8-bit RGB samples as floating point. The generator corrects
 only that metadata in memory to decode the original bytes as unsigned RGB; pixel values are unchanged.
 No claim about physical sampling resolution is needed for these exercises.
-The less familiar Nu and Eta photographs are labelled study examples, without answers or scores.
+The less familiar Nu and Eta photographs are labelled study examples in the first lesson, without answers or scores. Optional recall rounds revisit these named images with a reading guide; the Rho example provides visible shape clues.
 The source sample labels are identifiers; the trainer uses printed capitals to record the readings,
 without treating those labels as a classification of the handwritten forms as modern lowercase.
 
@@ -128,7 +130,7 @@ The answers shown in the quiz come only from:
 
 ## Open question
 
-The profilometry dataset identifies the six photographed regions used in level 1.
+The profilometry dataset identifies the photographed regions used in level 1 and its extra practice.
 We have not established a published, coordinate-matched transcription for every region of
 the separate infrared photograph. Its exercises therefore score visible ink only; typed
 letter suggestions are saved without being marked right or wrong.
