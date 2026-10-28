@@ -67,13 +67,18 @@ export function totalPoints(s: State): { reading: number; honesty: number } {
 }
 
 export function levelName(level: number): string {
-  return level === 0 ? "stage 0" : `level ${level}`;
+  return `level ${level}`;
 }
 
 /** A level is done when it has exercise sets and every one of them was finished at least once. */
 export function levelDone(s: State, level: number): boolean {
   const sets = playSets.filter((p) => p.level === level);
   return sets.length > 0 && sets.every((p) => (s.setsDone[p.id] ?? 0) > 0);
+}
+
+export function levelAvailable(s: State, level: number): boolean {
+  if (s.levelOverride !== undefined) return level <= s.levelOverride;
+  return level === 0 || (level === 1 && s.introSkipped === true) || levelDone(s, level - 1);
 }
 
 export function levelHasSets(level: number): boolean {

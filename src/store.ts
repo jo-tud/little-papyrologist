@@ -7,6 +7,8 @@ export interface State {
   badges: Record<string, string>; // badge id -> date earned
   ranks: Record<string, string>; // rank id -> date reached; a rank once reached is kept
   setsDone: Record<string, number>; // set id -> times finished
+  introSkipped?: boolean;
+  levelOverride?: number;
 }
 
 function empty(): State {
@@ -56,6 +58,19 @@ export function markSetDone(id: string): void {
   save();
 }
 
+/** Opens real images without claiming that the introductory exercises were completed. */
+export function skipIntro(): void {
+  memory.introSkipped = true;
+  if (memory.levelOverride === 0) delete memory.levelOverride;
+  save();
+}
+
+export function setLevelOverride(level?: number): void {
+  if (level === undefined) delete memory.levelOverride;
+  else if (Number.isInteger(level) && level >= 0 && level <= 3) memory.levelOverride = level;
+  save();
+}
+
 export function grantBadges(ids: string[]): string[] {
   const fresh = ids.filter((id) => !memory.badges[id]);
   const today = new Date().toISOString().slice(0, 10);
@@ -91,7 +106,7 @@ export function exportPayload(appVersion: string, itemSet: string): object {
     exported_at: new Date().toISOString(),
     note: "Answers from The Little Papyrologist. Level 0 tiles are drawings made for the trainer.",
     answers: memory.answers,
-    progress: { sets_done: memory.setsDone, badges: memory.badges, ranks: memory.ranks },
+    progress: { sets_done: memory.setsDone, badges: memory.badges, ranks: memory.ranks, intro_skipped: !!memory.introSkipped, level_override: memory.levelOverride },
   };
 }
 
@@ -164,6 +179,10 @@ export function importText(text: string): ImportResult {
   memory.answers.sort((x, y) => x.answered_at.localeCompare(y.answered_at));
 
   const progress = (data.progress ?? {}) as Record<string, unknown>;
+  if (progress.intro_skipped === true) memory.introSkipped = true;
+  if (memory.levelOverride === undefined && Number.isInteger(progress.level_override)
+      && (progress.level_override as number) >= 0 && (progress.level_override as number) <= 3)
+    memory.levelOverride = progress.level_override as number;
   const sets = progress.sets_done;
   if (sets && typeof sets === "object")
     for (const [id, n] of Object.entries(sets as Record<string, unknown>))

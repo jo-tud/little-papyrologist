@@ -1,5 +1,30 @@
-import { sourceById } from "./data";
+import { glyphByChar, playSets, sourceById } from "./data";
 import { esc } from "./util";
+
+/** A short name that can be repeated alongside letters throughout the exercises. */
+export function letterName(char: string): string {
+  const name = glyphByChar.get(char)?.name.split(" (")[0];
+  return name ? name.charAt(0).toUpperCase() + name.slice(1) : char;
+}
+
+export function namedLetter(char: string): string {
+  return `${char} (${letterName(char)})`;
+}
+
+export function letterLabel(char: string): string {
+  return `<span class="greek" lang="grc">${esc(char)}</span><span class="letter-name">${esc(letterName(char))}</span>`;
+}
+
+export function skipIntroLink(): string {
+  const first = playSets.find((p) => p.level === 1);
+  return first ? `<a href="${first.href}" data-skip-intro>Skip to real papyrus →</a>` : "";
+}
+
+export function introBridge(): string {
+  return `<div class="intro-bridge"><p><strong>Drawn letters now. Real papyrus next.</strong>
+    Practise the shapes here; level 1 brings photographs with confirmed letter names and clues to help you.</p>
+    <p>${skipIntroLink()} <span class="muted">You can return to these exercises anytime.</span></p></div>`;
+}
 
 /** Glaux, a small owl (the owl of Athena), who gives short tips. */
 export function owl(): string {
@@ -35,7 +60,7 @@ export function toast(text: string): void {
   const el = document.createElement("div");
   el.className = "toast";
   el.textContent = text;
-  area.appendChild(el);
+  area.replaceChildren(el);
   window.setTimeout(() => el.remove(), 4500);
 }
 

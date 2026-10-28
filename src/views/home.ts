@@ -1,9 +1,9 @@
 import { BADGES, currentStreak, rankStatus } from "../badges";
 import { drills, groups, hero, LEVELS, playSets } from "../data";
-import { levelDone, totalPoints } from "../rules";
+import { levelAvailable, totalPoints } from "../rules";
 import { lineSvg } from "../glyphs/render";
 import { state } from "../store";
-import { badgeIcon, rankSeal, sourceLinks, tip } from "../ui";
+import { badgeIcon, rankSeal, skipIntroLink, sourceLinks, tip } from "../ui";
 import { checksList } from "./ranks";
 import { esc } from "../util";
 
@@ -16,7 +16,14 @@ export function renderHome(main: HTMLElement): void {
     starts.add(pos);
     pos += Array.from(w).length;
   }
-  const setsDone = groups.filter((g) => (s.setsDone[g.id] ?? 0) > 0).length;
+  const setsDone = playSets.filter((p) => (s.setsDone[p.id] ?? 0) > 0).length;
+  const startingLevel = s.levelOverride ?? (s.introSkipped ? 1 : 0);
+  const availableSets = playSets.filter((p) => levelAvailable(s, p.level));
+  const nextSet = availableSets.find((p) => !s.setsDone[p.id] && p.level >= startingLevel)
+    ?? availableSets.find((p) => !s.setsDone[p.id]);
+  const showAlphabet = !s.setsDone["alphabet-seen"] && startingLevel === 0;
+  const nextHref = showAlphabet ? "#/alphabet" : nextSet?.href ?? "#/results";
+  const nextLabel = showAlphabet ? "Meet the alphabet" : nextSet ? `Next: ${nextSet.title}` : "See my results";
   const { reading, honesty } = totalPoints(s);
   const streak = currentStreak(s);
   const rank = rankStatus(s);
@@ -25,18 +32,18 @@ export function renderHome(main: HTMLElement): void {
     .map((g) => {
       const done = (s.setsDone[g.id] ?? 0) > 0;
       const n = drills.filter((d) => d.group === g.id).length;
-      return `<li class="stop ${done ? "done" : ""}">
+      return `<li class="stop ${done ? "done" : nextSet?.id === g.id ? "up-next" : ""}">
         <span class="mark greek" aria-hidden="true">${esc(g.letters[0])}</span>
         <div><h3>${esc(g.title)}: <span class="greek">${g.letters.map(esc).join(" ")}</span></h3>
-          <p>${n} tiles${done ? `. Finished ${s.setsDone[g.id]}×` : ""}</p></div>
-        <a class="button ${done ? "" : "primary"}" href="#/drill/${g.id}">${done ? "Play again" : "Start"}</a>
+          <p>Level 0 · ${n} tiles${done ? ` · Finished ${s.setsDone[g.id]}×` : ""}</p></div>
+        <a class="button ${nextSet?.id === g.id ? "primary" : ""}" href="#/drill/${g.id}" aria-label="${done ? "Play again" : "Start"}: ${esc(g.title)}">${done ? "Play again" : "Start"}</a>
       </li>`;
     })
     .join("");
 
   // Levels open one after the other. Their sets come from the data, so new material shows up here.
   const levelStops = LEVELS.map((l) => {
-    const open = levelDone(s, l.level - 1);
+    const open = levelAvailable(s, l.level);
     const sets = playSets.filter((p) => p.level === l.level);
     if (!sets.length)
       return `<li class="stop locked">
@@ -47,10 +54,10 @@ export function renderHome(main: HTMLElement): void {
     return sets
       .map((p) => {
         const done = (s.setsDone[p.id] ?? 0) > 0;
-        return `<li class="stop ${done ? "done" : open ? "" : "locked"}">
+        return `<li class="stop ${done ? "done" : open ? nextSet?.id === p.id ? "up-next" : "" : "locked"}">
           <span class="mark" aria-hidden="true">${l.level}</span>
           <div><h3>Level ${l.level}: ${esc(p.title)}</h3><p>${esc(l.text)}</p></div>
-          ${open ? `<a class="button ${done ? "" : "primary"}" href="${p.href}">${done ? "Play again" : "Start"}</a>` : `<span class="muted small">Finish ${l.level === 1 ? "stage 0" : `level ${l.level - 1}`} first</span>`}
+          ${open ? `<a class="button ${nextSet?.id === p.id ? "primary" : ""}" href="${p.href}" aria-label="${done ? "Play again" : "Start"}: ${esc(p.title)}">${done ? "Play again" : "Start"}</a>` : `<span class="muted small">${s.levelOverride !== undefined ? `<a href="#/results">Change practice level</a>` : `Finish level ${l.level - 1} first`}</span>`}
         </li>`;
       })
       .join("");
@@ -58,11 +65,19 @@ export function renderHome(main: HTMLElement): void {
 
   main.innerHTML = `
   <section class="hero" aria-labelledby="hero-title">
-    <h1 id="hero-title">Learn to see letters on the Herculaneum scrolls, and to notice when there are none.</h1>
-    <p>In AD 79 the eruption of Vesuvius buried and carbonized a library of papyrus scrolls
-    <span class="cite">(${sourceLinks(["grandprize"])})</span>. Today some of their text can be made
-    visible again. This trainer shows you what the letters look like, which ones are easily
-    confused, and how to be honest about what you cannot see.</p>
+    <div class="hero-copy">
+      <p class="eyebrow">Small steps into ancient handwriting</p>
+      <h1 id="hero-title">Learn to see the letters.</h1>
+      <p>Meet the Greek letters of the Herculaneum scrolls. Practise their shapes,
+      untangle look-alikes, and learn when to say “I can't tell”.</p>
+      <a class="button primary" href="${nextHref}">${esc(nextLabel)} <span aria-hidden="true">→</span></a>
+      <p class="small muted hero-note">No Greek needed. Your progress stays in this browser.</p>
+      ${!s.introSkipped && !s.setsDone[playSets.find((p) => p.level === 1)?.id ?? ""] ? `<p class="small">Already comfortable with Greek? ${skipIntroLink()}</p>` : ""}
+    </div>
+    <div class="hero-example">
+    <p class="eyebrow">Try a line</p>
+    <h2>Where does one word end?</h2>
+    <p class="small muted">Start by looking. Then reveal the word breaks.</p>
     <div class="band" id="band">
       ${lineSvg(chars, starts, `A line of Greek capitals without spaces: ${hero.line}`)}
     </div>
@@ -71,20 +86,27 @@ export function renderHome(main: HTMLElement): void {
     </div>
     <div class="reveal" id="reveal" hidden>
       <p class="edition" lang="grc">${esc(hero.edition)}</p>
-      <p>${esc(hero.where)}. ${esc(hero.note)} ${esc(hero.gloss)}</p>
+      <p class="small">${esc(hero.where)}. ${esc(hero.note)} ${esc(hero.gloss)}</p>
       <p class="cite">Reading: ${sourceLinks(hero.sources)}. Letters drawn for this trainer.</p>
+    </div>
+    <p class="cite hero-source">In AD 79, Vesuvius buried and carbonized a library of papyrus scrolls.
+    Some of their text is now visible again. ${sourceLinks(["grandprize"])}</p>
     </div>
   </section>
 
-  <h2>Your path</h2>
-  <p class="muted">Stage 0: the scribes' alphabet. ${setsDone} of ${groups.length} sets finished.</p>
-  <div class="meter" role="progressbar" aria-label="Stage 0 progress" aria-valuemin="0" aria-valuemax="${groups.length}" aria-valuenow="${setsDone}">
-    <span style="width:${(100 * setsDone) / groups.length}%"></span>
+  <div class="home-layout">
+  <section aria-labelledby="path-title">
+  <h2 id="path-title">Your path</h2>
+  ${s.levelOverride !== undefined ? `<p class="small">Practice is open through level ${s.levelOverride}. <a href="#/results">Change or reset this choice</a>.</p>` : ""}
+  <p class="small muted">${s.introSkipped ? "You skipped the introduction. The drawn exercises are here whenever you want them." : "Learn with drawings in level 0, recognize real letters with help in level 1, then look closer in level 2. You can skip the introduction whenever you like."}</p>
+  <p class="muted small">From drawn letters to real scrolls. ${setsDone} of ${playSets.length} available sets finished.</p>
+  <div class="meter" role="progressbar" aria-label="Exercise sets finished" aria-valuemin="0" aria-valuemax="${playSets.length}" aria-valuenow="${setsDone}">
+    <span style="width:${(100 * setsDone) / playSets.length}%"></span>
   </div>
   <ol class="path">
     <li class="stop ${s.setsDone["alphabet-seen"] ? "done" : ""}">
       <span class="mark greek" aria-hidden="true">Α</span>
-      <div><h3>The alphabet</h3><p>All 24 letters as the scribes wrote them, and what is special about this script.</p></div>
+      <div><h3>The alphabet</h3><p>Meet all 24 letters, their names and the shapes to look for.</p></div>
       <a class="button" href="#/alphabet">Open</a>
     </li>
     ${groupStops}
@@ -93,12 +115,14 @@ export function renderHome(main: HTMLElement): void {
 
   ${tip(
     s.answers.length === 0
-      ? "Every exercise has tiles with no letter at all. Saying “no letter” there earns more points than a lucky guess elsewhere."
+      ? "The drawn exercises include empty and damaged tiles. A well-placed “no letter” or “can't tell” earns honesty points. No need to invent a letter to make progress."
       : streak >= 3
         ? `${streak} good answers in a row. Honest “can't tell” answers count, too.`
         : "Points for reading, and separate points for honesty. Both count.",
   )}
+  </section>
 
+  <aside class="home-progress" aria-label="Your progress">
   <h2>Your rank</h2>
   <div class="rank-now">
     ${rankSeal(rank.index + 1, "current")}
@@ -126,6 +150,8 @@ export function renderHome(main: HTMLElement): void {
         <span><strong>${esc(b.title)}</strong><br><span class="small">${s.badges[b.id] ? "Earned" : esc(b.how)}</span></span></li>`,
     ).join("")}
   </ul>
+  </aside>
+  </div>
   `;
 
   const button = main.querySelector<HTMLButtonElement>("#split")!;

@@ -1,10 +1,12 @@
-import { drills, glyphs, groups } from "../data";
+import { drills, fieldnotes, glyphs, groups, playSets } from "../data";
 import { progressAfterAnswer, rankUpBanner } from "../progress-ui";
 import { tileSvg } from "../glyphs/render";
 import { score, type Score } from "../scoring";
 import { addAnswer, markSetDone } from "../store";
 import type { AnswerRecord, Drill, SaidText } from "../types";
-import { sourceLinks, tip } from "../ui";
+import { introBridge, letterLabel, namedLetter, owl, sourceLinks, tip } from "../ui";
+import { levelDone } from "../rules";
+import { state } from "../store";
 import { esc, shuffle } from "../util";
 
 const CANT_TELL = "?";
@@ -19,34 +21,34 @@ interface Pick {
 
 function truthText(d: Drill): string {
   if (d.truth === "none") return "no letter";
-  if (d.truth === CANT_TELL) return `can't tell (${(d.candidates ?? []).join(" or ")})`;
-  return d.truth;
+  if (d.truth === CANT_TELL) return `can't tell (${(d.candidates ?? []).map(namedLetter).join(" or ")})`;
+  return namedLetter(d.truth);
 }
 
 function givenText(p: Pick): string {
   if (p.said === "no") return "no letter";
   const sure = p.said === "unsure" ? " (not sure there is a letter)" : "";
   if (!p.letter) return `a letter, not named${sure}`;
-  return (p.letter === CANT_TELL ? "can't tell" : p.letter) + sure;
+  return (p.letter === CANT_TELL ? "can't tell" : namedLetter(p.letter)) + sure;
 }
 
 function headline(d: Drill, p: Pick, s: Score): string {
   switch (s.verdict) {
     case "right":
-      return `Right: ${d.truth}`;
+      return `Right: ${namedLetter(d.truth)}`;
     case "honest":
       if (d.truth === "none") return p.said === "no" ? "No false alarm. There is no letter here." : "Fair. There is no letter here.";
       return "Honest call. Nobody could tell.";
     case "careful":
-      return `Careful, but it can be read: ${d.truth}`;
+      return `Careful, but it can be read: ${namedLetter(d.truth)}`;
     case "guessed":
-      return `It could be ${p.letter}, but you could not know`;
+      return `It could be ${namedLetter(p.letter!)}, but you could not know`;
     case "false-alarm":
       return "False alarm. There is no letter here.";
     case "missed":
       return "There is a letter here";
     default:
-      return d.truth === CANT_TELL ? `Not quite. It could be ${(d.candidates ?? []).join(" or ")}` : `Not quite: it is ${d.truth}`;
+      return d.truth === CANT_TELL ? `Not quite. It could be ${(d.candidates ?? []).map(namedLetter).join(" or ")}` : `Not quite: it is ${namedLetter(d.truth)}`;
   }
 }
 
@@ -104,10 +106,12 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
     const d = order[index];
     const lettersDisabled = pick.said === "no" || checked !== null;
     main.innerHTML = `
+    <a class="back-link" href="#/">← Back to the path</a>
     <div class="drill-head">
-      <h1>${esc(group!.title)}: <span class="greek">${group!.letters.map(esc).join(" ")}</span></h1>
+      <h1 tabindex="-1">${esc(group!.title)}: <span class="greek">${group!.letters.map(esc).join(" ")}</span></h1>
       <span class="muted">Tile ${index + 1} of ${order.length}</span>
     </div>
+    ${index === 0 && !checked ? `<p class="round-intro">${esc(group!.intro)}${group!.sources?.length ? ` <span class="cite">${sourceLinks(group!.sources)}</span>` : ""}</p>` : ""}
     ${progress()}
     <div class="round">
       <figure class="tile-frame" data-item="${esc(d.id)}">
@@ -127,14 +131,14 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
             ${choice("said", "unsure", "Not sure", pick.said === "unsure")}
           </div>
         </fieldset>
-        <fieldset class="question" ${lettersDisabled ? "disabled" : ""}>
+        <fieldset class="question" id="letters-question" ${lettersDisabled ? "disabled" : ""}>
           <legend>Which letter?</legend>
           <div class="row">
             ${options
               .map((l) =>
                 l === CANT_TELL
                   ? choice("letter", l, "Can't tell", pick.letter === l)
-                  : choice("letter", l, esc(l), pick.letter === l, "letter"),
+                  : choice("letter", l, letterLabel(l), pick.letter === l, "letter named-letter"),
               )
               .join("")}
           </div>
@@ -147,16 +151,43 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
             ${choice("conf", "3", "Sure", pick.confidence === 3)}
           </div>
         </fieldset>
-        <button type="button" class="primary" id="check" ${canCheck() ? "" : "disabled"}>Check answer</button>
-        <p class="keys">Keys: Greek letters on the Greek layout (${group!.letters
+        <button type="button" class="primary" id="check" aria-describedby="check-hint" ${canCheck() ? "" : "disabled"}>Check answer</button>
+        <p class="small muted check-hint" id="check-hint">${checkHint()}</p>
+        <p class="keys">Keyboard shortcuts (${group!.letters
           .map((l) => `<kbd>${esc(glyphs.find((g) => g.char === l)?.latin ?? "")}</kbd> ${esc(l)}`)
           .join(", ")}), <kbd>?</kbd> can't tell, <kbd>-</kbd> no letter, <kbd>1</kbd>–<kbd>3</kbd> how sure, <kbd>Enter</kbd> check.</p>`
         }
       </div>
-    </div>`;
+    </div>
+    ${introBridge()}`;
+  }
+
+  function checkHint(): string {
+    if (!pick.said) return "Choose whether you see a letter.";
+    if (pick.said === "yes" && !pick.letter) return "Choose a letter, or “Can't tell”.";
+    if (!pick.confidence) return "Choose how sure you are to check your answer.";
+    return "Ready when you are.";
+  }
+
+  function updateQuestions(): void {
+    main.querySelectorAll<HTMLButtonElement>("[data-said], [data-letter], [data-conf]").forEach((button) => {
+      const pressed = button.dataset.said ? button.dataset.said === pick.said
+        : button.dataset.letter ? button.dataset.letter === pick.letter
+        : Number(button.dataset.conf) === pick.confidence;
+      button.setAttribute("aria-pressed", String(pressed));
+    });
+    main.querySelector<HTMLFieldSetElement>("#letters-question")!.disabled = pick.said === "no";
+    main.querySelector<HTMLButtonElement>("#check")!.disabled = !canCheck();
+    main.querySelector<HTMLElement>("#check-hint")!.textContent = checkHint();
   }
 
   function feedback(d: Drill, s: Score): string {
+    const offset = groups.slice(0, groups.findIndex((g) => g.id === groupId))
+      .reduce((n, g) => n + Math.ceil(drills.filter((tile) => tile.group === g.id).length / 2), 0);
+    const note = fieldnotes[(offset + Math.floor(index / 2)) % fieldnotes.length];
+    const readingBreak = index % 2 === 0 ? `<aside class="field-note" aria-label="A little papyrology">
+      ${owl()}<div><p class="eyebrow">A little papyrology</p><h3>${esc(note.title)}</h3>
+      <p>${esc(note.text)}</p><p class="cite">Source: ${sourceLinks(note.sources)}</p></div></aside>` : "";
     return `${newRank ? rankUpBanner(newRank) : ""}<div class="verdict v-${s.verdict}">
       <h2 id="verdict" tabindex="-1">${esc(headline(d, pick, s))}</h2>
       <dl class="compare">
@@ -166,6 +197,7 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
       <p>${esc(d.explain)}</p>
       <div class="points">${pointsChips(s)}</div>
       <p class="cite">Tile drawn for this trainer, so the answer is known exactly.${d.sources?.length ? ` See also: ${sourceLinks(d.sources)}.` : ""}</p>
+      ${readingBreak}
       <button type="button" class="primary" id="next">${index + 1 < order.length ? "Next tile" : "See how it went"}</button>
     </div>
     ${extraTip(d, s)}`;
@@ -178,6 +210,7 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
     const s = score({ text: d.truth, candidates: d.candidates }, { said: pick.said!, letters, confidence: pick.confidence! });
     const record: AnswerRecord = {
       item_id: d.id,
+      task: "drawn",
       level: 0,
       degradation: d.damage?.length ? 1 : 0,
       said_text: pick.said!,
@@ -220,7 +253,7 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
     }
     shownAt = performance.now();
     renderRound();
-    main.querySelector<HTMLElement>("[data-said]")?.focus();
+    main.querySelector<HTMLElement>("h1")?.focus();
   }
 
   function renderSummary(): void {
@@ -229,6 +262,7 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
     const honesty = results.reduce((n, r) => n + r.honesty_points, 0);
     const nulls = results.filter((r) => r.truth === "none").length;
     const nextGroup = groups[groups.findIndex((g) => g.id === group!.id) + 1];
+    const firstReal = levelDone(state(), 0) ? playSets.find((p) => p.level === 1) : undefined;
     main.innerHTML = `
       <h1 tabindex="-1">${esc(group!.title)}: done</h1>
       ${ranksThisSet.length ? rankUpBanner(ranksThisSet[ranksThisSet.length - 1]) : ""}
@@ -245,10 +279,11 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
           : "Some empty tiles looked like letters to you. Look for strokes that start and stop at the line height.",
       )}
       <div class="row">
-        <a class="button primary" href="${nextGroup ? `#/drill/${nextGroup.id}` : "#/results"}">${nextGroup ? `Next: ${esc(nextGroup.title)}` : "See my results"}</a>
+        <a class="button primary" href="${firstReal?.href ?? (nextGroup ? `#/drill/${nextGroup.id}` : "#/")}">${firstReal ? "On to real papyrus →" : nextGroup ? `Next: ${esc(nextGroup.title)}` : "Continue on the path"}</a>
         <button type="button" id="again">Play again</button>
         <a class="button" href="#/">Back to the path</a>
-      </div>`;
+      </div>
+      ${introBridge()}`;
     main.querySelector("#again")?.addEventListener("click", () => {
       index = 0;
       results.length = 0;
@@ -256,6 +291,7 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
       order.splice(0, order.length, ...shuffle(order));
       shownAt = performance.now();
       renderRound();
+      main.querySelector<HTMLElement>("h1")?.focus();
     });
     main.querySelector<HTMLElement>("h1")?.focus();
   }
@@ -267,7 +303,7 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
 
   function onClick(e: Event): void {
     const t = (e.target as HTMLElement).closest("button");
-    if (!t || checked === undefined) return;
+    if (!t || t.disabled) return;
     if (t.id === "check") return check();
     if (t.id === "next") return next();
     if (checked) return;
@@ -277,17 +313,17 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
       if (!pick.said) pick.said = "yes";
     } else if (t.dataset.conf) pick.confidence = Number(t.dataset.conf) as 1 | 2 | 3;
     else return;
-    const focusKey = Object.entries(t.dataset)[0];
-    renderRound();
-    if (focusKey) main.querySelector<HTMLElement>(`[data-${focusKey[0]}="${focusKey[1]}"]`)?.focus();
+    updateQuestions();
   }
 
   function onKey(e: KeyboardEvent): void {
-    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.ctrlKey || e.metaKey || e.altKey || e.isComposing) return;
     if (index >= order.length) return;
+    if ((e.target as HTMLElement).closest("input, textarea, select, [contenteditable], .topbar, .footer")) return;
     const k = e.key.toLowerCase();
     if (k === "enter") {
-      if ((e.target as HTMLElement).closest("button, a")) return; // let the focused control act
+      if (e.repeat) return;
+      if ((e.target as HTMLElement).closest("a, button:not([data-said]):not([data-letter]):not([data-conf])")) return;
       e.preventDefault();
       if (checked) next();
       else check();
@@ -300,13 +336,13 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
       pick.letter = CANT_TELL;
       if (!pick.said || pick.said === "no") pick.said = "yes";
     } else if (k === "1" || k === "2" || k === "3") pick.confidence = Number(k) as 1 | 2 | 3;
-    else if (keyToLetter.has(k) && group!.letters.includes(keyToLetter.get(k)!)) {
-      pick.letter = keyToLetter.get(k);
+    else if (group!.letters.includes(keyToLetter.get(k) ?? e.key.toUpperCase().replace(/[Σϲ]/g, "Ϲ"))) {
+      pick.letter = keyToLetter.get(k) ?? e.key.toUpperCase().replace(/[Σϲ]/g, "Ϲ");
       if (!pick.said || pick.said === "no") pick.said = "yes";
     } else changed = false;
     if (changed) {
       e.preventDefault();
-      renderRound();
+      updateQuestions();
     }
   }
 

@@ -12,9 +12,10 @@ Points are given for honest answers as well as for correct ones. A correct "no l
 
 ## Status
 
-- **Stage 0 (the scribes' alphabet) is playable.** It covers the 24 letters as drawn for this trainer, plus five sets of look-alikes (Ε/Ϲ/Ο/Θ, Α/Λ/Δ, Η/Ν/Π, Ι/Τ/Γ, Μ/Ν) with empty and damaged tiles.
+- **Level 0 (the scribes' alphabet)** introduces all 24 letter names and five sets of look-alikes (Ε/Ϲ/Ο/Θ, Α/Λ/Δ, Η/Ν/Π, Ι/Τ/Γ, Μ/Ν), with empty and damaged tiles. Short, sourced reading breaks introduce papyrology along the way. You can skip straight to real photographs and return anytime.
 - **Ranks and badges** follow your path through the levels. Both are defined in `data/ranks.yaml` and `data/badges.yaml`. New material counts towards them automatically.
-- **Level 1** shows an opened fragment in infrared, with the organizers' ink tracing as the answer, plus empty tiles. **Level 2** shows column −8 of PHerc. Paris 4 as the ink model sees it. You read whole lines against the published edition, or decide whether a small window holds writing or only noise.
+- **Level 1** starts with four named photographs of PHerc. 500P2 from the organizers' profilometry dataset. Hints and letter choices help you recognize Eta, Nu and Iota–Tau. The answers come from the named samples, not model predictions. This first encounter contains only confirmed writing.
+- **Level 2** introduces practice in telling ink from papyrus using infrared photos, then column −8 of PHerc. Paris 4 as the ink model sees it. You read lines against the published edition, or distinguish writing from image noise. Empty tiles are included here and in level 0.
 - **Level 3** (harder images) is in preparation.
 - The Vesuvius Challenge has confirmed that the images may be used, with credit (see [LICENSES.md](LICENSES.md)).
 
@@ -55,7 +56,9 @@ New tiles and quiz items go into `data/`. Adding them needs no code changes.
 
 ## Your data
 
-There is no server and no tracking. Answers, badges and ranks stay in your browser's local storage. At the end of **My results** you can save your progress as a file and load it in another browser.
+There is no server and no tracking. Answers, badges and ranks stay in your browser's local storage. At the end of **My results** you can save your progress as a file and load it in another browser. New answer records include the task type, so assisted letter matching can be separated from free transcription. Skipping the introduction is saved separately from completed exercises and earns no completion credit.
+
+**My results** also lets you open a practice level manually, return to automatic progression, or reset all progress with confirmation. Choosing a level changes access without awarding completed exercises, points or ranks. Your practice settings are included in backups.
 
 ## Licenses
 

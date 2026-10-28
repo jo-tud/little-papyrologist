@@ -99,6 +99,9 @@ body {
   font-family: var(--sans);
   font-size: var(--step-0);
   line-height: 1.55;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 h1,
 h2,
@@ -155,6 +158,7 @@ a {
 
 /* ---------- Frame ---------- */
 .topbar {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -180,7 +184,7 @@ a {
 .topbar nav a {
   color: var(--slate);
   text-decoration: none;
-  padding: 0.2rem 0;
+  padding: 0.5rem 0;
   border-bottom: 2px solid transparent;
 }
 .topbar nav a[aria-current="page"] {
@@ -188,6 +192,8 @@ a {
   border-bottom-color: var(--teal);
 }
 main {
+  width: 100%;
+  flex: 1;
   max-width: var(--wide);
   margin: 0 auto;
   padding: 1.5rem 1rem 3rem;
@@ -196,6 +202,7 @@ main:focus {
   outline: none;
 }
 .footer {
+  width: 100%;
   max-width: var(--wide);
   margin: 0 auto;
   padding: 1.5rem 1rem 2.5rem;
@@ -260,13 +267,76 @@ button:disabled {
 
 /* ---------- Home: the line without spaces ---------- */
 .hero {
-  padding: 1rem 0 0.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 2.5rem;
+  align-items: center;
+  padding: 2rem 0 2.5rem;
+  border-bottom: 1px solid var(--rule);
 }
 .hero h1 {
-  max-width: 22ch;
+  max-width: 13ch;
+  font-size: clamp(2.5rem, 4.4vw, 3.7rem);
+  line-height: 1.05;
+}
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 0.6rem;
+}
+.hero-note {
+  margin: 0.8rem 0;
+}
+.hero-example {
+  padding: 1.4rem;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+}
+.hero-example h2 {
+  margin: 0 0 0.5rem;
+  font-size: var(--step-1);
+}
+.hero-source {
+  border-top: 1px solid var(--rule);
+  padding-top: 1rem;
+  margin: 1.2rem 0 0;
+}
+.home-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 19rem);
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.home-layout > section > h2,
+.home-progress > h2:first-child {
+  margin-top: 0;
+}
+.home-progress .rank-now {
+  gap: 0.7rem;
+}
+.home-progress .rank-now .seal {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+.home-progress .badges {
+  display: grid;
+}
+.home-progress .badge {
+  border-radius: var(--radius);
+  padding: 0.6rem;
+}
+.home-progress .tally {
+  gap: 1rem;
+}
+.home-progress .tally div {
+  min-width: 0;
 }
 .band {
-  margin: 1.6rem 0 0.6rem;
+  margin: 1rem 0;
   background: var(--papyrus);
   border-radius: 4px 14px 6px 10px;
   padding: 1.1rem 1rem 0.8rem;
@@ -320,13 +390,20 @@ button:disabled {
 }
 .stop {
   display: grid;
-  grid-template-columns: 2.6rem 1fr auto;
+  grid-template-columns: 2.6rem minmax(0, 1fr) auto;
   gap: 0.9rem;
   align-items: center;
   background: var(--sheet);
   border: 1px solid var(--rule);
   border-radius: var(--radius);
   padding: 0.8rem 1rem;
+}
+.stop.up-next {
+  border-color: var(--teal);
+  box-shadow: inset 3px 0 var(--teal);
+}
+.stop .button {
+  white-space: nowrap;
 }
 .stop .mark {
   width: 2.6rem;
@@ -368,7 +445,7 @@ button:disabled {
   border: 1px solid var(--rule);
   overflow: hidden;
   max-width: 46rem;
-  margin: 0.4rem 0 0.3rem;
+  margin: 0.6rem 0 1rem;
 }
 .meter > span {
   display: block;
@@ -520,7 +597,7 @@ button:disabled {
 }
 .facts {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
   gap: 0.8rem;
   padding: 0;
   list-style: none;
@@ -560,6 +637,89 @@ button:disabled {
   align-items: baseline;
   justify-content: space-between;
   gap: 0.5rem 1rem;
+}
+.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: var(--step--1);
+}
+.round-intro {
+  color: var(--slate);
+  margin: 0.8rem 0;
+}
+.intro-bridge {
+  margin: 1.5rem 0;
+  border-left: 3px solid var(--teal);
+  padding: 0.7rem 1rem;
+  background: var(--teal-soft);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: var(--step--1);
+  max-width: 46rem;
+}
+.intro-bridge p {
+  margin: 0 0 0.25rem;
+}
+.intro-bridge p:last-child {
+  margin: 0;
+}
+.field-note {
+  display: flex;
+  gap: 0.7rem;
+  border-top: 1px solid var(--rule);
+  margin: 1rem 0;
+  padding-top: 1rem;
+}
+.field-note .owl {
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: none;
+}
+.field-note h3 {
+  font-size: var(--step-0);
+}
+.field-note p {
+  font-size: var(--step--1);
+  margin-bottom: 0.4rem;
+}
+.field-note .eyebrow {
+  font-size: 0.7rem;
+}
+.named-letter {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+}
+.choice.letter.named-letter {
+  border-radius: var(--radius);
+  min-width: 4.4rem;
+  padding: 0.5rem 0.7rem;
+}
+.letter-name {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+.named-letter > .greek {
+  font-size: var(--step-2);
+  line-height: 1.15;
+}
+.check-hint {
+  margin: 0.5rem 0 0;
+}
+.optional-letters {
+  margin: 0 0 1.2rem;
+}
+.optional-letters summary {
+  cursor: pointer;
+  color: var(--teal);
+  padding: 0.4rem 0;
+}
+.optional-letters[open] summary {
+  margin-bottom: 0.5rem;
 }
 .drill-head h1 {
   font-size: var(--step-2);
@@ -689,7 +849,7 @@ kbd {
 }
 .compare {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 0.2rem 1rem;
   margin: 0.6rem 0 0.8rem;
 }
@@ -700,6 +860,7 @@ kbd {
   margin: 0;
   font-family: var(--serif);
   font-size: var(--step-1);
+  overflow-wrap: anywhere;
 }
 .points {
   display: flex;
@@ -749,6 +910,9 @@ th.num {
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
+th.num {
+  white-space: normal;
+}
 .table-wrap {
   overflow-x: auto;
 }
@@ -762,6 +926,7 @@ th.num {
 
 /* ---------- Toasts ---------- */
 .toast-area {
+  pointer-events: none;
   position: fixed;
   right: 1rem;
   bottom: 1rem;
@@ -797,10 +962,35 @@ th.num {
     max-width: 15rem;
   }
   .stop {
-    grid-template-columns: 2.2rem 1fr;
+    grid-template-columns: 2.2rem minmax(0, 1fr);
   }
   .stop > :last-child {
     grid-column: 2;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 58rem) {
+  .hero,
+  .home-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+  .hero {
+    padding-top: 1rem;
+  }
+  .hero h1 {
+    max-width: 20ch;
+  }
+  .topbar nav {
+    flex-basis: 100%;
+    gap: 0.15rem 1rem;
+  }
+  .rank-chip {
+    margin-right: 0;
+  }
+  .hero-example {
+    padding: 1rem;
   }
 }
 
@@ -1127,15 +1317,19 @@ input[type="file"]:focus-visible + .button {
   background: var(--sheet);
   overflow-wrap: anywhere;
 }
+.typed > .small {
+  font-family: var(--sans);
+  letter-spacing: normal;
+}
 .keyboard {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(2.6rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(3.9rem, 1fr));
   gap: 0.3rem;
   max-width: 34rem;
 }
 .key {
-  min-height: 2.6rem;
-  padding: 0;
+  min-height: 3.6rem;
+  padding: 0.3rem 0.1rem;
   justify-content: center;
   border-radius: 8px;
   font-size: var(--step-1);
@@ -1152,7 +1346,7 @@ input[type="file"]:focus-visible + .button {
 .rl {
   font-family: var(--serif);
   font-size: var(--step-1);
-  min-width: 1.6rem;
+  min-width: 3.6rem;
   text-align: center;
   padding: 0.1rem 0.15rem 0.25rem;
   border-radius: 4px;
@@ -1188,4 +1382,44 @@ input[type="file"]:focus-visible + .button {
   display: block;
   width: 100%;
   border-radius: 6px;
+}
+.image-hint {
+  margin: 0.4rem 0 0;
+}
+.match-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.match-options .choice {
+  min-width: 5rem;
+  border-radius: var(--radius);
+  padding: 0.7rem;
+}
+.practice-settings,
+.reset-progress {
+  max-width: 50rem;
+}
+.practice-settings label {
+  display: block;
+  font-size: var(--step--1);
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.practice-settings select {
+  min-width: 0;
+  max-width: 100%;
+  min-height: 44px;
+  font: inherit;
+  background: var(--sheet);
+  color: var(--basalt);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 0.5rem;
+}
+#level-note {
+  margin: 0.6rem 0;
+}
+.reset-progress h2 {
+  font-size: var(--step-1);
 }

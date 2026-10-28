@@ -86,7 +86,9 @@ export interface QuizItem {
   /** The edition's own text for this line, with accents and dots below. */
   edition?: string;
   /** "read": read the letters (scored); "detect": is there writing at all? */
-  task: "read" | "detect";
+  task: "read" | "detect" | "identify";
+  choices?: string[];
+  hint?: string;
   uncertain?: number[];
   reading?: string;
   source: string[];
@@ -103,6 +105,8 @@ export type SaidText = "yes" | "no" | "unsure";
 
 export interface AnswerRecord {
   item_id: string;
+  /** Kept in exports so assisted recognition can be separated from transcription. */
+  task?: "drawn" | QuizItem["task"];
   level: number;
   degradation: number;
   said_text: SaidText;

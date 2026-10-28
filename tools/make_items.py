@@ -11,15 +11,20 @@ whose edition text has lost letters.
 from __future__ import annotations
 
 import datetime as dt
+import csv
+import io
 import random
 import re
+import struct
 import sys
 import unicodedata
 import urllib.request
+from urllib.parse import quote
 from pathlib import Path
 
 import numpy as np
 import yaml
+import tifffile
 from PIL import Image
 from scipy import ndimage
 
@@ -266,6 +271,57 @@ def window_tiles(cfg: dict, sources: dict, set_level: dict) -> list[dict]:
     return items
 
 
+def photograph_tiles(cfg: dict, set_level: dict) -> list[dict]:
+    """Named organizer photographs: preserve the entire field of view and verify the manifest."""
+    base = cfg["base_url"]
+    manifest = fetch("profilometer", "manifest", base + "manifest.csv")
+    with manifest.open() as f:
+        samples = {(r["papyrus_dir"], r["sample_id"]): r for r in csv.DictReader(f)}
+    items = []
+    for t in cfg["items"]:
+        row = samples.get((cfg["papyrus_dir"], t["sample"]))
+        if not row:
+            fail(f"{t['id']}: sample is absent from the organizers' manifest")
+        truth, uncertain = parse_edition(row["sample_id"].rstrip("0123456789"))
+        if truth not in t["choices"] or len(set(t["choices"])) != len(t["choices"]):
+            fail(f"{t['id']}: choices must be distinct and contain the published reading")
+        path = fetch(t["id"], "image", base + quote(row["brightfield_tif"]))
+        label_path = fetch(t["id"], "label", base + quote(row["label_png"]))
+        raw = bytearray(path.read_bytes())
+        with tifffile.TiffFile(path) as tif:
+            page = tif.pages[0]
+            if page.bitspersample != 8 or page.samplesperpixel != 3 or page.compression != 1:
+                fail(f"{t['id']}: unexpected photograph encoding")
+            # This release incorrectly labels its unsigned RGB bytes as 8-bit floating point.
+            # Correct the tag in memory only; do not change the pixel bytes or cached original.
+            if page.sampleformat == 3:
+                tag = page.tags["SampleFormat"]
+                if tag.count != 3:
+                    fail(f"{t['id']}: unexpected sample-format tag")
+                struct.pack_into(tif.byteorder + "HHH", raw, tag.valueoffset, 1, 1, 1)
+        photo = Image.open(io.BytesIO(raw)).convert("RGB")
+        label = Image.open(label_path).convert("L")
+        if photo.size != (int(row["width_px"]), int(row["height_px"])) or label.size != photo.size:
+            fail(f"{t['id']}: photograph, label and manifest dimensions disagree")
+        photo.thumbnail((720, 720), Image.Resampling.LANCZOS)
+        mask = np.asarray(label.resize(photo.size, Image.Resampling.NEAREST)) > 0
+        overlay = np.asarray(photo).astype(np.float32)
+        overlay[mask] = overlay[mask] * 0.5 + np.array([220, 30, 30]) * 0.5
+        items.append({
+            "id": t["id"], "set": cfg["set"], "level": set_level[cfg["set"]],
+            "degradation": 0, "task": "identify", "truth": truth, "uncertain": uncertain,
+            "choices": t["choices"], "hint": t["hint"],
+            "image": save_tile(photo, t["id"]),
+            "answer_image": save_tile(Image.fromarray(overlay.astype(np.uint8)), t["id"] + "-traced"),
+            "alt": "Brightfield photograph of a named region of PHerc. 500P2",
+            "source": cfg["source_ids"], "license": cfg["license"], "credit": cfg["credit"],
+            "checked": TODAY, "reading": f"PHerc. 500P2, published sample {row['sample_id']}",
+            "changes": "whole brightfield photograph scaled down",
+            "explain": "The organizers identify this photographed sample in their published dataset. Compare the dark strokes with their ink annotation in red. Real handwriting can be less regular than the practice drawings.",
+        })
+    return items
+
+
 def main() -> None:
     cfg = yaml.safe_load((ROOT / "data" / "crops.yaml").read_text())
     known = {s["id"] for s in yaml.safe_load((ROOT / "data" / "sources.yaml").read_text())["sources"]}
@@ -275,7 +331,8 @@ def main() -> None:
                 fail(f"source {key}: unknown source id {sid}")
     set_level = {s["id"]: s["level"] for s in cfg["sets"]}
     items = (
-        ir_tiles(cfg["ir_tiles"], cfg["sources"], set_level)
+        photograph_tiles(cfg["photographs"], set_level)
+        + ir_tiles(cfg["ir_tiles"], cfg["sources"], set_level)
         + line_tiles(cfg["lines"], cfg["sources"], set_level)
         + window_tiles(cfg["windows"], cfg["sources"], set_level)
     )

@@ -3,18 +3,115 @@
 # truth: capitals as read; "*" = ink present, letters not confirmed; "none" = no text.
 
 sets:
-- id: ir-500p2
+- id: first-letters-500p2
   level: 1
-  title: An opened fragment in infrared
+  title: First real letters
+- id: ir-500p2
+  level: 2
+  title: Look closer — ink or papyrus?
 - id: paris4-col-8
   level: 2
   title: PHerc. Paris 4, column −8, as the ink model shows it
 items:
-- id: ir-500p2-a
-  set: ir-500p2
+- id: photo-500p2-eta
+  set: first-letters-500p2
   level: 1
   degradation: 0
+  task: identify
+  truth: Η
+  uncertain: []
+  choices:
+  - Η
+  - Ο
+  - Λ
+  hint: Look for two uprights joined in the middle.
+  image: photo-500p2-eta.webp
+  answer_image: photo-500p2-eta-traced.webp
+  alt: Brightfield photograph of a named region of PHerc. 500P2
   source: &id001
+  - profilometer
+  - topography2026
+  license: CC BY-NC 4.0
+  credit: Vesuvius Challenge
+  checked: '2026-10-28'
+  reading: PHerc. 500P2, published sample η
+  changes: whole brightfield photograph scaled down
+  explain: The organizers identify this photographed sample in their published dataset. Compare the dark
+    strokes with their ink annotation in red. Real handwriting can be less regular than the practice drawings.
+- id: photo-500p2-nu2
+  set: first-letters-500p2
+  level: 1
+  degradation: 0
+  task: identify
+  truth: Ν
+  uncertain: []
+  choices:
+  - Ν
+  - Ε
+  - Γ
+  hint: Follow the sloping stroke between the uprights.
+  image: photo-500p2-nu2.webp
+  answer_image: photo-500p2-nu2-traced.webp
+  alt: Brightfield photograph of a named region of PHerc. 500P2
+  source: *id001
+  license: CC BY-NC 4.0
+  credit: Vesuvius Challenge
+  checked: '2026-10-28'
+  reading: PHerc. 500P2, published sample ν2
+  changes: whole brightfield photograph scaled down
+  explain: The organizers identify this photographed sample in their published dataset. Compare the dark
+    strokes with their ink annotation in red. Real handwriting can be less regular than the practice drawings.
+- id: photo-500p2-nu
+  set: first-letters-500p2
+  level: 1
+  degradation: 0
+  task: identify
+  truth: Ν
+  uncertain: []
+  choices:
+  - Ν
+  - Ο
+  - Ι
+  hint: A handwritten letter can lean or stretch. Compare the connected strokes.
+  image: photo-500p2-nu.webp
+  answer_image: photo-500p2-nu-traced.webp
+  alt: Brightfield photograph of a named region of PHerc. 500P2
+  source: *id001
+  license: CC BY-NC 4.0
+  credit: Vesuvius Challenge
+  checked: '2026-10-28'
+  reading: PHerc. 500P2, published sample ν
+  changes: whole brightfield photograph scaled down
+  explain: The organizers identify this photographed sample in their published dataset. Compare the dark
+    strokes with their ink annotation in red. Real handwriting can be less regular than the practice drawings.
+- id: photo-500p2-iota-tau
+  set: first-letters-500p2
+  level: 1
+  degradation: 0
+  task: identify
+  truth: ΙΤ
+  uncertain: []
+  choices:
+  - ΙΤ
+  - ΟϹ
+  - ΜΝ
+  hint: Two letters this time. Look for a single upright and a top bar.
+  image: photo-500p2-iota-tau.webp
+  answer_image: photo-500p2-iota-tau-traced.webp
+  alt: Brightfield photograph of a named region of PHerc. 500P2
+  source: *id001
+  license: CC BY-NC 4.0
+  credit: Vesuvius Challenge
+  checked: '2026-10-28'
+  reading: PHerc. 500P2, published sample ιτ
+  changes: whole brightfield photograph scaled down
+  explain: The organizers identify this photographed sample in their published dataset. Compare the dark
+    strokes with their ink annotation in red. Real handwriting can be less regular than the practice drawings.
+- id: ir-500p2-a
+  set: ir-500p2
+  level: 2
+  degradation: 0
+  source: &id002
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
@@ -26,14 +123,14 @@ items:
   alt: Infrared photo of an opened papyrus fragment
   truth: '*'
   reading: ink traced by the organizers; no published reading of the letters
-  explain: The organizers traced these strokes on the infrared photo, where carbon ink shows dark. There
-    is no published reading of the letters yet, so only "is there ink?" is scored. Compare your letters
-    with the tracing.
+  explain: 'The red overlay marks ink traced by the organizers. This exercise checks whether you spotted
+    ink. If you suggested letters, they are saved but not graded: we do not have a verified letter-by-letter
+    reading matched to this infrared crop.'
 - id: ir-500p2-b
   set: ir-500p2
-  level: 1
+  level: 2
   degradation: 0
-  source: *id001
+  source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
   checked: '2026-10-28'
@@ -44,14 +141,14 @@ items:
   alt: Infrared photo of an opened papyrus fragment
   truth: '*'
   reading: ink traced by the organizers; no published reading of the letters
-  explain: The organizers traced these strokes on the infrared photo, where carbon ink shows dark. There
-    is no published reading of the letters yet, so only "is there ink?" is scored. Compare your letters
-    with the tracing.
+  explain: 'The red overlay marks ink traced by the organizers. This exercise checks whether you spotted
+    ink. If you suggested letters, they are saved but not graded: we do not have a verified letter-by-letter
+    reading matched to this infrared crop.'
 - id: ir-500p2-c
   set: ir-500p2
-  level: 1
+  level: 2
   degradation: 0
-  source: *id001
+  source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
   checked: '2026-10-28'
@@ -62,14 +159,14 @@ items:
   alt: Infrared photo of an opened papyrus fragment
   truth: '*'
   reading: ink traced by the organizers; no published reading of the letters
-  explain: The organizers traced these strokes on the infrared photo, where carbon ink shows dark. There
-    is no published reading of the letters yet, so only "is there ink?" is scored. Compare your letters
-    with the tracing.
+  explain: 'The red overlay marks ink traced by the organizers. This exercise checks whether you spotted
+    ink. If you suggested letters, they are saved but not graded: we do not have a verified letter-by-letter
+    reading matched to this infrared crop.'
 - id: ir-500p2-d
   set: ir-500p2
-  level: 1
+  level: 2
   degradation: 0
-  source: *id001
+  source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
   checked: '2026-10-28'
@@ -80,32 +177,32 @@ items:
   alt: Infrared photo of an opened papyrus fragment
   truth: '*'
   reading: ink traced by the organizers; no published reading of the letters
-  explain: The organizers traced these strokes on the infrared photo, where carbon ink shows dark. There
-    is no published reading of the letters yet, so only "is there ink?" is scored. Compare your letters
-    with the tracing.
-- id: ir-500p2-e
+  explain: 'The red overlay marks ink traced by the organizers. This exercise checks whether you spotted
+    ink. If you suggested letters, they are saved but not graded: we do not have a verified letter-by-letter
+    reading matched to this infrared crop.'
+- id: ir-500p2-e-v2
   set: ir-500p2
-  level: 1
+  level: 2
   degradation: 0
-  source: *id001
+  source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
   checked: '2026-10-28'
   changes: cropped and scaled down; greyscale as in the infrared photo
   task: detect
-  image: ir-500p2-e.webp
-  answer_image: ir-500p2-e-traced.webp
+  image: ir-500p2-e-v2.webp
+  answer_image: ir-500p2-e-v2-traced.webp
   alt: Infrared photo of an opened papyrus fragment
   truth: '*'
   reading: ink traced by the organizers; no published reading of the letters
-  explain: The organizers traced these strokes on the infrared photo, where carbon ink shows dark. There
-    is no published reading of the letters yet, so only "is there ink?" is scored. Compare your letters
-    with the tracing.
+  explain: 'The red overlay marks ink traced by the organizers. This exercise checks whether you spotted
+    ink. If you suggested letters, they are saved but not graded: we do not have a verified letter-by-letter
+    reading matched to this infrared crop.'
 - id: ir-500p2-f
   set: ir-500p2
-  level: 1
+  level: 2
   degradation: 0
-  source: *id001
+  source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
   checked: '2026-10-28'
@@ -116,14 +213,14 @@ items:
   alt: Infrared photo of an opened papyrus fragment
   truth: '*'
   reading: ink traced by the organizers; no published reading of the letters
-  explain: The organizers traced these strokes on the infrared photo, where carbon ink shows dark. There
-    is no published reading of the letters yet, so only "is there ink?" is scored. Compare your letters
-    with the tracing.
+  explain: 'The red overlay marks ink traced by the organizers. This exercise checks whether you spotted
+    ink. If you suggested letters, they are saved but not graded: we do not have a verified letter-by-letter
+    reading matched to this infrared crop.'
 - id: ir-500p2-g
   set: ir-500p2
-  level: 1
+  level: 2
   degradation: 0
-  source: *id001
+  source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
   checked: '2026-10-28'
@@ -134,14 +231,14 @@ items:
   alt: Infrared photo of an opened papyrus fragment
   truth: '*'
   reading: ink traced by the organizers; no published reading of the letters
-  explain: The organizers traced these strokes on the infrared photo, where carbon ink shows dark. There
-    is no published reading of the letters yet, so only "is there ink?" is scored. Compare your letters
-    with the tracing.
+  explain: 'The red overlay marks ink traced by the organizers. This exercise checks whether you spotted
+    ink. If you suggested letters, they are saved but not graded: we do not have a verified letter-by-letter
+    reading matched to this infrared crop.'
 - id: ir-500p2-h
   set: ir-500p2
-  level: 1
+  level: 2
   degradation: 0
-  source: *id001
+  source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
   checked: '2026-10-28'
@@ -152,14 +249,14 @@ items:
   alt: Infrared photo of an opened papyrus fragment
   truth: '*'
   reading: ink traced by the organizers; no published reading of the letters
-  explain: The organizers traced these strokes on the infrared photo, where carbon ink shows dark. There
-    is no published reading of the letters yet, so only "is there ink?" is scored. Compare your letters
-    with the tracing.
+  explain: 'The red overlay marks ink traced by the organizers. This exercise checks whether you spotted
+    ink. If you suggested letters, they are saved but not graded: we do not have a verified letter-by-letter
+    reading matched to this infrared crop.'
 - id: ir-500p2-i
   set: ir-500p2
-  level: 1
+  level: 2
   degradation: 0
-  source: *id001
+  source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
   checked: '2026-10-28'
@@ -170,14 +267,14 @@ items:
   alt: Infrared photo of an opened papyrus fragment
   truth: '*'
   reading: ink traced by the organizers; no published reading of the letters
-  explain: The organizers traced these strokes on the infrared photo, where carbon ink shows dark. There
-    is no published reading of the letters yet, so only "is there ink?" is scored. Compare your letters
-    with the tracing.
+  explain: 'The red overlay marks ink traced by the organizers. This exercise checks whether you spotted
+    ink. If you suggested letters, they are saved but not graded: we do not have a verified letter-by-letter
+    reading matched to this infrared crop.'
 - id: ir-500p2-j
   set: ir-500p2
-  level: 1
+  level: 2
   degradation: 0
-  source: *id001
+  source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
   checked: '2026-10-28'
@@ -188,14 +285,14 @@ items:
   alt: Infrared photo of an opened papyrus fragment
   truth: '*'
   reading: ink traced by the organizers; no published reading of the letters
-  explain: The organizers traced these strokes on the infrared photo, where carbon ink shows dark. There
-    is no published reading of the letters yet, so only "is there ink?" is scored. Compare your letters
-    with the tracing.
+  explain: 'The red overlay marks ink traced by the organizers. This exercise checks whether you spotted
+    ink. If you suggested letters, they are saved but not graded: we do not have a verified letter-by-letter
+    reading matched to this infrared crop.'
 - id: ir-500p2-k
   set: ir-500p2
-  level: 1
+  level: 2
   degradation: 0
-  source: *id001
+  source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
   checked: '2026-10-28'
@@ -206,14 +303,14 @@ items:
   alt: Infrared photo of an opened papyrus fragment
   truth: '*'
   reading: ink traced by the organizers; no published reading of the letters
-  explain: The organizers traced these strokes on the infrared photo, where carbon ink shows dark. There
-    is no published reading of the letters yet, so only "is there ink?" is scored. Compare your letters
-    with the tracing.
+  explain: 'The red overlay marks ink traced by the organizers. This exercise checks whether you spotted
+    ink. If you suggested letters, they are saved but not graded: we do not have a verified letter-by-letter
+    reading matched to this infrared crop.'
 - id: ir-500p2-l
   set: ir-500p2
-  level: 1
+  level: 2
   degradation: 0
-  source: *id001
+  source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
   checked: '2026-10-28'
@@ -224,14 +321,14 @@ items:
   alt: Infrared photo of an opened papyrus fragment
   truth: '*'
   reading: ink traced by the organizers; no published reading of the letters
-  explain: The organizers traced these strokes on the infrared photo, where carbon ink shows dark. There
-    is no published reading of the letters yet, so only "is there ink?" is scored. Compare your letters
-    with the tracing.
+  explain: 'The red overlay marks ink traced by the organizers. This exercise checks whether you spotted
+    ink. If you suggested letters, they are saved but not graded: we do not have a verified letter-by-letter
+    reading matched to this infrared crop.'
 - id: ir-500p2-x1
   set: ir-500p2
-  level: 1
+  level: 2
   degradation: 0
-  source: *id001
+  source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
   checked: '2026-10-28'
@@ -241,8 +338,9 @@ items:
   alt: Infrared photo of an opened papyrus fragment
   truth: none
   reading: no ink traced within 320 px of this area
-  explain: 'The organizers traced no ink here, and the infrared photo shows no strokes. What you see is
-    the papyrus itself: fibres, shadows and wear.'
+  explain: This area was selected away from the organizers' ink tracing and from dark marks in the infrared
+    photo. Here, fibres, shadows and wear can suggest a letter shape. The reference shows no visible ink
+    strokes in this crop; that does not make every untraced area blank.
   box:
   - 1680
   - 280
@@ -250,9 +348,9 @@ items:
   - 480
 - id: ir-500p2-x2
   set: ir-500p2
-  level: 1
+  level: 2
   degradation: 0
-  source: *id001
+  source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
   checked: '2026-10-28'
@@ -262,8 +360,9 @@ items:
   alt: Infrared photo of an opened papyrus fragment
   truth: none
   reading: no ink traced within 320 px of this area
-  explain: 'The organizers traced no ink here, and the infrared photo shows no strokes. What you see is
-    the papyrus itself: fibres, shadows and wear.'
+  explain: This area was selected away from the organizers' ink tracing and from dark marks in the infrared
+    photo. Here, fibres, shadows and wear can suggest a letter shape. The reference shows no visible ink
+    strokes in this crop; that does not make every untraced area blank.
   box:
   - 1400
   - 880
@@ -271,9 +370,9 @@ items:
   - 480
 - id: ir-500p2-x3
   set: ir-500p2
-  level: 1
+  level: 2
   degradation: 0
-  source: *id001
+  source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
   checked: '2026-10-28'
@@ -283,8 +382,9 @@ items:
   alt: Infrared photo of an opened papyrus fragment
   truth: none
   reading: no ink traced within 320 px of this area
-  explain: 'The organizers traced no ink here, and the infrared photo shows no strokes. What you see is
-    the papyrus itself: fibres, shadows and wear.'
+  explain: This area was selected away from the organizers' ink tracing and from dark marks in the infrared
+    photo. Here, fibres, shadows and wear can suggest a letter shape. The reference shows no visible ink
+    strokes in this crop; that does not make every untraced area blank.
   box:
   - 1320
   - 2000
@@ -292,9 +392,9 @@ items:
   - 480
 - id: ir-500p2-x4
   set: ir-500p2
-  level: 1
+  level: 2
   degradation: 0
-  source: *id001
+  source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
   checked: '2026-10-28'
@@ -304,8 +404,9 @@ items:
   alt: Infrared photo of an opened papyrus fragment
   truth: none
   reading: no ink traced within 320 px of this area
-  explain: 'The organizers traced no ink here, and the infrared photo shows no strokes. What you see is
-    the papyrus itself: fibres, shadows and wear.'
+  explain: This area was selected away from the organizers' ink tracing and from dark marks in the infrared
+    photo. Here, fibres, shadows and wear can suggest a letter shape. The reference shows no visible ink
+    strokes in this crop; that does not make every untraced area blank.
   box:
   - 920
   - 5440
@@ -315,7 +416,7 @@ items:
   set: paris4-col-8
   level: 2
   degradation: 0
-  source: &id002
+  source: &id003
   - cerc54
   - grandprize
   license: CC BY-NC 4.0
@@ -337,7 +438,7 @@ items:
   set: paris4-col-8
   level: 2
   degradation: 0
-  source: *id002
+  source: *id003
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
   checked: '2026-10-28'
@@ -356,7 +457,7 @@ items:
   set: paris4-col-8
   level: 2
   degradation: 0
-  source: *id002
+  source: *id003
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
   checked: '2026-10-28'
@@ -377,7 +478,7 @@ items:
   set: paris4-col-8
   level: 2
   degradation: 0
-  source: *id002
+  source: *id003
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
   checked: '2026-10-28'
@@ -397,7 +498,7 @@ items:
   set: paris4-col-8
   level: 2
   degradation: 0
-  source: *id002
+  source: *id003
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
   checked: '2026-10-28'
@@ -418,7 +519,7 @@ items:
   set: paris4-col-8
   level: 2
   degradation: 0
-  source: *id002
+  source: *id003
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
   checked: '2026-10-28'
@@ -438,7 +539,7 @@ items:
   set: paris4-col-8
   level: 2
   degradation: 0
-  source: *id002
+  source: *id003
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
   checked: '2026-10-28'
@@ -460,7 +561,7 @@ items:
   set: paris4-col-8
   level: 2
   degradation: 0
-  source: *id002
+  source: *id003
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
   checked: '2026-10-28'
@@ -481,7 +582,7 @@ items:
   set: paris4-col-8
   level: 2
   degradation: 0
-  source: &id003
+  source: &id004
   - cerc54
   - grandprize
   license: CC BY-NC 4.0
@@ -504,7 +605,7 @@ items:
   set: paris4-col-8
   level: 2
   degradation: 0
-  source: *id003
+  source: *id004
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
   checked: '2026-10-28'
@@ -525,7 +626,7 @@ items:
   set: paris4-col-8
   level: 2
   degradation: 0
-  source: *id003
+  source: *id004
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
   checked: '2026-10-28'
@@ -546,7 +647,7 @@ items:
   set: paris4-col-8
   level: 2
   degradation: 0
-  source: *id003
+  source: *id004
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
   checked: '2026-10-28'
@@ -567,7 +668,7 @@ items:
   set: paris4-col-8
   level: 2
   degradation: 0
-  source: *id003
+  source: *id004
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
   checked: '2026-10-28'
@@ -589,7 +690,7 @@ items:
   set: paris4-col-8
   level: 2
   degradation: 0
-  source: *id003
+  source: *id004
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
   checked: '2026-10-28'
@@ -611,7 +712,7 @@ items:
   set: paris4-col-8
   level: 2
   degradation: 0
-  source: *id003
+  source: *id004
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
   checked: '2026-10-28'

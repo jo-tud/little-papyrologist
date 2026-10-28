@@ -7,7 +7,7 @@ import "@fontsource/atkinson-hyperlegible-next/latin-400.css";
 import "@fontsource/atkinson-hyperlegible-next/latin-700.css";
 import "./styles.css";
 
-import { load } from "./store";
+import { load, skipIntro } from "./store";
 import { renderHome } from "./views/home";
 import { renderAlphabet } from "./views/alphabet";
 import { renderDrill } from "./views/drill";
@@ -33,9 +33,10 @@ const routes: [RegExp, string, (main: HTMLElement, ...args: string[]) => Cleanup
 
 let cleanup: Cleanup;
 
-function route(): void {
+function route(event?: Event): void {
   const main = document.getElementById("main") as HTMLElement;
   if (typeof cleanup === "function") cleanup();
+  document.querySelector(".toast-area")?.replaceChildren();
   const hash = window.location.hash || "#/";
   const match = routes.find(([re]) => re.test(hash));
   const [re, title, view] = match ?? routes[0];
@@ -51,10 +52,20 @@ function route(): void {
     else a.removeAttribute("aria-current");
   });
   syncRankChip();
+  const chip = document.getElementById("rank-chip");
+  if (top === "#/ranks") chip?.setAttribute("aria-current", "page");
+  else chip?.removeAttribute("aria-current");
   window.scrollTo(0, 0);
-  if (match && hash !== "#/") main.focus({ preventScroll: true });
+  if (event || hash !== "#/") main.focus({ preventScroll: true });
 }
 
 load();
+document.addEventListener("click", (event) => {
+  if ((event.target as HTMLElement).closest("[data-skip-intro]")) skipIntro();
+});
+document.querySelector(".skip")?.addEventListener("click", (event) => {
+  event.preventDefault();
+  document.getElementById("main")?.focus();
+});
 window.addEventListener("hashchange", route);
 route();

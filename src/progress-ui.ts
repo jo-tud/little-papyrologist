@@ -12,8 +12,11 @@ export function syncRankChip(): void {
 /** Grants what was earned, shows toasts, and returns the news for the page to show. */
 export function progressAfterAnswer(): ProgressNews {
   const news = updateProgress(state(), grantBadges, grantRanks);
-  for (const b of news.badges) toast(`New badge: ${b.title}`);
-  if (news.rank) toast(`New rank: ${news.rank.title}`);
+  const messages = [
+    ...(news.rank ? [`New rank: ${news.rank.title}`] : []),
+    ...(news.badges.length ? [`New ${news.badges.length === 1 ? "badge" : "badges"}: ${news.badges.map((b) => b.title).join(", ")}`] : []),
+  ];
+  if (messages.length) toast(messages.join(". "));
   syncRankChip();
   return news;
 }

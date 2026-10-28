@@ -16,7 +16,7 @@ export function renderAbout(main: HTMLElement): void {
     <li>readings checked by papyrologists and published by them,</li>
     <li>physical evidence, such as infrared photos of opened fragments,</li>
     <li>labels published by the Vesuvius Challenge,</li>
-    <li>for the drawn exercises of stage 0: the drawing itself, so the answer is known exactly.</li>
+    <li>for the drawn exercises of level 0: the drawing itself, so the answer is known exactly.</li>
   </ul>
   <p>Never from a model's output alone, and never from a guess. Where an edition marks a letter
   as uncertain, the trainer shows it as uncertain. A tile without a reliable answer does not
@@ -24,14 +24,14 @@ export function renderAbout(main: HTMLElement): void {
 
   <h2>Your data</h2>
   <p>The page has no server, no tracking and no analytics. Your answers, badges and ranks are
-  stored in your browser's local storage. They leave your computer only if you save them as a
-  file yourself (at the end of <a href="#/results">My results</a>).</p>
+  stored in your browser. You can save or copy them yourself to keep a backup or move them to
+  another browser (at the end of <a href="#/results">My results</a>).</p>
 
   <h2>Licenses</h2>
-  <p>The code, the letter drawings and the exercise tiles are released under the MIT License. Fonts: Gentium Book Plus (SIL International) and
+  <p>The code and the drawn letters and exercise tiles are released under the MIT License. Fonts: Gentium Book Plus (SIL International) and
   Atkinson Hyperlegible Next (The Atkinson Hyperlegible Next Project Authors), both under the
   SIL Open Font License 1.1.
-  Images derived from Vesuvius Challenge data will carry their license (CC BY-NC 4.0) and
+  Images derived from Vesuvius Challenge data carry their license (CC BY-NC 4.0), credit and
   source next to them. Details: <a href="${REPO}/blob/main/LICENSES.md" rel="noopener">LICENSES.md</a>.</p>
 
   <h2>Mistakes and ideas</h2>

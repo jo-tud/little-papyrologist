@@ -9,9 +9,10 @@ import type { BadgeDef, Drill, Fact, Glyph, Group, Hero, PlaySet, QuizItem, Quiz
 export const glyphs = (glyphData as { letters: Glyph[] }).letters;
 export const glyphByChar = new Map(glyphs.map((g) => [g.char, g]));
 
-const stage0 = stage0Data as { hero: Hero; facts: Fact[]; groups: Group[]; drills: Drill[] };
+const stage0 = stage0Data as { hero: Hero; facts: Fact[]; fieldnotes: Fact[]; groups: Group[]; drills: Drill[] };
 export const hero = stage0.hero;
 export const facts = stage0.facts;
+export const fieldnotes = [stage0.fieldnotes[0], ...stage0.facts, ...stage0.fieldnotes.slice(1)];
 export const groups = stage0.groups;
 export const drills = stage0.drills;
 
@@ -34,8 +35,8 @@ export function itemSetVersion(): string {
 }
 
 export const LEVELS = [
-  { level: 1, title: "Ink you can see", text: "Infrared photos of opened fragments, where the ink is physically visible." },
-  { level: 2, title: "Ink revealed by a model", text: "Images of closed scrolls, with readings checked by papyrologists." },
+  { level: 1, title: "First real letters", text: "Four named photographs, helpful clues and letter choices. A first taste of real handwriting." },
+  { level: 2, title: "Look closer", text: "Find ink in infrared photos, then read lines from a closed scroll against a published edition." },
   { level: 3, title: "Harder", text: "Blur, noise, low contrast and coarse resolution. First: is there text at all?" },
 ] as const;
 

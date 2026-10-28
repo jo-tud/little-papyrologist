@@ -57,6 +57,58 @@ facts:
     quote: Independently and unanimously, they annotated 13 letters, albeit with varying levels of confidence.
     sources: [firstletters]
 
+# Short reading breaks, shown between answers rather than before a decision.
+# Checked against the linked organizers' accounts on 2026-10-28.
+fieldnotes:
+  - id: papyrologist
+    title: A very patient kind of reader
+    text: Papyrologists study texts on papyrus. Recognizing a stroke is just the beginning; deciding what it means takes context, comparison and care.
+    sources: [firstletters]
+  - id: purple
+    title: The first word was purple
+    text: In 2023, ΠΟΡΦΥΡΑϹ (porphyras, “purple”) became the first word recovered from inside an unopened Herculaneum scroll. Quite a colourful beginning.
+    sources: [firstletters]
+  - id: fragile
+    title: Please do not unroll
+    text: The carbonized scrolls can crumble when mishandled. Reading without physically opening them is the whole point of virtual unwrapping.
+    sources: [firstletters]
+  - id: pi-or-eta
+    title: Even a breakthrough can be a maybe
+    text: One early ink trace was described as possibly Pi or the bottom of Eta. Your look-alike exercises have a real-world counterpart.
+    sources: [firstletters]
+  - id: photo-check
+    title: A photograph keeps us honest
+    text: Detached fragments can be photographed and scanned. Visible ink in the photographs gives researchers a way to check what the scans reveal.
+    sources: [firstletters]
+  - id: thirteen
+    title: Thirteen letters, several pairs of eyes
+    text: The first-word submission was checked independently by papyrologists. They agreed on thirteen letters, but their confidence varied. Certainty is not all-or-nothing.
+    sources: [firstletters]
+  - id: library
+    title: A library under the ash
+    text: The eruption of AD 79 carbonized the scrolls. Rediscovered in the eighteenth century, they preserve writing that survived in an extraordinarily fragile form.
+    sources: [grandprize]
+  - id: scan
+    title: First, look inside
+    text: X-ray tomography creates a three-dimensional scan of a scroll. It is the first step toward reading the writing while the scroll stays rolled.
+    sources: [grandprize]
+  - id: flatten
+    title: Unrolling with a computer
+    text: Researchers trace the crumpled papyrus layers inside the scan, then flatten them digitally. The ancient object does not have to move.
+    sources: [grandprize]
+  - id: ink-map
+    title: Ink first, words later
+    text: The 2023 winning models detected small patches of ink. Papyrologists then read the writing assembled from those patches. Finding ink and reading it are different jobs.
+    sources: [grandprize]
+  - id: pleasure
+    title: Ancient thoughts, familiar questions
+    text: The text revealed in the 2023 Grand Prize discusses pleasure, including food. These difficult little strokes carry very human questions.
+    sources: [grandprize]
+  - id: scarce
+    title: Is a rare snack a better snack?
+    text: The author asks whether scarce foods are necessarily more pleasant than plentiful ones, and argues against it. A surprisingly relatable reading exercise.
+    sources: [grandprize]
+
 groups:
   - id: esot
     title: Round letters

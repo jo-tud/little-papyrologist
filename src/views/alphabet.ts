@@ -1,7 +1,7 @@
 import { facts, glyphs, groups } from "../data";
 import { glyphSvg } from "../glyphs/render";
 import { markSetDone, state } from "../store";
-import { sourceLinks, tip } from "../ui";
+import { introBridge, letterName, sourceLinks, tip } from "../ui";
 import { esc } from "../util";
 
 export function renderAlphabet(main: HTMLElement): void {
@@ -13,6 +13,8 @@ export function renderAlphabet(main: HTMLElement): void {
   PHerc. Paris 4 (${sourceLinks(["grandprize"])}). Right: the modern printed form.
   Real hands vary between scribes, and even within one line.</p>
   ${tip("Read the line under each letter. It names the stroke that tells the letter apart from its look-alikes.")}
+  <p><a class="button primary" href="#/drill/${groups[0].id}">Try the first exercise →</a></p>
+  ${introBridge()}
   <ul class="alphabet">
     ${glyphs
       .map(
@@ -20,8 +22,8 @@ export function renderAlphabet(main: HTMLElement): void {
         <div class="pair">
           <div class="drawn">${glyphSvg(g.char, `${g.name}, drawn in the style of the scrolls`)}</div>
           <div>
-            <div class="modern" lang="grc">${esc(g.char)}</div>
-            <div class="name">${esc(g.name)}<br>key <kbd>${esc(g.latin)}</kbd></div>
+            <div class="modern" lang="grc">${esc(g.char === "Ϲ" ? "Σ" : g.char)}</div>
+            <div class="name"><strong>${esc(letterName(g.char))}</strong><br>key <kbd>${esc(g.latin)}</kbd></div>
           </div>
         </div>
         <p>${esc(g.look_for)}</p>

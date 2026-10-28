@@ -35,7 +35,7 @@ ranks:
       false_alarms: { max_share: 0.2, min_tiles: 7 }
   - id: line-reader
     title: Line reader
-    blurb: You read letters where the ink can really be seen, in infrared photos of opened fragments.
+    blurb: You matched your first real letters to the organizers' named photographs.
     requires: { levels_done: [0, 1] }
   - id: column-reader
     title: Column reader

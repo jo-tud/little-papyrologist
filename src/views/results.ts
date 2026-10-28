@@ -1,6 +1,6 @@
-import { itemSetVersion, LEVELS } from "../data";
-import { clearAll, exportPayload, importText, isPersistent, state } from "../store";
-import { progressAfterAnswer } from "../progress-ui";
+import { itemSetVersion, LEVELS, playSets } from "../data";
+import { clearAll, exportPayload, importText, isPersistent, setLevelOverride, state } from "../store";
+import { progressAfterAnswer, syncRankChip } from "../progress-ui";
 import type { AnswerRecord } from "../types";
 import { tip } from "../ui";
 import { esc, pct } from "../util";
@@ -8,7 +8,7 @@ import { esc, pct } from "../util";
 const APP_VERSION = "0.1.0";
 
 function levelName(level: number): string {
-  return level === 0 ? "Stage 0: alphabet" : `Level ${level}: ${LEVELS.find((l) => l.level === level)?.title ?? ""}`;
+  return level === 0 ? "Level 0: alphabet" : `Level ${level}: ${LEVELS.find((l) => l.level === level)?.title ?? ""}`;
 }
 
 interface Row {
@@ -80,6 +80,13 @@ function exportText(): string {
   return JSON.stringify(exportPayload(APP_VERSION, itemSetVersion()), null, 2);
 }
 
+function hasSavedProgress(): boolean {
+  const s = state();
+  return s.answers.length > 0 || Object.keys(s.setsDone).length > 0
+    || Object.keys(s.badges).length > 0 || Object.keys(s.ranks).length > 0
+    || !!s.introSkipped || s.levelOverride !== undefined;
+}
+
 function download(): void {
   const blob = new Blob([exportText()], { type: "application/json" });
   const url = URL.createObjectURL(blob);
@@ -94,6 +101,7 @@ function download(): void {
 
 export function renderResults(main: HTMLElement, openBackup = false): void {
   const answers = state().answers;
+  const hasProgress = hasSavedProgress();
   const rows = summarise(answers);
   const conf = confusions(answers);
 
@@ -106,13 +114,13 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
   }
   ${
     answers.length === 0
-      ? tip(`No answers yet. <a href="#/">Start with the first exercise</a>.`)
+      ? tip(`Your first discoveries will appear here. <a href="#/drill/esot">Try the round letters</a>.`)
       : `
   <h2>By level</h2>
-  <div class="table-wrap"><table>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Results by level, scroll to see all columns"><table>
     <thead><tr>
       <th>Level</th><th class="num">Answers</th><th class="num">Text noticed</th>
-      <th class="num">False alarms on empty tiles</th><th class="num">Letters read</th>
+      <th class="num">False alarms on empty tiles</th><th class="num">Fully read tiles</th>
       <th class="num">Honest “can't tell”</th><th class="num">Sure but wrong</th>
     </tr></thead>
     <tbody>
@@ -131,7 +139,8 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
       .join("")}
     </tbody>
   </table></div>
-  <p class="small muted">“Text noticed” counts tiles with a letter where you said yes. “Letters read” counts tiles where the letter could be decided.
+  <p class="small muted">“Text noticed” counts tiles with ink or writing where you said yes. “Fully read tiles” counts correct readings of a whole letter or line;
+  tiles without a confirmed reading are excluded. Level 1 uses clues and letter choices; those matches are assisted, not independent transcriptions.
   Tiles where the deciding stroke is lost count under “can't tell”.</p>
 
   <h2>Most frequent mix-ups</h2>
@@ -149,14 +158,31 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
   <p class="small muted">If “Sure” is right much more often than “Guessing”, your sense of certainty is working.</p>`
   }
 
+  <section class="practice-settings" aria-labelledby="practice-settings-title">
+    <h2 id="practice-settings-title">Your practice level</h2>
+    <p class="small">Want to jump ahead or revisit the basics? Choose which levels to open.
+    This changes access only; your answers, completed sets, points and ranks stay as they are.</p>
+    <label for="practice-level">Open exercises through</label>
+    <div class="row">
+      <select id="practice-level">
+        <option value="auto" ${state().levelOverride === undefined ? "selected" : ""}>Follow my progress automatically</option>
+        ${[...new Set(playSets.map((p) => p.level))].sort().map((level) => `<option value="${level}" ${state().levelOverride === level ? "selected" : ""}>${esc(levelName(level))}</option>`).join("")}
+      </select>
+      <button type="button" id="apply-level">Apply</button>
+      <button type="button" id="reset-level" ${state().levelOverride === undefined ? "disabled" : ""}>Use automatic progress</button>
+    </div>
+    <p class="small muted" id="level-note" role="status">${state().levelOverride !== undefined ? `Manually opened through level ${state().levelOverride}.` : "Levels follow your progress. You can also skip the introduction from the path."}</p>
+    <a class="button" href="#/">Back to the path →</a>
+  </section>
+
   <details class="backup" id="backup">
     <summary>Back up or move your progress</summary>
     <p class="small">Your progress lives only in this browser. To keep a copy or move to another
     browser, save it as a file and load it there. Loading adds to what is already here; nothing is
     overwritten.</p>
     <div class="row">
-      <button type="button" id="export" ${answers.length ? "" : "disabled"}>Save as file</button>
-      <button type="button" id="copy" ${answers.length ? "" : "disabled"}>Copy as text</button>
+      <button type="button" id="export" ${hasProgress ? "" : "disabled"}>Save as file</button>
+      <button type="button" id="copy" ${hasProgress ? "" : "disabled"}>Copy as text</button>
       <input type="file" id="import-file" class="visually-hidden" accept="application/json,.json">
       <label class="button" for="import-file">Load from file</label>
       <button type="button" id="paste-open">Paste text</button>
@@ -169,20 +195,33 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
     </div>
     <p class="small">The file holds, for each answer: tile, level, degradation, whether you saw text,
     the letters you gave, how sure you were and how long you took. It also holds your finished sets,
-    badges and ranks.</p>
-    <div class="row">
-      <button type="button" id="clear" class="quiet" ${answers.length ? "" : "disabled"}>Delete my progress</button>
-    </div>
+    badges, ranks and practice settings.</p>
+  </details>
+
+  <section class="reset-progress" aria-labelledby="reset-title">
+    <h2 id="reset-title">Start fresh</h2>
+    <p class="small muted">Reset your answers, points, badges, ranks and practice settings in this browser.
+    You can save a backup above first.</p>
+    <button type="button" id="clear" ${hasProgress ? "" : "disabled"}>Reset all progress…</button>
     <div id="confirm-clear" class="confirm" hidden>
-      <p><strong>Delete all your answers, points, badges and ranks from this browser?</strong> This cannot be undone.</p>
+      <p><strong>Delete all your answers, points, badges, ranks and practice settings from this browser?</strong> This cannot be undone.</p>
       <div class="row">
         <button type="button" id="clear-yes">Delete everything</button>
         <button type="button" class="primary" id="clear-no">Keep my progress</button>
       </div>
     </div>
-  </details>`;
+  </section>`;
 
   const $ = <T extends HTMLElement>(sel: string) => main.querySelector<T>(sel)!;
+  const applyLevel = (value: string) => {
+    setLevelOverride(value === "auto" ? undefined : Number(value));
+    $<HTMLSelectElement>("#practice-level").value = value;
+    $<HTMLButtonElement>("#reset-level").disabled = value === "auto";
+    $("#level-note").textContent = value === "auto" ? "Automatic progress restored. Your completed work is unchanged." : `Practice is open through level ${value}. Your completed work is unchanged.`;
+    for (const id of ["#clear", "#export", "#copy"]) $<HTMLButtonElement>(id).disabled = !hasSavedProgress();
+  };
+  $("#apply-level").addEventListener("click", () => applyLevel($<HTMLSelectElement>("#practice-level").value));
+  $("#reset-level").addEventListener("click", () => applyLevel("auto"));
   if (openBackup) $<HTMLDetailsElement>("#backup").open = true;
   $("#export").addEventListener("click", download);
   $("#copy").addEventListener("click", async () => {
@@ -233,7 +272,10 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
   });
   $("#clear-yes").addEventListener("click", () => {
     clearAll();
-    progressAfterAnswer();
+    syncRankChip();
+    document.querySelector(".toast-area")?.replaceChildren();
     renderResults(main);
+    main.querySelector<HTMLElement>("h1")?.setAttribute("tabindex", "-1");
+    main.querySelector<HTMLElement>("h1")?.focus();
   });
 }

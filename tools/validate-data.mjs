@@ -46,7 +46,8 @@ for (const g of glyphs) {
 
 // Stage 0
 checkSources("hero", stage0.hero.sources);
-for (const f of stage0.facts) {
+for (const f of [...stage0.facts, ...stage0.fieldnotes]) {
+  if (!f.title || !f.text) fail(`fact ${f.id}: needs title and text`);
   if (!f.sources?.length) fail(`fact ${f.id}: no source`);
   checkSources(`fact ${f.id}`, f.sources);
 }
@@ -82,6 +83,9 @@ if (share(stage0.drills) < NULL_SHARE_MIN) fail(`stage 0: only ${Math.round(100 
 const itemIds = new Set();
 for (const it of items) {
   const where = `item ${it.id ?? "(no id)"}`;
+  if (!["read", "detect", "identify"].includes(it.task)) fail(`${where}: unknown task`);
+  if (it.task === "identify" && (!it.choices?.includes(it.truth) || it.truth === "none" || !it.hint))
+    fail(`${where}: guided identification needs a confirmed reading, choices and a hint`);
   for (const key of ["id", "level", "image", "alt", "truth", "source", "license", "credit", "checked", "explain"])
     if (it[key] === undefined || it[key] === "" || it[key] === null) fail(`${where}: missing "${key}"`);
   if (itemIds.has(it.id)) fail(`${where}: duplicate id`);
@@ -102,7 +106,8 @@ for (const it of items) {
   if (it.image && !existsSync(new URL(`../public/images/${it.image}`, import.meta.url))) fail(`${where}: image ${it.image} not found`);
 }
 for (const level of [1, 2, 3]) {
-  const list = items.filter((i) => i.level === level);
+  // Guided first-letter recognition introduces real ink before blank-tile discrimination.
+  const list = items.filter((i) => i.level === level && i.task !== "identify");
   if (list.length && share(list) < NULL_SHARE_MIN) fail(`level ${level}: only ${Math.round(100 * share(list))} % empty tiles`);
 }
 

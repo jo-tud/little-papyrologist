@@ -29,14 +29,32 @@ sources:
     source_ids: [grandprize]
 
 sets:
-  - id: ir-500p2
+  - id: first-letters-500p2
     level: 1
-    title: An opened fragment in infrared
+    title: First real letters
+  - id: ir-500p2
+    level: 2
+    title: Look closer — ink or papyrus?
   - id: paris4-col-8
     level: 2
     title: PHerc. Paris 4, column −8, as the ink model shows it
 
-# Level 1: infrared photo. "ink" tiles hold strokes traced by the organizers; their letters
+# Level 1 starts with named photographs. Every sample name is checked against the pinned
+# manifest; no letter identities are inferred from a model or from our own reading.
+photographs:
+  set: first-letters-500p2
+  base_url: https://huggingface.co/datasets/scrollprize/profilometer/resolve/a806bead2f3b9100c20e19de37814fb285cfeefd/
+  papyrus_dir: pherc0500p2
+  license: CC BY-NC 4.0
+  credit: Vesuvius Challenge
+  source_ids: [profilometer, topography2026]
+  items:
+    - { id: photo-500p2-eta, sample: η, choices: [Η, Ο, Λ], hint: Look for two uprights joined in the middle. }
+    - { id: photo-500p2-nu2, sample: ν2, choices: [Ν, Ε, Γ], hint: Follow the sloping stroke between the uprights. }
+    - { id: photo-500p2-nu, sample: ν, choices: [Ν, Ο, Ι], hint: A handwritten letter can lean or stretch. Compare the connected strokes. }
+    - { id: photo-500p2-iota-tau, sample: ιτ, choices: [ΙΤ, ΟϹ, ΜΝ], hint: Two letters this time. Look for a single upright and a top bar. }
+
+# Later practice: infrared photo. "ink" tiles hold strokes traced by the organizers; their letters
 # have no published reading, so only "is there ink?" is scored.
 ir_tiles:
   source: pherc0500p2-ir
@@ -48,7 +66,7 @@ ir_tiles:
     - { id: ir-500p2-b, at: [1150, 2630] }
     - { id: ir-500p2-c, at: [2235, 2400] }
     - { id: ir-500p2-d, at: [1050, 3225] }
-    - { id: ir-500p2-e, at: [1925, 3225] }
+    - { id: ir-500p2-e-v2, at: [1825, 3100] }
     - { id: ir-500p2-f, at: [950, 4025] }
     - { id: ir-500p2-g, at: [1900, 4025] }
     - { id: ir-500p2-h, at: [1850, 4650] }
@@ -67,12 +85,13 @@ ir_tiles:
     avoid:                 # areas with untraced dark marks: no empty tiles from here
       - [2450, 0, 3747, 6790]   # right side of the fragment
   explain_ink: >-
-    The organizers traced these strokes on the infrared photo, where carbon ink shows dark.
-    There is no published reading of the letters yet, so only "is there ink?" is scored.
-    Compare your letters with the tracing.
+    The red overlay marks ink traced by the organizers. This exercise checks whether you
+    spotted ink. If you suggested letters, they are saved but not graded: we do not have a
+    verified letter-by-letter reading matched to this infrared crop.
   explain_empty: >-
-    The organizers traced no ink here, and the infrared photo shows no strokes. What you see
-    is the papyrus itself: fibres, shadows and wear.
+    This area was selected away from the organizers' ink tracing and from dark marks in the
+    infrared photo. Here, fibres, shadows and wear can suggest a letter shape. The reference
+    shows no visible ink strokes in this crop; that does not make every untraced area blank.
 
 # Level 2: column −8 of PHerc. Paris 4 in the Grand Prize image, read in the edition.
 # Coordinates are pixels of the full image (16000 × 1932).
