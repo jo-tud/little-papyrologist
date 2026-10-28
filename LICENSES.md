@@ -1,7 +1,9 @@
 # Licenses and data sources
 
-> No images from third-party data are in this repository yet.
-> Their use in this trainer was confirmed by the Vesuvius Challenge on 2026-10-28 (see below).
+> The tiles in `public/images/` are crops of Vesuvius Challenge data. Their use in this trainer
+> was confirmed by the Vesuvius Challenge on 2026-10-28 (see below). They are made by
+> `tools/make_items.py` from the list in `data/crops.yaml`, and each tile's source, license and
+> credit are listed in `data/items.yaml`.
 
 ## Code
 
@@ -57,6 +59,16 @@ That data is licensed under **CC BY-NC 4.0** (https://creativecommons.org/licens
 - Our changes: cropping, rescaling, contrast adjustment and artificial degradation (blur, noise, coarser sampling, partial occlusion) for a learning game.
 
 Each image in `data/items` lists its exact source, license and retrieval date.
+
+### Images in this repository
+
+| Tiles | Source | License | Credit |
+|---|---|---|---|
+| `ir-500p2-*` (level 1) | Infrared photograph and ink tracing of PHerc. 500 P2, https://dl.ash2txt.org/fragments/PHerc0500P2/ | CC BY-NC 4.0 | Vesuvius Challenge |
+| `paris4-col-8-*` (level 2) | Grand Prize 2023 image of PHerc. Paris 4, https://scrollprize.org/grandprize | CC BY-NC 4.0 | Vesuvius Challenge; EduceLab, University of Kentucky |
+
+Changes: cropped, scaled; nothing else is altered.
+Readings for PHerc. Paris 4 are from *Cronache Ercolanesi* 54 (2024), see below.
 
 ### Vesuvius Challenge open data (CT scans and derived renders)
 

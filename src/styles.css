@@ -637,6 +637,10 @@ button:disabled {
   border: 0;
   padding: 0;
   margin: 0 0 1.2rem;
+  min-width: 0; /* fieldsets otherwise grow with their content and push the page wider */
+}
+.answer {
+  min-width: 0;
 }
 .question legend {
   font-weight: 700;
@@ -787,7 +791,7 @@ th.num {
     font-size: var(--step-2);
   }
   .round {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .tile-frame {
     max-width: 15rem;
@@ -1052,4 +1056,136 @@ input[type="file"]:focus-visible + .button {
 }
 #paste-area[hidden] {
   display: none;
+}
+
+/* ---------- Quiz with real images ---------- */
+.round-wide {
+  grid-template-columns: minmax(0, 1fr);
+}
+.round > * {
+  min-width: 0;
+}
+.photo {
+  max-width: 100%;
+}
+.round-wide .photo {
+  max-width: 60rem;
+}
+.zoom-box {
+  max-width: 100%;
+  overflow: auto;
+  border-radius: 6px;
+  background: #000;
+  max-height: 70vh;
+}
+.tile-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: auto;
+}
+.round-wide .tile-img {
+  min-width: 40rem; /* lines stay readable on phones; the frame scrolls sideways */
+}
+.zoomed .tile-img {
+  width: 220%;
+  max-width: none;
+}
+.round:not(.round-wide) .photo .zoom-box {
+  max-width: 22rem;
+  width: fit-content;
+}
+.round:not(.round-wide) .photo:not(.zoomed) .tile-img {
+  width: auto;
+  max-width: 100%;
+  max-height: 22rem;
+}
+.photo figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 1rem;
+  align-items: baseline;
+}
+.linkish {
+  background: none;
+  border: 0;
+  padding: 0;
+  min-height: 32px;
+  color: var(--teal);
+  text-decoration: underline;
+  font-size: var(--step--1);
+}
+.typed {
+  display: block;
+  min-height: 2.6rem;
+  font-size: var(--step-2);
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.6rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--sheet);
+  overflow-wrap: anywhere;
+}
+.keyboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(2.6rem, 1fr));
+  gap: 0.3rem;
+  max-width: 34rem;
+}
+.key {
+  min-height: 2.6rem;
+  padding: 0;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: var(--step-1);
+}
+.key-wide {
+  grid-column: span 2;
+}
+.reading {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin: 0.4rem 0 0.4rem;
+}
+.rl {
+  font-family: var(--serif);
+  font-size: var(--step-1);
+  min-width: 1.6rem;
+  text-align: center;
+  padding: 0.1rem 0.15rem 0.25rem;
+  border-radius: 4px;
+  border-bottom: 3px solid transparent;
+}
+.rl-ok {
+  background: var(--teal-soft);
+}
+.rl-honest {
+  background: var(--ochre-soft);
+}
+.rl-wrong {
+  background: var(--wrong-soft);
+  color: var(--wrong);
+}
+.rl-missing {
+  background: transparent;
+  outline: 1px dashed var(--rule);
+  color: var(--slate);
+}
+.rl-unc {
+  border-bottom: 3px dotted var(--basalt);
+}
+.edition-line {
+  font-size: var(--step-1);
+  margin: 0.6rem 0 0.1rem;
+}
+.answer-figure {
+  margin: 0.6rem 0;
+  max-width: 22rem;
+}
+.answer-figure img {
+  display: block;
+  width: 100%;
+  border-radius: 6px;
 }

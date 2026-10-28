@@ -8,13 +8,17 @@ const errors = [];
 const fail = (msg) => errors.push(msg);
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 const LICENSES = ["CC BY-NC 4.0"];
+// Credits the Vesuvius Challenge asked for (email of 2026-10-28, see LICENSES.md).
+const EDUCELAB_SOURCES = ["grandprize", "firstletters"];
 const NULL_SHARE_MIN = 0.18; // about every fourth to fifth round
 const NULL_KINDS = ["fibres", "streaks", "crack", "blot", "shuffle"];
 
 const { letters: glyphs } = read("data/glyphs.yaml");
 const { sources } = read("data/sources.yaml");
 const stage0 = read("data/stage0.yaml");
-const items = read("data/items.yaml").items ?? [];
+const itemFile = read("data/items.yaml");
+const items = itemFile.items ?? [];
+const quizSets = itemFile.sets ?? [];
 const { badges } = read("data/badges.yaml");
 const { ranks } = read("data/ranks.yaml");
 // Keep in step with REQUIREMENT_KEYS in src/rules.ts.
@@ -86,11 +90,16 @@ for (const it of items) {
   if (!Number.isInteger(it.degradation ?? 0)) fail(`${where}: degradation must be a whole number`);
   if (!LICENSES.includes(it.license)) fail(`${where}: license "${it.license}" is not cleared for this repo`);
   if (typeof it.credit === "string" && !it.credit.includes("Vesuvius Challenge")) fail(`${where}: credit must name the Vesuvius Challenge`);
+  if ((it.source ?? []).some((s) => EDUCELAB_SOURCES.includes(s)) && !String(it.credit).includes("EduceLab"))
+    fail(`${where}: images of Scrolls 1–4 must also credit EduceLab`);
   if (!DATE.test(String(it.checked))) fail(`${where}: "checked" must be a date`);
-  if (typeof it.truth === "string" && it.truth !== "none" && !/^[ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡϹΤΥΦΧΨΩ?]+$/u.test(it.truth))
-    fail(`${where}: truth must be capitals (Ϲ for sigma), "?" or "none"`);
+  if (typeof it.truth === "string" && it.truth !== "none" && it.truth !== "*" && !/^[ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡϹΤΥΦΧΨΩ?]+$/u.test(it.truth))
+    fail(`${where}: truth must be capitals (Ϲ for sigma), "?", "*" (ink, letters unconfirmed) or "none"`);
+  for (const u of it.uncertain ?? []) if (!Number.isInteger(u) || u < 0 || u >= [...it.truth].length) fail(`${where}: uncertain position ${u} is outside the reading`);
+  if (!quizSets.some((s) => s.id === it.set)) fail(`${where}: unknown set "${it.set}"`);
+  if (it.answer_image && !existsSync(new URL(`../public/images/${it.answer_image}`, import.meta.url))) fail(`${where}: answer image ${it.answer_image} not found`);
   checkSources(where, it.source);
-  if (it.image && !existsSync(new URL(`../data/images/${it.image}`, import.meta.url))) fail(`${where}: image ${it.image} not found`);
+  if (it.image && !existsSync(new URL(`../public/images/${it.image}`, import.meta.url))) fail(`${where}: image ${it.image} not found`);
 }
 for (const level of [1, 2, 3]) {
   const list = items.filter((i) => i.level === level);

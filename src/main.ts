@@ -15,6 +15,7 @@ import { renderResults } from "./views/results";
 import { renderLearn } from "./views/learn";
 import { renderAbout } from "./views/about";
 import { renderRanks } from "./views/ranks";
+import { renderQuiz } from "./views/quiz";
 import { syncRankChip } from "./progress-ui";
 
 type Cleanup = (() => void) | void;
@@ -23,6 +24,7 @@ const routes: [RegExp, string, (main: HTMLElement, ...args: string[]) => Cleanup
   [/^#?\/?$/, "Path", renderHome],
   [/^#\/alphabet$/, "Alphabet", renderAlphabet],
   [/^#\/drill\/([a-z0-9-]+)$/, "Exercise", renderDrill],
+  [/^#\/quiz\/([a-z0-9-]+)$/, "Quiz", renderQuiz],
   [/^#\/results$/, "My results", (main) => renderResults(main)],
   [/^#\/learn$/, "Keep learning", renderLearn],
   [/^#\/about$/, "About", renderAbout],
@@ -44,7 +46,7 @@ function route(): void {
 
   const top = "#/" + (hash.split("/")[1] ?? "");
   document.querySelectorAll<HTMLAnchorElement>(".topbar nav a").forEach((a) => {
-    const here = a.getAttribute("href") === top || (top === "#/drill" && a.getAttribute("href") === "#/");
+    const here = a.getAttribute("href") === top || ((top === "#/drill" || top === "#/quiz") && a.getAttribute("href") === "#/");
     if (here) a.setAttribute("aria-current", "page");
     else a.removeAttribute("aria-current");
   });

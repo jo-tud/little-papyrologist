@@ -31,8 +31,9 @@ function summarise(answers: AnswerRecord[]): Row[] {
     const list = answers.filter((a) => a.level === level);
     const textTiles = list.filter((a) => a.truth !== "none");
     const nulls = list.filter((a) => a.truth === "none");
-    const readable = list.filter((a) => a.truth !== "none" && !a.truth.includes("?"));
-    const undecidable = list.filter((a) => a.truth.includes("?"));
+    // Tiles whose letters can be checked: not empty, not "ink only" (*), not undecidable (?).
+    const readable = list.filter((a) => a.truth !== "none" && a.truth !== "*" && !a.truth.includes("?"));
+    const undecidable = list.filter((a) => a.truth.includes("?") && a.truth !== "*");
     return {
       level,
       n: list.length,

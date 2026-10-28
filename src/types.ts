@@ -73,13 +73,20 @@ export interface Hero {
 
 export interface QuizItem {
   id: string;
-  /** Items with the same set are played together; defaults to one set per level. */
-  set?: string;
+  /** Items with the same set are played together. */
+  set: string;
   level: number;
   degradation: number;
   image: string;
+  /** Optional second image shown with the answer, e.g. the organizers' ink tracing. */
+  answer_image?: string;
   alt: string;
+  /** Capitals as read; "*" = ink present, letters not confirmed; "none" = no text. */
   truth: string;
+  /** The edition's own text for this line, with accents and dots below. */
+  edition?: string;
+  /** "read": read the letters (scored); "detect": is there writing at all? */
+  task: "read" | "detect";
   uncertain?: number[];
   reading?: string;
   source: string[];
@@ -108,8 +115,17 @@ export interface AnswerRecord {
   letters_correct: boolean | null; // null when there were no letters to read
   /** right | honest | careful | guessed | false-alarm | missed | wrong (see scoring.ts) */
   verdict: string;
+  /** For lines: letters read correctly and the length of the reading. */
+  letters_ok?: number;
+  letters_total?: number;
   reading_points: number;
   honesty_points: number;
+}
+
+export interface QuizSet {
+  id: string;
+  level: number;
+  title: string;
 }
 
 export interface PlaySet {

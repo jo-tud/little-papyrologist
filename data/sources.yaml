@@ -74,6 +74,11 @@ sources:
     title: G. Cavallo, Libri scritture scribi a Ercolano (Cronache Ercolanesi, Suppl. 1, 1983)
     kind: book
     checked: 2026-10-22
+  - id: pherc0500p2-ir
+    title: PHerc. 500 P2, infrared photograph and ink tracing (Vesuvius Challenge data server)
+    url: https://dl.ash2txt.org/fragments/PHerc0500P2/
+    kind: organizers
+    checked: 2026-10-28
   # Related projects: not used as evidence, only linked for further practice.
   - id: ancient-lives
     title: Ancient Lives (University of Oxford, Egypt Exploration Society, Zooniverse)

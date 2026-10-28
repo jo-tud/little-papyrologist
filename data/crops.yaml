@@ -1,0 +1,123 @@
+# Image crops for levels 1–3. tools/make_items.py turns this file into
+# public/images/*.webp and data/items.yaml. Edit this file, not items.yaml.
+#
+# Rules (see LICENSES.md and README):
+#   - a crop's answer comes only from an edition checked by papyrologists, from the
+#     organizers' tracing of an infrared photo, or from the way the tile was made (empty tiles);
+#   - lines with lost letters ([ ]) are refused; letters with a dot below are marked uncertain;
+#   - every image names its source, license and credit.
+
+sources:
+  pherc0500p2-ir:
+    title: PHerc. 500 P2, infrared photograph (1050 nm) with the organizers' ink tracing
+    page: https://dl.ash2txt.org/fragments/PHerc0500P2/
+    files:
+      image: https://dl.ash2txt.org/fragments/PHerc0500P2/paths/2um_front_surface/500P2_ir.png
+      tracing: https://dl.ash2txt.org/fragments/PHerc0500P2/paths/2um_front_surface/500P2_inklabels.png
+      mask: https://dl.ash2txt.org/fragments/PHerc0500P2/paths/2um_front_surface/500P2_mask.png
+    work_scale: 4            # crops below are in pixels of the image shrunk by this factor
+    license: CC BY-NC 4.0
+    credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
+    source_ids: [pherc0500p2-ir]
+  paris4-banner:
+    title: PHerc. Paris 4, Grand Prize 2023 image (ink detection output, columns −16 to −1)
+    page: https://scrollprize.org/grandprize
+    files:
+      image: https://scrollprize.org/img/grandprize/youssef_text_wbb-hq.webp
+    license: CC BY-NC 4.0
+    credit: Vesuvius Challenge; EduceLab, University of Kentucky
+    source_ids: [grandprize]
+
+sets:
+  - id: ir-500p2
+    level: 1
+    title: An opened fragment in infrared
+  - id: paris4-col-8
+    level: 2
+    title: PHerc. Paris 4, column −8, as the ink model shows it
+
+# Level 1: infrared photo. "ink" tiles hold strokes traced by the organizers; their letters
+# have no published reading, so only "is there ink?" is scored.
+ir_tiles:
+  source: pherc0500p2-ir
+  set: ir-500p2
+  size: 520                # output size of the longer side, in pixels
+  window: [520, 480]       # every tile has the same size, so its shape gives nothing away
+  ink:                     # centres of tiles with traced ink
+    - { id: ir-500p2-a, at: [1725, 1675] }
+    - { id: ir-500p2-b, at: [1150, 2630] }
+    - { id: ir-500p2-c, at: [2235, 2400] }
+    - { id: ir-500p2-d, at: [1050, 3225] }
+    - { id: ir-500p2-e, at: [1925, 3225] }
+    - { id: ir-500p2-f, at: [950, 4025] }
+    - { id: ir-500p2-g, at: [1900, 4025] }
+    - { id: ir-500p2-h, at: [1850, 4650] }
+    - { id: ir-500p2-i, at: [1950, 5400] }
+    - { id: ir-500p2-j, at: [2750, 5400] }
+    - { id: ir-500p2-k, at: [1150, 6175] }
+    - { id: ir-500p2-l, at: [2050, 6150] }
+  # Empty tiles are found by the generator: inside the fragment, far from any tracing,
+  # and without dark patches. The ids are fixed so that results stay comparable.
+  empty:
+    ids: [ir-500p2-x1, ir-500p2-x2, ir-500p2-x3, ir-500p2-x4]
+    min: 4                 # fewer than this many clean windows is an error
+    margin: 80             # minimum distance to any traced stroke (work pixels)
+    dark_percentile: 6     # a pixel darker than this percentile of the fragment counts as dark
+    max_dark_share: 0.004  # windows with more dark pixels are not used: they might hold untraced ink
+    avoid:                 # areas with untraced dark marks: no empty tiles from here
+      - [2450, 0, 3747, 6790]   # right side of the fragment
+  explain_ink: >-
+    The organizers traced these strokes on the infrared photo, where carbon ink shows dark.
+    There is no published reading of the letters yet, so only "is there ink?" is scored.
+    Compare your letters with the tracing.
+  explain_empty: >-
+    The organizers traced no ink here, and the infrared photo shows no strokes. What you see
+    is the papyrus itself: fibres, shadows and wear.
+
+# Level 2: column −8 of PHerc. Paris 4 in the Grand Prize image, read in the edition.
+# Coordinates are pixels of the full image (16000 × 1932).
+lines:
+  source: paris4-banner
+  set: paris4-col-8
+  reading_source: cerc54
+  column: −8
+  height: 100
+  x: [8190, 9210]
+  items:                   # y = centre of the line
+    - { line: 4, y: 398, edition: "ὃ κα̣ὶ ὑπ’ ἄλλων δοκεῖ" }
+    - { line: 5, y: 500, edition: "γείνεϲθαι, παραπλη-" }
+    - { line: 6, y: 595, edition: "ϲίωϲ δ̣’ ο̣ὐδὲ παρ’ ἑτέρωι" }
+    - { line: 8, y: 790, edition: "εἶναι καὶ παρὰ πλε̣ί-" }
+    - { line: 11, y: 1088, edition: "ο̣ὐκ ἤδ̣η τὰ ϲπάνια" }
+    - { line: 12, y: 1185, edition: "πάντωϲ κα̣ὶ ἡδίω" }
+    - { line: 14, y: 1395, edition: "νομίζ̣ο̣με̣ν. οὐ γὰρ" }
+    - { line: 16, y: 1595, edition: "λοϲ ε̣ἴη{ι}, καὶ κάπ̣πα-" }
+  explain: >-
+    Read as a continuous line: no spaces, no accents. Strokes reaching in from the lines above
+    and below are not part of the answer. Letters printed with a dot below are uncertain even
+    for the editors; "?" there counts as an honest answer.
+
+# Level 2 windows: all the same size. "text" windows lie inside column −8;
+# "blank" windows lie in the empty space between columns −9/−8 and −8/−7, where the
+# edition records no writing (the columns are "separated by blank spaces of about 17 mm").
+windows:
+  source: paris4-banner
+  set: paris4-col-8
+  reading_source: cerc54
+  size: [120, 240]         # x, y size in image pixels
+  text:
+    - { id: paris4-col-8-w1, at: [8500, 380], lines: "4–6" }
+    - { id: paris4-col-8-w2, at: [8800, 750], lines: "8–9" }
+    - { id: paris4-col-8-w3, at: [8350, 1050], lines: "11–13" }
+    - { id: paris4-col-8-w4, at: [8650, 1550], lines: "16–17" }
+  blank:
+    - { id: paris4-col-8-b1, at: [9205, 380], between: "−8 and −7" }
+    - { id: paris4-col-8-b2, at: [9205, 1000], between: "−8 and −7" }
+    - { id: paris4-col-8-b3, at: [8060, 230], between: "−9 and −8" }
+  explain_text: >-
+    This window lies inside column −8, across lines {lines}. The edition reads these lines in
+    full; the letters are bright strokes that hold together.
+  explain_blank: >-
+    This is the blank space between columns {between}. In this scroll the columns are separated
+    by about 17 mm of empty papyrus. The white specks are noise from the ink model: they are
+    scattered and do not join into strokes.

@@ -11,3 +11,6 @@ __pycache__/
 *.pyc
 .venv/
 .DS_Store
+
+# Downloaded source images (re-fetched by the generator)
+.cache/

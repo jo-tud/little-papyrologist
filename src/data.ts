@@ -4,7 +4,7 @@ import sourceData from "../data/sources.yaml";
 import itemData from "../data/items.yaml";
 import badgeData from "../data/badges.yaml";
 import rankData from "../data/ranks.yaml";
-import type { BadgeDef, Drill, Fact, Glyph, Group, Hero, PlaySet, QuizItem, RankDef, Source } from "./types";
+import type { BadgeDef, Drill, Fact, Glyph, Group, Hero, PlaySet, QuizItem, QuizSet, RankDef, Source } from "./types";
 
 export const glyphs = (glyphData as { letters: Glyph[] }).letters;
 export const glyphByChar = new Map(glyphs.map((g) => [g.char, g]));
@@ -18,7 +18,9 @@ export const drills = stage0.drills;
 export const sources = (sourceData as { sources: Source[] }).sources;
 export const sourceById = new Map(sources.map((s) => [s.id, s]));
 
-export const quizItems = ((itemData as { items: QuizItem[] | null }).items ?? []) as QuizItem[];
+const itemFile = itemData as { sets?: QuizSet[]; items?: QuizItem[] };
+export const quizItems = itemFile.items ?? [];
+export const quizSets = itemFile.sets ?? [];
 
 /** Short fingerprint of the exercise set, stored with exported results. */
 export function itemSetVersion(): string {
@@ -47,8 +49,7 @@ export const rankDefs = (rankData as { ranks: RankDef[] }).ranks;
  */
 export const playSets: PlaySet[] = [
   ...groups.map((g) => ({ id: g.id, level: 0, title: g.title, href: `#/drill/${g.id}` })),
-  ...[...new Set(quizItems.map((i) => i.set ?? `level-${i.level}`))].map((id) => {
-    const first = quizItems.find((i) => (i.set ?? `level-${i.level}`) === id)!;
-    return { id, level: first.level, title: id, href: `#/quiz/${id}` };
-  }),
+  ...quizSets
+    .filter((s) => quizItems.some((i) => i.set === s.id))
+    .map((s) => ({ id: s.id, level: s.level, title: s.title, href: `#/quiz/${s.id}` })),
 ];
