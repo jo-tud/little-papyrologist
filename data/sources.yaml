@@ -113,7 +113,7 @@ sources:
     kind: own
     checked: 2026-10-22
   - id: profilometer
-    title: Named photographs and ink labels of PHerc. 500P2 (Vesuvius Challenge)
+    title: Named photographs and ink labels of PHerc. 248, 250 and 500P2 (Vesuvius Challenge)
     url: https://huggingface.co/datasets/scrollprize/profilometer/blob/a806bead2f3b9100c20e19de37814fb285cfeefd/manifest.csv
     kind: organizers
     checked: 2026-10-28
@@ -121,4 +121,9 @@ sources:
     title: G. Angelotti et al., Ink detection from surface topography of the Herculaneum papyri (2026)
     url: https://doi.org/10.1038/s41598-026-58467-1
     kind: paper
+    checked: 2026-10-28
+  - id: greek-bookhands
+    title: Timothy Janz, Majuscule bookhands (Vatican Library)
+    url: https://spotlight.vatlib.it/greek-paleography/feature/1-majuscule-bookhands
+    kind: catalogue
     checked: 2026-10-28

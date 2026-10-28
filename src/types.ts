@@ -85,10 +85,16 @@ export interface QuizItem {
   truth: string;
   /** The edition's own text for this line, with accents and dots below. */
   edition?: string;
-  /** "read": read the letters (scored); "detect": is there writing at all? */
-  task: "read" | "detect" | "identify";
+  /** "study" is a labelled example, without an answer or score. */
+  task: "read" | "detect" | "identify" | "study";
   choices?: string[];
   hint?: string;
+  question?: string;
+  preparation?: string;
+  stage?: string;
+  compare_with?: string;
+  /** Original identifier in the published dataset, separate from the displayed reading. */
+  sample_id?: string;
   uncertain?: number[];
   reading?: string;
   source: string[];
@@ -106,7 +112,7 @@ export type SaidText = "yes" | "no" | "unsure";
 export interface AnswerRecord {
   item_id: string;
   /** Kept in exports so assisted recognition can be separated from transcription. */
-  task?: "drawn" | QuizItem["task"];
+  task?: "drawn" | Exclude<QuizItem["task"], "study">;
   level: number;
   degradation: number;
   said_text: SaidText;

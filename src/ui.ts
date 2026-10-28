@@ -22,7 +22,7 @@ export function skipIntroLink(): string {
 
 export function introBridge(): string {
   return `<div class="intro-bridge"><p><strong>Drawn letters now. Real papyrus next.</strong>
-    Practise the shapes here; level 1 brings photographs with confirmed letter names and clues to help you.</p>
+    Practise the shapes here; level 1 starts with clearer photographs, then shows how handwriting can vary.</p>
     <p>${skipIntroLink()} <span class="muted">You can return to these exercises anytime.</span></p></div>`;
 }
 

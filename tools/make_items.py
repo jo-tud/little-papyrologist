@@ -279,12 +279,27 @@ def photograph_tiles(cfg: dict, set_level: dict) -> list[dict]:
         samples = {(r["papyrus_dir"], r["sample_id"]): r for r in csv.DictReader(f)}
     items = []
     for t in cfg["items"]:
-        row = samples.get((cfg["papyrus_dir"], t["sample"]))
+        row = samples.get((t.get("papyrus_dir", cfg.get("papyrus_dir")), t["sample"]))
         if not row:
             fail(f"{t['id']}: sample is absent from the organizers' manifest")
         truth, uncertain = parse_edition(row["sample_id"].rstrip("0123456789"))
-        if truth not in t["choices"] or len(set(t["choices"])) != len(t["choices"]):
-            fail(f"{t['id']}: choices must be distinct and contain the published reading")
+        task = t.get("task", "identify")
+        if task not in ("identify", "study"):
+            fail(f"{t['id']}: named photographs must be identification or study items")
+        if not truth or truth in ("none", "*") or "?" in truth or uncertain:
+            fail(f"{t['id']}: named photographs need a confirmed letter reading")
+        for key in ("explain", "preparation", "stage"):
+            if not isinstance(t.get(key), str) or not t[key].strip():
+                fail(f"{t['id']}: named photographs need an explicit {key}")
+        if task == "identify":
+            choices = t.get("choices")
+            if not isinstance(choices, list) or len(choices) < 2 or truth not in choices or len(set(choices)) != len(choices):
+                fail(f"{t['id']}: choices must be distinct and contain the published reading")
+            for key in ("question", "hint"):
+                if not isinstance(t.get(key), str) or not t[key].strip():
+                    fail(f"{t['id']}: identification needs an explicit {key}")
+        elif "choices" in t:
+            fail(f"{t['id']}: study examples must not have answer choices")
         path = fetch(t["id"], "image", base + quote(row["brightfield_tif"]))
         label_path = fetch(t["id"], "label", base + quote(row["label_png"]))
         raw = bytearray(path.read_bytes())
@@ -309,15 +324,16 @@ def photograph_tiles(cfg: dict, set_level: dict) -> list[dict]:
         overlay[mask] = overlay[mask] * 0.5 + np.array([220, 30, 30]) * 0.5
         items.append({
             "id": t["id"], "set": cfg["set"], "level": set_level[cfg["set"]],
-            "degradation": 0, "task": "identify", "truth": truth, "uncertain": uncertain,
-            "choices": t["choices"], "hint": t["hint"],
+            "degradation": 0, "task": task, "truth": truth, "uncertain": uncertain,
+            "preparation": t["preparation"], "stage": t["stage"],
+            **{key: t[key] for key in ("choices", "question", "hint", "compare_with") if key in t},
             "image": save_tile(photo, t["id"]),
             "answer_image": save_tile(Image.fromarray(overlay.astype(np.uint8)), t["id"] + "-traced"),
-            "alt": "Brightfield photograph of a named region of PHerc. 500P2",
+            "alt": f"Brightfield photograph of a named region of {row['papyrus_id']}",
             "source": cfg["source_ids"], "license": cfg["license"], "credit": cfg["credit"],
-            "checked": TODAY, "reading": f"PHerc. 500P2, published sample {row['sample_id']}",
+            "checked": TODAY, "reading": row["papyrus_id"], "sample_id": row["sample_id"],
             "changes": "whole brightfield photograph scaled down",
-            "explain": "The organizers identify this photographed sample in their published dataset. Compare the dark strokes with their ink annotation in red. Real handwriting can be less regular than the practice drawings.",
+            "explain": t["explain"],
         })
     return items
 

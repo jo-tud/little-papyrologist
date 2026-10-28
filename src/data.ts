@@ -35,7 +35,7 @@ export function itemSetVersion(): string {
 }
 
 export const LEVELS = [
-  { level: 1, title: "First real letters", text: "Four named photographs, helpful clues and letter choices. A first taste of real handwriting." },
+  { level: 1, title: "First real letters", text: "Start with clearer shapes and a letter pair, then explore unfamiliar handwriting with named examples." },
   { level: 2, title: "Look closer", text: "Find ink in infrared photos, then read lines from a closed scroll against a published edition." },
   { level: 3, title: "Harder", text: "Blur, noise, low contrast and coarse resolution. First: is there text at all?" },
 ] as const;

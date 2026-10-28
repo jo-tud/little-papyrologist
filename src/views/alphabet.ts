@@ -11,7 +11,11 @@ export function renderAlphabet(main: HTMLElement): void {
   <h1>The scribes' alphabet</h1>
   <p>Left: our own simplified drawing, made after the letters in the published images of
   PHerc. Paris 4 (${sourceLinks(["grandprize"])}). Right: the modern printed form.
-  Real hands vary between scribes, and even within one line.</p>
+  These drawings are guides, not a complete catalogue of handwriting.</p>
+  <p>Ancient Greek bookhands used forms broadly comparable to our capitals, with varying shapes and
+  proportions. A handwritten letter need not look exactly like its printed counterpart.
+  Level 1 introduces those differences with named photographs.
+  <span class="cite">${sourceLinks(["greek-bookhands"])}</span></p>
   ${tip("Read the line under each letter. It names the stroke that tells the letter apart from its look-alikes.")}
   <p><a class="button primary" href="#/drill/${groups[0].id}">Try the first exercise →</a></p>
   ${introBridge()}

@@ -39,8 +39,8 @@ sets:
     level: 2
     title: PHerc. Paris 4, column −8, as the ink model shows it
 
-# Level 1 starts with named photographs. Every sample name is checked against the pinned
-# manifest; no letter identities are inferred from a model or from our own reading.
+# Level 1 moves from clearer shapes to pairs, then unscored handwriting comparisons.
+# Every identity comes from the pinned manifest. Unfamiliar shapes are taught explicitly.
 photographs:
   set: first-letters-500p2
   base_url: https://huggingface.co/datasets/scrollprize/profilometer/resolve/a806bead2f3b9100c20e19de37814fb285cfeefd/
@@ -49,13 +49,82 @@ photographs:
   credit: Vesuvius Challenge
   source_ids: [profilometer, topography2026]
   items:
-    - { id: photo-500p2-eta, sample: η, choices: [Η, Ο, Λ], hint: Look for two uprights joined in the middle. }
-    - { id: photo-500p2-nu2, sample: ν2, choices: [Ν, Ε, Γ], hint: Follow the sloping stroke between the uprights. }
-    - { id: photo-500p2-nu, sample: ν, choices: [Ν, Ο, Ι], hint: A handwritten letter can lean or stretch. Compare the connected strokes. }
-    - { id: photo-500p2-iota-tau, sample: ιτ, choices: [ΙΤ, ΟϹ, ΜΝ], hint: Two letters this time. Look for a single upright and a top bar. }
+    - id: photo-248-epsilon
+      papyrus_dir: pherc0248
+      sample: ε
+      stage: First shapes
+      choices: [Ε, Ο, Λ]
+      preparation: >-
+        Epsilon can have a rounded back in handwriting. Compare the practice drawing with
+        printed Ε below: both stand for Epsilon.
+      question: Which letter has an open curve and a middle stroke, like this photograph?
+      hint: Look at the complete curved outline and the stroke reaching into it.
+      explain: >-
+        The published identification is Epsilon. In this photograph its back is curved,
+        while the printed Ε has a straight back. The middle stroke is clearly visible.
+        The drawing is a simplified guide; the photo shows the actual handwriting.
+    - id: photo-250-omicron
+      papyrus_dir: pherc0250
+      sample: ο
+      stage: First shapes
+      choices: [Ο, Λ, Π]
+      preparation: >-
+        Now compare the main outline. A handwritten loop can be uneven, and small ink marks
+        can extend beyond it.
+      question: Which letter has a closed loop like the main shape in this photograph?
+      hint: Follow the ink around the central opening. Focus on that loop, not the small projecting marks.
+      explain: >-
+        The published identification is Omicron. The main ink shape encloses an opening;
+        its outline is uneven and has projecting marks. It need not be a perfect printed Ο
+        to be the same letter.
+    - id: photo-500p2-iota-tau
+      sample: ιτ
+      stage: Two neighbouring letters
+      choices: [ΙΤ, ΟϹ, ΜΝ]
+      preparation: >-
+        Move from one letter to two. Compare them from left to right, one at a time;
+        their strokes need not have the proportions of the printed choices.
+      question: Which pair names these two handwritten letters, from left to right?
+      hint: Look for a single upright, followed by an upright with a top bar.
+      explain: >-
+        The source names this pair Iota–Tau. The left letter is a single upright; the right
+        has a top bar. We write the pair as ΙΤ, using printed letters to record the reading.
+    - id: photo-500p2-nu2
+      sample: ν2
+      task: study
+      stage: Meet a handwritten Nu
+      preparation: >-
+        Now look at less familiar handwriting. These next examples give you the published
+        names and the ink tracing before asking you to move on. They are not scored.
+      explain: >-
+        The source identifies this as Nu. Compare the sloping link and the uprights with
+        printed Ν. Their angles and lengths differ from the neat reference drawing.
+        Keep this example in mind for the next photograph.
+    - id: photo-500p2-nu
+      sample: ν
+      task: study
+      stage: The same letter can look different
+      compare_with: photo-500p2-nu2
+      preparation: Compare two photographs that the source identifies as Nu.
+      explain: >-
+        This is also labelled Nu in the source, although its linking stroke is much flatter.
+        Compare the two photographs rather than expecting either to copy printed Ν exactly.
+        A confirmed reading can still be difficult to recognize in an isolated image.
+    - id: photo-500p2-eta
+      sample: η
+      task: study
+      stage: A less familiar Eta
+      preparation: >-
+        This example is identified as Eta in the published study. Look at the named photograph
+        and tracing together; an unfamiliar form is something to learn, not a reason to guess.
+      explain: >-
+        We record this letter as Η (Eta). In this photograph, the connecting stroke sits high,
+        and the right upright extends only a little above it. That can make the shape look
+        unlike printed Η. The source establishes the letter's identity; the photograph alone
+        does not establish why a particular stroke is short.
 
-# Later practice: infrared photo. "ink" tiles hold strokes traced by the organizers; their letters
-# have no published reading, so only "is there ink?" is scored.
+# Later practice: infrared photo. The crops have no verified coordinate-matched letter
+# readings here, so only the presence of traced ink is scored.
 ir_tiles:
   source: pherc0500p2-ir
   set: ir-500p2

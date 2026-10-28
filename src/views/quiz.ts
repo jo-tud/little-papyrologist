@@ -1,4 +1,5 @@
 import { glyphs, quizItems, quizSets, sourceById } from "../data";
+import { glyphSvg } from "../glyphs/render";
 import { progressAfterAnswer, rankUpBanner } from "../progress-ui";
 import { score, type Score } from "../scoring";
 import { addAnswer, markSetDone } from "../store";
@@ -26,6 +27,21 @@ function sourceLine(item: QuizItem): string {
     .join("; ");
   const changes = item.changes ? item.changes.charAt(0).toUpperCase() + item.changes.slice(1) + ". " : "";
   return `Image: ${esc(item.credit)}, ${esc(item.license)}. ${esc(changes)}Sources: ${links}.`;
+}
+
+function readingSource(item: QuizItem): string {
+  const name = Array.from(item.truth).map(namedLetter).join(" · ");
+  return `<details class="reading-source"><summary>Reading and source</summary>
+    <p class="small">Published identification: ${esc(name)}. ${esc(item.reading ?? "")}${item.sample_id ? `; source sample label: <span lang="grc">${esc(item.sample_id)}</span>` : ""}.</p>
+    <p class="small muted">The sample label names the letter in the dataset; it is not a picture of its handwritten form.
+    We use printed capitals to record the reading.</p></details>`;
+}
+
+/** The drawing and type are references, never presented as a tracing of this photograph. */
+function letterReference(reading: string): string {
+  return `<span class="reference-drawing" aria-hidden="true">${Array.from(reading).map((char) => glyphSvg(char, "")).join("")}</span>
+    <span class="greek" lang="grc">${esc(reading)}</span>
+    <span class="letter-name">${Array.from(reading).map(letterName).map(esc).join(" · ")}</span>`;
 }
 
 /** The reading, one letter per box, coloured by how the player did. Uncertain letters get a dot below. */
@@ -78,7 +94,7 @@ export function renderQuiz(main: HTMLElement, setId: string): () => void {
     main.innerHTML = `<h1>Set not found</h1><p><a href="#/">Back to the path</a></p>`;
     return () => {};
   }
-  const guided = items.every((item) => item.task === "identify");
+  const guided = items.every((item) => item.task === "identify" || item.task === "study");
   let order = guided ? [...items] : shuffle(items);
   const choices = new Map(items.map((item) => [item.id, shuffle(item.choices ?? [])]));
   let index = 0;
@@ -94,6 +110,7 @@ export function renderQuiz(main: HTMLElement, setId: string): () => void {
 
   function canCheck(): boolean {
     const item = order[index];
+    if (item.task === "study") return false;
     if (!pick.said || !pick.confidence) return false;
     if (item.task !== "detect" && pick.said === "yes" && pick.letters.length === 0) return false;
     return true;
@@ -120,9 +137,13 @@ export function renderQuiz(main: HTMLElement, setId: string): () => void {
     <a class="back-link" href="#/">← Back to the path</a>
     <div class="drill-head">
       <h1 tabindex="-1">${esc(set!.title)}</h1>
-      <span class="muted">Tile ${index + 1} of ${order.length}</span>
+      <span class="muted">${guided ? "Step" : "Tile"} ${index + 1} of ${order.length}</span>
     </div>
-    ${guided && !checked ? `<p class="round-intro">Real papyrus, confirmed letter names. Match the dark strokes to a choice below; the clue gives you a starting point.</p>` : ""}
+    ${guided && index === 0 && !checked ? `<div class="round-intro"><p><strong>From practice drawings to handwriting.</strong>
+      Printed capitals and our drawings are guides: ancient handwriting varies in shape and proportion.
+      Start with clearer shapes and a letter pair, then study unfamiliar forms without a score.</p>
+      <p class="cite">About handwritten forms: ${sourceLinks(["greek-bookhands"])}</p></div>` : ""}
+    ${guided ? `<p class="eyebrow lesson-stage">${esc(item.stage ?? "")}</p>` : ""}
     <div class="progress" aria-hidden="true">${order.map((_, i) => `<span class="${i < index ? "past" : i === index ? "now" : ""}"></span>`).join("")}</div>
     <div class="round ${wide ? "round-wide" : ""}">
       <figure class="tile-frame photo ${zoom ? "zoomed" : ""}" data-item="${esc(item.id)}">
@@ -134,18 +155,40 @@ export function renderQuiz(main: HTMLElement, setId: string): () => void {
         ${wide ? `<p class="image-hint small muted">Scroll sideways to explore the line. The names below help you learn each letter.</p>` : ""}
       </figure>
       <div class="answer">
-        ${checked ? feedback(item, checked) : questions(item)}
+        ${item.task === "study" ? study(item) : checked ? feedback(item, checked) : questions(item)}
       </div>
     </div>`;
+  }
+
+  function study(item: QuizItem): string {
+    const comparison = item.compare_with ? quizItems.find((other) => other.id === item.compare_with) : undefined;
+    return `<section class="study-card" aria-labelledby="study-title">
+      <p class="eyebrow">Guided example · no score</p>
+      <h2 id="study-title">${esc(Array.from(item.truth).map(namedLetter).join(" · "))}</h2>
+      <p class="preparation">${esc(item.preparation ?? "")}</p>
+      <div class="study-reference named-letter">${letterReference(item.truth)}</div>
+      <p class="small muted">Simplified practice drawing above; printed name below. Neither is a tracing of this photo.</p>
+      <figure class="answer-figure"><img src="${imgSrc(item.answer_image!)}" alt="This named photograph with the organizers' ink tracing in red">
+        <figcaption class="small muted">Red: the organizers' ink tracing.</figcaption></figure>
+      <p>${esc(item.explain)}</p>
+      ${comparison ? `<figure class="answer-figure comparison-photo"><img src="${imgSrc(comparison.image)}" alt="The preceding photograph, also identified as Nu by the source">
+        <figcaption class="small">The previous ${esc(Array.from(comparison.truth).map(letterName).join(" · "))}, for comparison.
+          ${esc(comparison.credit)}, ${esc(comparison.license)}.</figcaption></figure>` : ""}
+      ${readingSource(item)}
+      <p class="cite">${sourceLine(item)}</p>
+      <button type="button" class="primary" id="study-next">${index + 1 < order.length ? "Continue →" : "Finish this lesson →"}</button>
+    </section>`;
   }
 
   function questions(item: QuizItem): string {
     const c = (name: string, value: string, label: string, pressed: boolean) =>
       `<button type="button" class="choice" data-${name}="${value}" aria-pressed="${pressed}">${label}</button>`;
     return `
-      ${item.task === "identify" ? `<fieldset class="question"><legend>${Array.from(item.truth).length > 1 ? "Which two letters do you see?" : "Which letter do you see?"}</legend>
+      ${item.task === "identify" ? `<p class="preparation">${esc(item.preparation ?? "")}</p>
+        <fieldset class="question"><legend>${esc(item.question ?? "Name the handwritten letter")}</legend>
         <p class="small muted">${esc(item.hint ?? "")}</p>
-        <div class="match-options">${choices.get(item.id)!.map((reading) => `<button type="button" class="choice named-letter" data-reading="${reading}" aria-pressed="${pick.letters.join("") === reading}"><span class="greek" lang="grc">${reading}</span><span class="letter-name">${Array.from(reading).map(letterName).join(" · ")}</span></button>`).join("")}
+        <p class="small reference-caption">Each choice shows a simplified practice drawing, then its printed letter and name.</p>
+        <div class="match-options">${choices.get(item.id)!.map((reading) => `<button type="button" class="choice named-letter" data-reading="${reading}" aria-pressed="${pick.letters.join("") === reading}">${letterReference(reading)}</button>`).join("")}
         <button type="button" class="choice" data-reading="?" aria-pressed="${pick.said === "unsure"}">Not sure yet</button></div></fieldset>` : `
       <fieldset class="question">
         <legend>Is there ${detectWord()} on this tile?</legend>
@@ -171,7 +214,7 @@ export function renderQuiz(main: HTMLElement, setId: string): () => void {
   }
 
   function checkHint(): string {
-    if (!pick.said) return guided ? "Choose the closest match, or “Not sure yet”." : `Choose whether you see ${detectWord()}.`;
+    if (!pick.said) return guided ? "Choose the letter name, or “Not sure yet”." : `Choose whether you see ${detectWord()}.`;
     if (order[index].task === "read" && pick.said === "yes" && !pick.letters.length) return "Enter letters, or use ? for a letter you cannot read.";
     if (!pick.confidence) return "Choose how sure you are to check your answer.";
     return "Ready when you are.";
@@ -195,7 +238,7 @@ export function renderQuiz(main: HTMLElement, setId: string): () => void {
 
   function feedback(item: QuizItem, s: Score): string {
     const reading = item.task === "identify"
-      ? `${readingBoxes(item, s)}<p class="small">You chose: ${pick.said === "unsure" ? "not sure yet" : esc(pick.letters.map(namedLetter).join(" · "))}.</p><p class="small muted">Confirmed reading: ${esc(item.reading ?? "")}.</p>`
+      ? `${readingBoxes(item, s)}<p class="small">You chose: ${pick.said === "unsure" ? "not sure yet" : esc(pick.letters.map(namedLetter).join(" · "))}.</p>${readingSource(item)}`
       : item.task === "read"
       ? `${readingBoxes(item, s)}
          <p class="small">${s.letters_ok ?? 0} of ${s.letters_total ?? Array.from(item.truth).length} letters read${s.extras ? `, ${s.extras} extra` : ""}.
@@ -223,6 +266,7 @@ export function renderQuiz(main: HTMLElement, setId: string): () => void {
   function check(): void {
     if (!canCheck() || checked) return;
     const item = order[index];
+    if (item.task === "study") return;
     const letters = pick.said === "no" ? "" : pick.letters.join("");
     const s = score({ text: item.truth, uncertain: item.uncertain }, { said: pick.said!, letters, confidence: pick.confidence! });
     const rec: AnswerRecord = {
@@ -285,7 +329,9 @@ export function renderQuiz(main: HTMLElement, setId: string): () => void {
         <div><strong>${count("false-alarm")}</strong><span class="muted">false alarms on ${empty} empty tiles</span></div>`}
         ${lettersAll && !guided ? `<div><strong>${lettersOk}/${lettersAll}</strong><span class="muted">letters read in lines</span></div>` : ""}
       </div>
-      ${tip(guided ? "You have met real handwriting. Next, look more closely: sometimes a promising mark is papyrus or image noise. The reference will help you tell the difference." : count("false-alarm") === 0 ? "No false alarms. That is the habit that matters most." : "Some empty tiles suggested writing. Comparing them with the reference is part of learning what to look for.")}
+      ${guided ? `<p>${results.length} practice photographs and ${order.filter((item) => item.task === "study").length} guided examples.
+        The guided examples taught less familiar forms; they added no answers or points to your results.</p>` : ""}
+      ${tip(guided ? "A published reading can be certain even when its shape is unfamiliar. Next, look more closely: sometimes a promising mark is papyrus or image noise. The reference will help you compare." : count("false-alarm") === 0 ? "No false alarms. That is the habit that matters most." : "Some empty tiles suggested writing. Comparing them with the reference is part of learning what to look for.")}
       <div class="row">
         ${guided ? `<a class="button primary" href="#/quiz/ir-500p2">Next: look closer →</a>` : ""}
         <button type="button" id="again" class="${guided ? "" : "primary"}">Play again</button>
@@ -321,6 +367,8 @@ export function renderQuiz(main: HTMLElement, setId: string): () => void {
     }
     if (b.id === "check") return check();
     if (b.id === "next") return next();
+    if (b.id === "study-next" && order[index].task === "study") return next();
+    if (order[index].task === "study") return;
     if (checked) return;
     if (b.dataset.reading) {
       pick.said = b.dataset.reading === "?" ? "unsure" : "yes";
@@ -343,11 +391,11 @@ export function renderQuiz(main: HTMLElement, setId: string): () => void {
       if (e.repeat) return;
       if ((e.target as HTMLElement).closest("a, summary, button:not([data-said]):not([data-conf]):not([data-key]):not([data-reading])")) return;
       e.preventDefault();
-      if (checked) next();
+      if (checked || order[index].task === "study") next();
       else check();
       return;
     }
-    if (checked) return;
+    if (checked || order[index].task === "study") return;
     if (guided) {
       if (k === "?") {
         pick.said = "unsure";

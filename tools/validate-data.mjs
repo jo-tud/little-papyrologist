@@ -83,9 +83,23 @@ if (share(stage0.drills) < NULL_SHARE_MIN) fail(`stage 0: only ${Math.round(100 
 const itemIds = new Set();
 for (const it of items) {
   const where = `item ${it.id ?? "(no id)"}`;
-  if (!["read", "detect", "identify"].includes(it.task)) fail(`${where}: unknown task`);
-  if (it.task === "identify" && (!it.choices?.includes(it.truth) || it.truth === "none" || !it.hint))
-    fail(`${where}: guided identification needs a confirmed reading, choices and a hint`);
+  if (!["read", "detect", "identify", "study"].includes(it.task)) fail(`${where}: unknown task`);
+  if (["identify", "study"].includes(it.task)) {
+    if (typeof it.truth !== "string" || !it.truth || it.truth === "none" || it.truth.includes("*") || it.truth.includes("?") || it.uncertain?.length)
+      fail(`${where}: guided photographs need a confirmed letter reading`);
+    for (const key of ["preparation", "stage"])
+      if (typeof it[key] !== "string" || !it[key].trim()) fail(`${where}: guided photographs need "${key}"`);
+  }
+  if (it.task === "identify") {
+    if (!Array.isArray(it.choices) || it.choices.length < 2 || new Set(it.choices).size !== it.choices.length || !it.choices.includes(it.truth))
+      fail(`${where}: identification needs at least two distinct choices including the published reading`);
+    for (const key of ["question", "hint"])
+      if (typeof it[key] !== "string" || !it[key].trim()) fail(`${where}: identification needs "${key}"`);
+  }
+  if (it.task === "study") {
+    if (!it.answer_image) fail(`${where}: study examples need an answer image`);
+    if (it.choices !== undefined) fail(`${where}: study examples must not have answer choices`);
+  }
   for (const key of ["id", "level", "image", "alt", "truth", "source", "license", "credit", "checked", "explain"])
     if (it[key] === undefined || it[key] === "" || it[key] === null) fail(`${where}: missing "${key}"`);
   if (itemIds.has(it.id)) fail(`${where}: duplicate id`);
@@ -105,9 +119,16 @@ for (const it of items) {
   checkSources(where, it.source);
   if (it.image && !existsSync(new URL(`../public/images/${it.image}`, import.meta.url))) fail(`${where}: image ${it.image} not found`);
 }
+const itemById = new Map(items.map((it) => [it.id, it]));
+for (const it of items) {
+  if (it.compare_with === undefined) continue;
+  const comparison = itemById.get(it.compare_with);
+  if (!comparison || !["identify", "study"].includes(comparison.task) || comparison.truth !== it.truth)
+    fail(`item ${it.id}: comparison must reference a guided photograph with the same reading`);
+}
 for (const level of [1, 2, 3]) {
   // Guided first-letter recognition introduces real ink before blank-tile discrimination.
-  const list = items.filter((i) => i.level === level && i.task !== "identify");
+  const list = items.filter((i) => i.level === level && !["identify", "study"].includes(i.task));
   if (list.length && share(list) < NULL_SHARE_MIN) fail(`level ${level}: only ${Math.round(100 * share(list))} % empty tiles`);
 }
 

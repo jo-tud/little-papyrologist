@@ -140,7 +140,8 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
     </tbody>
   </table></div>
   <p class="small muted">“Text noticed” counts tiles with ink or writing where you said yes. “Fully read tiles” counts correct readings of a whole letter or line;
-  tiles without a confirmed reading are excluded. Level 1 uses clues and letter choices; those matches are assisted, not independent transcriptions.
+  tiles without a confirmed reading are excluded. Level 1 uses clues, reference drawings and letter choices;
+  those matches are assisted, not independent transcriptions. Its guided examples are not scored and add no answers here.
   Tiles where the deciding stroke is lost count under “can't tell”.</p>
 
   <h2>Most frequent mix-ups</h2>

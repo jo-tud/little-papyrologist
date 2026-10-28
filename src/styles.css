@@ -1396,6 +1396,58 @@ input[type="file"]:focus-visible + .button {
   border-radius: var(--radius);
   padding: 0.7rem;
 }
+.reference-drawing {
+  display: flex;
+  justify-content: center;
+  gap: 0.1rem;
+  padding-bottom: 0.35rem;
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid var(--rule);
+}
+.reference-drawing .glyph {
+  width: 2.6rem;
+  height: 3.1rem;
+}
+.reference-caption {
+  color: var(--slate);
+  margin: 0.5rem 0;
+}
+.preparation {
+  padding: 0.7rem 0.85rem;
+  background: var(--teal-soft);
+  border-radius: var(--radius);
+  margin: 0 0 1rem;
+  font-size: var(--step--1);
+}
+.lesson-stage {
+  margin: 0.7rem 0;
+}
+.study-card {
+  border: 1px solid var(--rule);
+  border-top: 4px solid var(--ochre);
+  border-radius: var(--radius);
+  background: var(--sheet);
+  padding: 1rem;
+}
+.study-card h2 {
+  font-size: var(--step-1);
+}
+.study-reference {
+  background: var(--ash);
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius);
+}
+.reading-source {
+  margin: 0.75rem 0;
+  font-size: var(--step--1);
+}
+.reading-source summary {
+  cursor: pointer;
+  color: var(--teal);
+}
+.reading-source p {
+  margin: 0.5rem 0;
+}
 .practice-settings,
 .reset-progress {
   max-width: 50rem;
