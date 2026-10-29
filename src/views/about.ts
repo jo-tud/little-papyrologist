@@ -10,6 +10,13 @@ export function renderAbout(main: HTMLElement): void {
   <p><strong>This is not an official project of the Vesuvius Challenge</strong> and is not affiliated with it.
   It is made by Jo (<a href="https://github.com/jo-tud" rel="noopener">jo-tud</a>).</p>
 
+  <h2>Acknowledgements</h2>
+  <p>Thank you to the <a href="https://scrollprize.org/" rel="noopener">Vesuvius Challenge</a>
+  for making these images available and granting permission to use them in this trainer.
+  Thanks also to EduceLab, University of Kentucky, for the original CT scans behind the
+  PHerc. Paris 4 images, and to the papyrologists whose published readings make the reading
+  exercises possible.</p>
+
   <h2>Where the answers come from</h2>
   <p>An answer in this trainer comes only from one of these:</p>
   <ul class="sources-list">

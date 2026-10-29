@@ -87,6 +87,8 @@ export function renderHome(main: HTMLElement): void {
       <a class="button primary" href="${nextHref}">${esc(nextLabel)} <span aria-hidden="true">→</span></a>
       <p class="small muted hero-note">No Greek needed. Your progress stays in this browser.</p>
       ${!s.introSkipped && !s.setsDone[playSets.find((p) => p.level === 1)?.id ?? ""] ? `<p class="small">Already comfortable with Greek? ${skipIntroLink()}</p>` : ""}
+      <p class="small muted">Thanks to the <a href="https://scrollprize.org/" rel="noopener">Vesuvius Challenge</a>
+      for permission to use the images. <a href="#/about">Acknowledgements</a>.</p>
     </div>
     <div class="hero-example">
     <p class="eyebrow">Try a line</p>
