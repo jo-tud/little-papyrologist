@@ -44,8 +44,13 @@ for (const g of glyphs) {
   if (!g.strokes || !Object.keys(g.strokes).length) fail(`glyphs: ${g.char} has no strokes`);
 }
 
+// The homepage reuses a verified, unaltered short reading and its image credits.
+const heroItem = items.find(it => it.id === stage0.hero.item);
+if (!heroItem || heroItem.task !== "read" || heroItem.simulated || heroItem.degradation !== 0
+    || heroItem.uncertain?.length || !/^[ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡϹΤΥΦΧΨΩ]{1,4}$/u.test(heroItem.truth))
+  fail("hero: needs an existing, unaltered short reading without uncertain letters");
+
 // Stage 0
-checkSources("hero", stage0.hero.sources);
 for (const f of [...stage0.facts, ...stage0.fieldnotes]) {
   if (!f.title || !f.text) fail(`fact ${f.id}: needs title and text`);
   if (!f.sources?.length) fail(`fact ${f.id}: no source`);

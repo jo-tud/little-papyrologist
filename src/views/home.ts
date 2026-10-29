@@ -3,9 +3,8 @@ import { drills, groups, hero, itemSetVersion, LEVELS, playSets, quizItems } fro
 import { canResume } from "../round-session";
 import { summarizePractice } from "../practice";
 import { levelAvailable, levelDone, totalPoints } from "../rules";
-import { lineSvg } from "../glyphs/render";
 import { state } from "../store";
-import { badgeIcon, rankSeal, skipIntroLink, sourceLinks, tip } from "../ui";
+import { badgeIcon, letterLabel, rankSeal, skipIntroLink, sourceLinks, tip } from "../ui";
 import { checksList } from "./ranks";
 import { esc } from "../util";
 
@@ -22,13 +21,7 @@ export function renderHome(main: HTMLElement): void {
     return canResume(saved, version, allowed, s.answers)
       ? `Continue · ${saved.index + (saved.checked ? 1 : 0)}/${saved.item_ids.length}` : undefined;
   };
-  const chars = Array.from(hero.line);
-  const starts = new Set<number>();
-  let pos = 0;
-  for (const w of hero.words) {
-    starts.add(pos);
-    pos += Array.from(w).length;
-  }
+  const example = quizItems.find(item => item.id === hero.item)!;
   const setsDone = playSets.filter((p) => (s.setsDone[p.id] ?? 0) > 0).length;
   const startingLevel = s.levelOverride ?? (s.introSkipped ? 1 : 0);
   const availableSets = playSets.filter((p) => levelAvailable(s, p.level));
@@ -91,19 +84,24 @@ export function renderHome(main: HTMLElement): void {
       for permission to use the images. <a href="#/about">Acknowledgements</a>.</p>
     </div>
     <div class="hero-example">
-    <p class="eyebrow">Try a line</p>
-    <h2>Where does one word end?</h2>
-    <p class="small muted">Start by looking. Then reveal the word breaks.</p>
-    <div class="band" id="band">
-      ${lineSvg(chars, starts, `A line of Greek capitals without spaces: ${hero.line}`)}
-    </div>
+    <p class="eyebrow">Try a real example</p>
+    <h2>Letters from a closed scroll</h2>
+    <p class="small muted">Look at the shapes. Then reveal the reading.</p>
+    <figure class="hero-photo">
+      <img src="images/${esc(example.image)}" alt="${esc(example.alt)}" width="216" height="99">
+      <figcaption class="cite">${esc(hero.where)}. Cropped CT-derived ink map.<br>
+      ${esc(example.credit)}, ${esc(example.license)}.<br>
+      Image: ${sourceLinks(["grandprize"])}.</figcaption>
+    </figure>
     <div class="row">
-      <button type="button" class="choice" id="split" aria-pressed="false" aria-controls="band reveal">Show where the words end</button>
+      <button type="button" class="choice" id="show-reading" aria-expanded="false" aria-controls="hero-reading">Show the reading</button>
     </div>
-    <div class="reveal" id="reveal" hidden>
-      <p class="edition" lang="grc">${esc(hero.edition)}</p>
-      <p class="small">${esc(hero.where)}. ${esc(hero.note)} ${esc(hero.gloss)}</p>
-      <p class="cite">Reading: ${sourceLinks(hero.sources)}. Letters drawn for this trainer.</p>
+    <div class="reveal" id="hero-reading" hidden>
+      <div class="reading" role="group" aria-label="Published reading, letter by letter">
+        ${Array.from(example.truth).map(letter => `<span class="rl named-letter">${letterLabel(letter)}</span>`).join("")}
+      </div>
+      <p class="small">${esc(hero.note)}</p>
+      <p class="cite">Reading: ${sourceLinks(example.source.filter(id => id !== "grandprize"))}.</p>
     </div>
     <p class="cite hero-source">In AD 79, Vesuvius buried and carbonized a library of papyrus scrolls.
     Some of their text is now visible again. ${sourceLinks(["grandprize"])}</p>
@@ -189,14 +187,12 @@ export function renderHome(main: HTMLElement): void {
   </div>
   `;
 
-  const button = main.querySelector<HTMLButtonElement>("#split")!;
-  const band = main.querySelector<HTMLElement>(".script-line")!;
-  const reveal = main.querySelector<HTMLElement>("#reveal")!;
+  const button = main.querySelector<HTMLButtonElement>("#show-reading")!;
+  const reveal = main.querySelector<HTMLElement>("#hero-reading")!;
   button.addEventListener("click", () => {
-    const on = button.getAttribute("aria-pressed") !== "true";
-    button.setAttribute("aria-pressed", String(on));
-    button.textContent = on ? "Hide the word breaks" : "Show where the words end";
-    band.classList.toggle("words", on);
+    const on = button.getAttribute("aria-expanded") !== "true";
+    button.setAttribute("aria-expanded", String(on));
+    button.textContent = on ? "Hide the reading" : "Show the reading";
     reveal.hidden = !on;
   });
 }

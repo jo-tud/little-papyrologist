@@ -3,16 +3,11 @@
 # Exercise tiles are our own drawings, so their answers are true by construction.
 
 hero:
-  line: ΠΙΤΕΠΟΡΦΥΡΑϹΚΑΙ
-  words: [ΠΙ, ΤΕ, ΠΟΡΦΥΡΑϹ, ΚΑΙ]
-  edition: πί τε πορφύραϲ καὶ
-  where: PHerc. Paris 4, column −12, line 4
+  item: first-line-gamma-epsilon-iota-nu
+  where: PHerc. Paris 4, column −8, line 5
   note: >-
-    The first word started on the line above: ἐ- | πί. Lines break in the middle of words, too.
-  gloss: >-
-    πορφύραϲ (porphyras) means "purple". It was the first word read from inside a closed
-    Herculaneum scroll, in 2023.
-  sources: [cerc54, firstletters]
+    These are the first four letters of a word. The reading comes from the published
+    papyrological edition.
 
 facts:
   - id: no-spaces

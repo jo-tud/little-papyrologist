@@ -265,7 +265,7 @@ button:disabled {
   align-items: center;
 }
 
-/* ---------- Home: the line without spaces ---------- */
+/* ---------- Home: a real reading example ---------- */
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
@@ -299,6 +299,18 @@ button:disabled {
 .hero-example h2 {
   margin: 0 0 0.5rem;
   font-size: var(--step-1);
+}
+.hero-photo {
+  margin: 1rem 0;
+}
+.hero-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+.hero-photo figcaption {
+  margin-top: 0.6rem;
 }
 .hero-source {
   border-top: 1px solid var(--rule);

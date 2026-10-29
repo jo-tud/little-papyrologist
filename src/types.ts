@@ -62,13 +62,10 @@ export interface Drill {
 }
 
 export interface Hero {
-  line: string;
-  words: string[];
-  edition: string;
+  /** An existing source-backed image item, reused without changing its reading or credits. */
+  item: string;
   where: string;
   note: string;
-  gloss: string;
-  sources: string[];
 }
 
 export interface QuizItem {
