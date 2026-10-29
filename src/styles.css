@@ -1486,3 +1486,137 @@ input[type="file"]:focus-visible + .button {
 .simulation-note { border-left: 3px solid var(--teal); padding: .5rem .8rem; }
 .clean-reference img { width: auto; max-width: 100%; }
 .study-card .edition-line { overflow-wrap: anywhere; }
+
+/* Keep the whole short shape visible, including when it is enlarged. */
+.round:not(.round-wide) .photo .zoom-box {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.round:not(.round-wide) .photo:not(.zoomed) .tile-img {
+  width: auto;
+  height: 14rem;
+  max-height: 22rem;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: left top;
+}
+.round:not(.round-wide) .photo.zoomed .tile-img {
+  width: auto;
+  height: 24rem;
+  max-width: none;
+  flex-shrink: 0;
+}
+.reading-round .photo {
+  position: sticky;
+  top: 0.5rem;
+  align-self: start;
+  z-index: 2;
+  padding: 0.4rem;
+  background: var(--ash);
+  border-bottom: 1px solid var(--rule);
+}
+.reading-round .typed {
+  margin: 0.4rem 0 0;
+  max-height: 5rem;
+  overflow: auto;
+}
+.reading-round .photo.unpinned {
+  position: static;
+}
+.reading-round .image-hint {
+  font-size: 0.8rem;
+}
+.task-help {
+  margin-top: 1rem;
+}
+.task-help > details {
+  margin-bottom: 0.5rem;
+}
+.review-round {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 46rem;
+}
+.review-round > .photo {
+  display: none;
+}
+.reading-review figure {
+  margin: 0.7rem 0;
+}
+.reading-review img {
+  display: block;
+  height: 12rem;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: left;
+  border-radius: 6px;
+}
+.reading-comparison {
+  width: 100%;
+  font-size: var(--step--1);
+}
+.review-image {
+  overflow: auto;
+  max-height: 70vh;
+}
+.review-image.enlarged img {
+  height: 24rem;
+  max-width: none;
+}
+.reading-comparison caption {
+  text-align: left;
+  font-weight: 700;
+}
+.table-scroll {
+  overflow: auto;
+}
+@media (max-width: 760px) {
+  .reading-round {
+    display: block;
+  }
+  .reading-round .photo {
+    max-width: 100%;
+    margin-bottom: 0.7rem;
+    top: 0;
+  }
+  .reading-round .photo .zoom-box {
+    max-height: 20svh;
+    width: 100%;
+    max-width: 100%;
+  }
+  .round:not(.round-wide).reading-round .photo:not(.zoomed) .tile-img {
+    height: 7rem;
+    max-height: 20svh;
+  }
+  .reading-round .photo figcaption {
+    gap: 0.15rem 0.6rem;
+    font-size: 0.7rem;
+  }
+  .reading-round .photo figcaption .small {
+    font-size: inherit;
+    flex: 1;
+  }
+  .reading-round .image-hint {
+    display: none;
+  }
+  .reading-round .keyboard {
+    grid-template-columns: repeat(auto-fit, minmax(2.7rem, 1fr));
+    gap: 0.25rem;
+  }
+  .reading-round .key {
+    min-height: 3rem;
+    padding: 0.15rem 0;
+  }
+  .reading-round .key .letter-name {
+    font-size: 0.6rem;
+  }
+  .reading-round .question {
+    margin-bottom: 0.8rem;
+  }
+}
+@media (max-height: 480px) {
+  .reading-round .photo {
+    position: static;
+  }
+}

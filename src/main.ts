@@ -26,6 +26,7 @@ const routes: [RegExp, string, (main: HTMLElement, ...args: string[]) => Cleanup
   [/^#\/drill\/([a-z0-9-]+)$/, "Exercise", renderDrill],
   [/^#\/quiz\/([a-z0-9-]+)$/, "Quiz", renderQuiz],
   [/^#\/practice\/([1-3])$/, "Practice", (main, level) => renderQuiz(main, `practice-${level}`)],
+  [/^#\/practice\/([1-3])\/group\/([a-z0-9-]+)$/, "Focused practice", (main, level, group) => renderQuiz(main, `practice-${level}`, group)],
   [/^#\/results$/, "My results", (main) => renderResults(main)],
   [/^#\/learn$/, "Keep learning", renderLearn],
   [/^#\/about$/, "About", renderAbout],

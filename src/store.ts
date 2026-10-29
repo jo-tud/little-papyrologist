@@ -1,4 +1,5 @@
 import type { AnswerRecord } from "./types";
+import { canResume, validSession, type RoundSession } from "./round-session";
 
 const KEY = "little-papyrologist:v1";
 
@@ -9,6 +10,7 @@ export interface State {
   setsDone: Record<string, number>; // set id -> times finished
   introSkipped?: boolean;
   levelOverride?: number;
+  rounds?: Record<string, RoundSession>;
 }
 
 function empty(): State {
@@ -25,6 +27,7 @@ export function load(): State {
     if (raw) {
       const parsed = JSON.parse(raw) as Partial<State>;
       memory = { ...empty(), ...parsed };
+      memory.rounds = cleanRounds(parsed.rounds);
     }
   } catch {
     persistent = false;
@@ -55,6 +58,23 @@ export function addAnswer(a: AnswerRecord): void {
 
 export function markSetDone(id: string): void {
   memory.setsDone[id] = (memory.setsDone[id] ?? 0) + 1;
+  save();
+}
+
+function cleanRounds(value: unknown): Record<string, RoundSession> {
+  if (!value || typeof value !== "object") return {};
+  return Object.fromEntries(Object.entries(value).filter(([key, round]) =>
+    /^[a-z0-9/-]+$/.test(key) && validSession(round)));
+}
+
+export function saveRound(id: string, round: RoundSession): void {
+  memory.rounds ??= {};
+  memory.rounds[id] = round;
+  save();
+}
+
+export function clearRound(id: string): void {
+  if (memory.rounds) delete memory.rounds[id];
   save();
 }
 
@@ -106,7 +126,7 @@ export function exportPayload(appVersion: string, itemSet: string): object {
     exported_at: new Date().toISOString(),
     note: "Answers from The Little Papyrologist. Level 0 tiles are drawings made for the trainer.",
     answers: memory.answers,
-    progress: { sets_done: memory.setsDone, badges: memory.badges, ranks: memory.ranks, intro_skipped: !!memory.introSkipped, level_override: memory.levelOverride },
+    progress: { sets_done: memory.setsDone, badges: memory.badges, ranks: memory.ranks, intro_skipped: !!memory.introSkipped, level_override: memory.levelOverride, rounds: memory.rounds },
   };
 }
 
@@ -150,7 +170,7 @@ function mergeDates(into: Record<string, string>, from: unknown): void {
  * answers already present (same tile, same moment) are kept once.
  * Throws an Error with a readable message when the text is not an export of this trainer.
  */
-export function importText(text: string): ImportResult {
+export function importText(text: string, currentItemSet?: string): ImportResult {
   let data: Record<string, unknown>;
   try {
     data = JSON.parse(text) as Record<string, unknown>;
@@ -179,6 +199,15 @@ export function importText(text: string): ImportResult {
   memory.answers.sort((x, y) => x.answered_at.localeCompare(y.answered_at));
 
   const progress = (data.progress ?? {}) as Record<string, unknown>;
+  // Prefer an active local round, but do not let an obsolete one hide a valid backup.
+  const incomingRounds = cleanRounds(progress.rounds);
+  const mergedRounds = { ...incomingRounds };
+  const usable = (round: RoundSession): boolean => !!currentItemSet
+    && canResume(round, currentItemSet, new Set(round.item_ids), memory.answers);
+  for (const [id, local] of Object.entries(memory.rounds ?? {})) {
+    if (!incomingRounds[id] || !currentItemSet || usable(local) || !usable(incomingRounds[id])) mergedRounds[id] = local;
+  }
+  memory.rounds = mergedRounds;
   if (progress.intro_skipped === true) memory.introSkipped = true;
   if (memory.levelOverride === undefined && Number.isInteger(progress.level_override)
       && (progress.level_override as number) >= 0 && (progress.level_override as number) <= 3)

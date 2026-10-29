@@ -13,8 +13,8 @@ badges:
     how: Finish all five look-alike sets.
     requires: { levels_done: [0] }
   - id: sigma-spotter
-    title: Sigma spotter
-    how: Tell Ϲ and Ε apart correctly three times.
+    title: Round-letter practice
+    how: Match Ε or Ϲ three times. Choices, clues and repeated images count.
     requires: { letters_right: { letters: [Ϲ, Ε], count: 3 } }
   - id: no-false-alarms
     title: No false alarms in a row
@@ -22,13 +22,13 @@ badges:
     requires: { empty_streak: 5 }
   - id: honest-eye
     title: Honest eye
-    how: Answer “can't tell” five times where nobody could tell.
+    how: Use “?” five times where the reference leaves room for uncertainty.
     requires: { honest_calls: 5 }
   - id: steady-hand
     title: Steady hand
     how: Ten good or honest answers in a row.
     requires: { clean_streak: 10 }
   - id: calibrated
-    title: Well calibrated
-    how: At least 20 answers marked “sure”, and nine in ten of them right.
+    title: Confident practice
+    how: At least 20 answers marked “sure”, with nine in ten fully matching the reference. Choices, clues and repeats count.
     requires: { calibration: { sure_answers: 20, right_share: 0.9 } }

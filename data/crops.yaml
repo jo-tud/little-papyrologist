@@ -20,7 +20,7 @@ sources:
     credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
     source_ids: [pherc0500p2-ir]
   paris4-banner:
-    title: PHerc. Paris 4, Grand Prize 2023 image (ink detection output, columns −16 to −1)
+    title: PHerc. Paris 4, Grand Prize 2023 image (ink detection output)
     page: https://scrollprize.org/grandprize
     files:
       image: https://scrollprize.org/img/grandprize/youssef_text_wbb-hq.webp
@@ -37,7 +37,7 @@ sets:
     level: 2
     title: Your first line
     ordered: true
-    intro: Start with one familiar shape, build a short group, then explore a whole published line. A reading guide is available whenever you need it.
+    intro: Start with familiar shapes, read short groups and compare handwriting in different lines. Trying the whole line at the end is optional. A reading guide is available whenever you need it.
   - id: ir-500p2
     level: 2
     title: Look closer — ink or papyrus?

@@ -1,6 +1,7 @@
-import { itemSetVersion, LEVELS, playSets, quizItems } from "../data";
+import { glyphByChar, itemSetVersion, LEVELS, playSets, quizItems } from "../data";
 import { clearAll, exportPayload, importText, isPersistent, setLevelOverride, state } from "../store";
 import { progressAfterAnswer, syncRankChip } from "../progress-ui";
+import { align, answerOutcome, readingStats } from "../scoring";
 import type { AnswerRecord } from "../types";
 import { tip } from "../ui";
 import { esc, pct } from "../util";
@@ -20,8 +21,8 @@ interface Row {
   falseAlarms: number;
   readable: number;
   readRight: number;
-  undecidable: number;
-  honestCalls: number;
+  leftOpen: number;
+  incorrect: number;
   sureWrong: number;
 }
 
@@ -32,8 +33,7 @@ function summarise(answers: AnswerRecord[]): Row[] {
     const textTiles = list.filter((a) => a.truth !== "none");
     const nulls = list.filter((a) => a.truth === "none");
     // Tiles whose letters can be checked: not empty, not "ink only" (*), not undecidable (?).
-    const readable = list.filter((a) => a.truth !== "none" && a.truth !== "*" && !a.truth.includes("?"));
-    const undecidable = list.filter((a) => a.truth.includes("?") && a.truth !== "*");
+    const readable = list.filter((a) => readingStats(a) !== null && !a.truth.includes("?"));
     return {
       level,
       n: list.length,
@@ -42,36 +42,42 @@ function summarise(answers: AnswerRecord[]): Row[] {
       nulls: nulls.length,
       falseAlarms: nulls.filter((a) => a.said_text === "yes").length,
       readable: readable.length,
-      readRight: readable.filter((a) => a.letters_correct === true).length,
-      undecidable: undecidable.length,
-      honestCalls: undecidable.filter((a) => a.letters.includes("?")).length,
-      sureWrong: list.filter((a) => a.confidence === 3 && (a.verdict === "wrong" || a.verdict === "guessed" || a.verdict === "false-alarm")).length,
+      readRight: readable.filter((a) => readingStats(a)?.complete).length,
+      leftOpen: list.filter((a) => answerOutcome(a) === "open").length,
+      incorrect: list.filter((a) => answerOutcome(a) === "incorrect").length,
+      sureWrong: list.filter((a) => a.confidence === 3 && answerOutcome(a) === "incorrect").length,
     };
   });
 }
 
-/** Pairs "true letter → what was answered" for wrong or guessed answers. */
+/** Show local substitutions, without turning an omitted letter into a guessed letter. */
 function confusions(answers: AnswerRecord[]): [string, number][] {
   const counts = new Map<string, number>();
+  const add = (key: string): void => { counts.set(key, (counts.get(key) ?? 0) + 1); };
+  const named = (letter: string): string => `${letter} (${glyphByChar.get(letter)?.name ?? "unidentified"})`;
   for (const a of answers) {
-    if (a.verdict === "false-alarm") {
-      const key = `no letter → ${a.letters || "a letter"}`;
-      counts.set(key, (counts.get(key) ?? 0) + 1);
-    } else if (a.verdict === "wrong" || a.verdict === "guessed") {
-      const key = `${a.truth === "?" ? "can't tell" : a.truth} → ${a.letters || "–"}`;
-      counts.set(key, (counts.get(key) ?? 0) + 1);
+    if (a.truth === "none" && a.said_text === "yes") {
+      add("empty tile → writing reported");
+    } else if (readingStats(a) && a.said_text !== "no") {
+      const want = Array.from(a.truth);
+      const { pairs, extras } = align(want, Array.from(a.letters));
+      want.forEach((w, i) => {
+        const got = pairs[i];
+        if (got && got !== "?" && got !== w) add(`${w === "?" ? "unresolved letter" : named(w)} → ${named(got)}`);
+      });
+      if (extras) add("extra letters entered");
     }
   }
   return [...counts.entries()].sort((x, y) => y[1] - x[1]).slice(0, 8);
 }
 
-function calibration(answers: AnswerRecord[]): string {
+function confidenceRows(answers: AnswerRecord[]): string {
   const names = { 1: "Guessing", 2: "Fairly sure", 3: "Sure" } as const;
   return ([1, 2, 3] as const)
     .map((c) => {
       const list = answers.filter((a) => a.confidence === c);
-      const right = list.filter((a) => a.verdict === "right" || a.verdict === "honest").length;
-      return `<tr><td>${names[c]}</td><td class="num">${list.length}</td><td class="num">${pct(right, list.length)}</td></tr>`;
+      const count = (outcome: ReturnType<typeof answerOutcome>): number => list.filter((a) => answerOutcome(a) === outcome).length;
+      return `<tr><td>${names[c]}</td><td class="num">${list.length}</td><td class="num">${count("matched")}</td><td class="num">${count("open")}</td><td class="num">${count("incorrect")}</td></tr>`;
     })
     .join("");
 }
@@ -84,6 +90,7 @@ function hasSavedProgress(): boolean {
   const s = state();
   return s.answers.length > 0 || Object.keys(s.setsDone).length > 0
     || Object.keys(s.badges).length > 0 || Object.keys(s.ranks).length > 0
+    || Object.keys(s.rounds ?? {}).length > 0
     || !!s.introSkipped || s.levelOverride !== undefined;
 }
 
@@ -134,7 +141,7 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
     <thead><tr>
       <th>Level</th><th class="num">Answers</th><th class="num">Text noticed</th>
       <th class="num">False alarms on empty tiles</th><th class="num">Fully read tiles</th>
-      <th class="num">Honest “can't tell”</th><th class="num">Sure but wrong</th>
+      <th class="num">Left open</th><th class="num">Incorrect answers</th><th class="num">Sure but wrong</th>
     </tr></thead>
     <tbody>
     ${rows
@@ -145,27 +152,30 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
         <td class="num">${r.textSeen}/${r.textTiles} (${pct(r.textSeen, r.textTiles)})</td>
         <td class="num">${r.falseAlarms}/${r.nulls} (${pct(r.falseAlarms, r.nulls)})</td>
         <td class="num">${r.readRight}/${r.readable} (${pct(r.readRight, r.readable)})</td>
-        <td class="num">${r.honestCalls}/${r.undecidable} (${pct(r.honestCalls, r.undecidable)})</td>
+        <td class="num">${r.leftOpen}</td>
+        <td class="num">${r.incorrect}</td>
         <td class="num">${r.sureWrong}</td>
       </tr>`,
       )
       .join("")}
     </tbody>
   </table></div>
-  <p class="small muted">“Text noticed” counts tiles with ink or writing where you said yes. “Fully read tiles” counts correct readings of a whole letter or line;
-  tiles without a confirmed reading are excluded. Level 1 uses clues, reference drawings and letter choices;
-  those matches are assisted, not independent transcriptions. Its guided examples are not scored and add no answers here.
-  Tiles where the deciding stroke is lost count under “can't tell”.</p>
+  <p class="small muted">“Text noticed” counts tiles with ink or writing where you said yes. “Fully read tiles” requires every letter to match,
+  with no gaps or extra letters. A question mark can be accepted by the exercise without being a letter read.
+  Tiles without a complete reference reading are excluded from that column. “Left open” includes “Not sure” and unfinished readings
+  without an incorrect letter claim; a response with both gaps and wrong letters counts as incorrect.
+  Level 1 recognition uses clues and choices. Guided examples are unscored.</p>
 
   <h2>Practice and support</h2>
   <p>${realAnswers.length} answers on photographed or scan-derived material, from ${originals} source regions.
   ${realAnswers.filter((a) => a.practice).length} answers came from extra practice rounds.
   Altered versions count under their original region; some regions overlap. Returning to one image is repetition, not a new sample.</p>
   <div class="table-wrap"><table><thead><tr><th>Reading mode</th><th class="num">Answers</th><th class="num">Fully matched</th></tr></thead><tbody>
-    ${modes.map(({ title, list }) => `<tr><td>${title}</td><td class="num">${list.length}</td><td class="num">${pct(list.filter((a) => a.letters_correct).length, list.length)}</td></tr>`).join("")}
+    ${modes.map(({ title, list }) => `<tr><td>${title}</td><td class="num">${list.length}</td><td class="num">${pct(list.filter((a) => readingStats(a)?.complete).length, list.length)}</td></tr>`).join("")}
   </tbody></table></div>
   <p class="small muted">Older saved answers may not record help use and are left out of the last two rows.
-  “Without clues or a guide” describes that attempt; a familiar image may have appeared before.</p>
+  “Without clues or a guide” describes that attempt; a familiar image may have appeared before.
+  Displayed matches are derived from your saved response and reference. Your original points and saved answers stay unchanged.</p>
   ${answers.some((a) => a.simulated) ? `<h3>Altered-image practice</h3><div class="table-wrap"><table><thead><tr><th>Difficulty</th><th class="num">Answers</th><th class="num">Not sure</th></tr></thead><tbody>
     ${[1, 2, 3, 4, 5].map((degree) => { const list = answers.filter((a) => a.simulated && a.degradation === degree); return `<tr><td>${degree}/5</td><td class="num">${list.length}</td><td class="num">${list.filter((a) => a.said_text === "unsure" || a.letters.includes("?")).length}</td></tr>`; }).join("")}
     </tbody></table></div><p class="small muted">These are controlled image changes, not scanner resolutions. Their source readings do not establish what remains visible after alteration.</p>` : ""}
@@ -180,9 +190,11 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
   }
 
   <h2>How sure were you?</h2>
-  <div class="table-wrap"><table><thead><tr><th>You said</th><th class="num">Answers</th><th class="num">Right or honest</th></tr></thead>
-  <tbody>${calibration(answers)}</tbody></table></div>
-  <p class="small muted">If “Sure” is right much more often than “Guessing”, your sense of certainty is working.</p>`
+  <div class="table-wrap"><table><thead><tr><th>You said</th><th class="num">Answers</th><th class="num">Matched reference</th><th class="num">Left open</th><th class="num">Incorrect</th></tr></thead>
+  <tbody>${confidenceRows(answers)}</tbody></table></div>
+  <p class="small muted">A full match means a complete reading or a correct writing/no-writing decision.
+  Leaving something open is recorded separately, including caution that earned honesty points.
+  These counts mix choices, clues, free reading and repeated images; they describe your practice, not a test of independent reading ability or confidence calibration.</p>`
   }
 
   <section class="practice-settings" aria-labelledby="practice-settings-title">
@@ -268,7 +280,7 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
   const note = (text: string) => ($("#copy-note").textContent = text);
   const load = (text: string) => {
     try {
-      const r = importText(text);
+      const r = importText(text, itemSetVersion());
       progressAfterAnswer();
       renderResults(main, true);
       const extra = [r.duplicates ? `${r.duplicates} were already here` : "", r.skipped ? `${r.skipped} could not be read and were skipped` : ""]

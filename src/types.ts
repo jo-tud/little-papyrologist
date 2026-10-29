@@ -88,6 +88,10 @@ export interface QuizItem {
   degradation_recipe?: Record<string, unknown>;
   /** Extra practice does not add a required step to the path. */
   practice_only?: boolean;
+  /** A lesson can finish without answering this challenge. */
+  optional_challenge?: boolean;
+  /** Related short readings available as a focused practice round. */
+  practice_group?: string;
   /** Optional reading guide; using it is recorded separately. */
   guide?: string;
   assisted?: boolean;

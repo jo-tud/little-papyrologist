@@ -1,8 +1,8 @@
-"""A guided line-reading lesson derived from an already verified edition line.
+"""Short reading steps derived from already verified edition lines.
 
-The short rectangles isolate the first four published characters; they are not new
-readings or organizers' character masks. Source coordinates and edition indexes
-are retained so that every fragment can be reconstructed and checked.
+The rectangles isolate published character groups; they are not new readings or
+organizers' character masks. Source coordinates and edition indexes are retained
+so that every fragment can be reconstructed and checked.
 """
 
 from __future__ import annotations
@@ -84,6 +84,58 @@ FRAGMENTS = (
             "The last character is Nu. You have read the beginning of a word, not four separate words."
         ),
     },
+    {
+        "suffix": "iota-eta-l12", "base_id": "paris4-col-8-l12",
+        "indices": [8, 10], "rect": [8750, 1135, 8870, 1235],
+        "task": "identify", "choices": ["ΙΗ", "ΙΝ", "ΙΠ"],
+        "stage": "Two familiar letters, another line",
+        "preparation": (
+            "Take a short detour to line 12 of the same column. Iota can have a broad foot; "
+            "Eta has two linked uprights. Compare the actual strokes with the printed reference choices."
+        ),
+        "question": "Which pair matches the narrow letter and the linked uprights beside it?",
+        "hint": "The broad foot belongs to the first letter. In the second, the joining stroke sits below the top ends.",
+        "explain": (
+            "The edition reads Iota–Eta, ΙΗ, here. The first letter has a broad foot, "
+            "and the second has uprights of unequal proportions. Iota ends one word and Eta begins the next; "
+            "this two-letter group is not a word on its own."
+        ),
+    },
+    {
+        "suffix": "iota-eta-l16", "base_id": "paris4-col-8-l16",
+        "indices": [4, 6], "rect": [8406, 1550, 8506, 1635],
+        "task": "read",
+        "stage": "Recognise the pair in another place",
+        "preparation": (
+            "Now try a two-letter group from line 16. Handwriting changes even within one column: "
+            "look at the whole shapes, including their curled ends. The reading guide is available if you need it."
+        ),
+        "question": "Which two letters can you read here?",
+        "hint": "Compare the narrow, curled shape with the linked uprights to its right. You have just met this pair.",
+        "explain": (
+            "These are Iota–Eta, ΙΗ, again, as recorded in the edition. Iota's ends curl "
+            "and Eta's proportions differ from the previous example. Here both letters are inside one word. "
+            "You have matched a familiar pair in a different part of the column."
+        ),
+    },
+    {
+        "suffix": "pi-lambda-eta", "indices": [13, 16], "rect": [8914, 452, 9103, 530],
+        "task": "study",
+        "stage": "When strokes run together",
+        "preparation": (
+            "Back at the end of our first line, the edition identifies Pi–Lambda–Eta, ΠΛΗ. "
+            "This connected group is harder than the opening. Compare the named letters with the image; "
+            "there is nothing to guess or score on this step."
+        ),
+        "question": "Compare the published group with its handwritten shapes.",
+        "hint": "The rightmost letter has two linked uprights. To its left, bright strokes run together; the printed letters separate them more clearly.",
+        "explain": (
+            "The edition gives Pi–Lambda–Eta, ΠΛΗ, as the last three letters of line 5. "
+            "The connected strokes at the left do not look like three neatly separated print characters. "
+            "Keeping the group together preserves that context. It is the end of a word fragment, "
+            "not a whole word; the word continues on the following line."
+        ),
+    },
 )
 
 
@@ -111,7 +163,7 @@ def generate_lesson(
     out_path: str | Path,
     save_tile: Callable[[Image.Image, str], str],
 ) -> list[dict]:
-    """Build six ordered steps from the full-resolution Grand Prize image.
+    """Build short ordered steps and an optional whole-line challenge.
 
     cfg requires ``set``, ``level: 2`` and ``source_path``. out_path contains the
     already generated line image. The callback writes a crop and returns its
@@ -154,7 +206,7 @@ def generate_lesson(
     }
     common.update({
         "set": set_id, "level": 2, "degradation": 0, "base_item": BASE_ID,
-        "uncertain": [],
+        "uncertain": [], "practice_group": "first-line",
     })
     whole = {
         **common, "image": image_name, "truth": base["truth"], "guide": base["truth"],
@@ -168,7 +220,7 @@ def generate_lesson(
         "preparation": (
             "This line comes from inside a rolled papyrus. Bright marks are an ink-detection "
             "model's output from a CT scan; the reading below comes from papyrologists. "
-            "First we will find familiar shapes, then build up to the whole line."
+            "First we will read short groups and compare their handwriting. Trying the whole line at the end is optional."
         ),
         "explain": (
             "This is column −8, line 5 of PHerc. Paris 4. Its beginning is clearer than its middle. "
@@ -177,11 +229,30 @@ def generate_lesson(
         ),
     }]
     for fragment in FRAGMENTS:
+        source_base = base
+        if fragment.get("base_id", BASE_ID) != BASE_ID:
+            source_base = next((item for item in existing_items if item.get("id") == fragment["base_id"]), None)
+            expected = EXTRA_BASES[fragment["base_id"]]
+            if source_base is None or (source_base.get("edition"), source_base.get("truth"), source_base.get("uncertain")) != expected:
+                _error(f"{fragment['base_id']}: the edition changed; recheck the bridge fragment")
+            if source_base.get("task") != "read" or source_base.get("degradation") != 0:
+                _error("bridge fragments require unaltered source lines")
+            if not {"cerc54", "grandprize"}.issubset(source_base.get("source", [])):
+                _error("bridge fragments require the edition and original image sources")
         start, end = fragment["indices"]
-        truth = base["truth"][start:end]
+        truth = source_base["truth"][start:end]
+        if start < 0 or len(truth) != end - start or not truth:
+            _error("invalid bridge fragment edition range")
+        if any(start <= index < end for index in source_base["uncertain"]):
+            _error("an uncertain source letter entered a clear bridge fragment")
+        left, top, right, bottom = fragment["rect"]
+        if not (0 <= left < right <= source.width and 0 <= top < bottom <= source.height):
+            _error("bridge fragment rectangle exceeds the original image")
         item_id = f"{set_id}-{fragment['suffix']}"
         item = {
             **copy.deepcopy(common), "id": item_id,
+            **{key: copy.deepcopy(source_base[key]) for key in ("source", "license", "credit", "checked", "edition", "reading")},
+            "base_item": source_base["id"],
             **{key: copy.deepcopy(fragment[key]) for key in ("task", "stage", "preparation", "question", "hint", "explain")},
             "truth": truth, "guide": truth,
             "image": save_tile(source.crop(fragment["rect"]), item_id),
@@ -196,10 +267,11 @@ def generate_lesson(
         items.append(item)
     items.append({
         **copy.deepcopy(whole), "id": new_ids[-1], "task": "read",
-        "stage": "Your first line",
+        "stage": "Optional: try the whole line", "optional_challenge": True,
         "preparation": (
-            "Start with the four letters you know, then continue across the line. Its middle is harder: "
-            "use the optional guide, or put ? for a letter you cannot make out. Reading with help counts as supported practice."
+            "You have finished the short-group lesson. Try the whole line if you feel ready, or finish here and return later. "
+            "Its middle is harder than the groups you practised: use the optional guide, or put ? for a letter you cannot make out. "
+            "Reading with help counts as supported practice."
         ),
         "question": "Read the line from left to right. Use the guide whenever you need it.",
         "hint": "There are 16 letters. Ignore marks entering from the neighbouring lines; do not add spaces or accents.",
@@ -213,7 +285,7 @@ def generate_lesson(
 
 
 def generate_reading_practice(existing_items: list[dict]) -> list[dict]:
-    """Return four optional recall tasks, reusing the lesson's unchanged images.
+    """Return optional recall tasks, reusing the lesson's unchanged images.
 
     These are repeat readings of the same verified fragments, not new examples.
     Choices and revealing preparation text are removed. The optional guide is
@@ -224,7 +296,7 @@ def generate_reading_practice(existing_items: list[dict]) -> list[dict]:
     for fragment in FRAGMENTS:
         matches = [
             item for item in existing_items
-            if item.get("base_item") == BASE_ID and item.get("level") == 2
+            if item.get("base_item") == fragment.get("base_id", BASE_ID) and item.get("level") == 2
             and item.get("degradation") == 0 and not item.get("practice_only")
             and item.get("source_crop") == fragment["rect"]
             and item.get("edition_indices") == fragment["indices"]
@@ -243,6 +315,11 @@ def generate_reading_practice(existing_items: list[dict]) -> list[dict]:
             "explain": item["explain"] + " This repeat uses the same source image; it is practice, not a new passage.",
         })
         item.pop("choices", None)
+        if fragment["task"] == "study":
+            item["preparation"] = (
+                "This connected group was an unscored comparison in the lesson. "
+                "Try recalling the published letters if you wish, or open the guide to compare them again."
+            )
         practice.append(item)
     return practice
 
@@ -373,6 +450,7 @@ def generate_extra_fragments(
         item.update({
             "id": item_id, "set": set_id, "level": 2, "degradation": 0,
             "task": "read", "practice_only": True, "base_item": base_id,
+            "practice_group": "first-line",
             "truth": truth, "uncertain": [], "guide": truth,
             "edition_indices": list(indices), "source_crop": list(rect),
             "source_crop_version": EXTRA_CROP_VERSION,

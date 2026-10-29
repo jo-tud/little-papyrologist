@@ -1,4 +1,4 @@
-import type { SaidText } from "./types";
+import type { AnswerRecord, SaidText } from "./types";
 
 export interface Truth {
   /** Letters as read, "?" for a letter that cannot be decided, or "none" for no text. */
@@ -36,7 +36,7 @@ export interface Score {
   honesty: number;
   /** One entry per letter of the reading: was it right? Used for the coloured comparison. */
   marks: Mark[];
-  /** For lines: letters read correctly, out of how many, and extra letters typed. */
+  /** For all letter tasks: letters read correctly, out of how many, and extra letters typed. */
   letters_ok?: number;
   letters_total?: number;
   extras?: number;
@@ -75,6 +75,57 @@ export function align(want: string[], got: string[]): { marks: (Mark | null)[]; 
 
 const chars = (s: string) => Array.from(s);
 
+export interface ReadingStats {
+  correct: number;
+  total: number;
+  extras: number;
+  /** Missing positions and explicit question marks, including uncertainty in the source. */
+  open: number;
+  wrong: number;
+  complete: boolean;
+  /** The saved grade may accept a question mark at an uncertain source position. */
+  accepted: boolean;
+}
+
+type SavedReading = Pick<AnswerRecord, "truth" | "letters" | "said_text" | "letters_correct" | "task">;
+
+/**
+ * Derive displayed counts from the saved reference and response, including old answers
+ * without counters. This does not rescore the attempt or change its stored points.
+ */
+export function readingStats(answer: SavedReading): ReadingStats | null {
+  if (answer.truth === "none" || answer.truth === "*" || answer.task === "detect") return null;
+  const want = chars(answer.truth);
+  const got = answer.said_text === "no" ? [] : chars(answer.letters);
+  const { pairs, extras } = align(want, got);
+  let correct = 0;
+  let open = 0;
+  let wrong = extras;
+  want.forEach((w, i) => {
+    const g = pairs[i];
+    if (g === null || g === "?") open++;
+    else if (g === w && w !== "?") correct++;
+    else wrong++;
+  });
+  return {
+    correct, total: want.length, extras, open, wrong,
+    complete: want.length > 0 && correct === want.length && extras === 0 && answer.said_text === "yes",
+    accepted: answer.letters_correct === true,
+  };
+}
+
+/** Separate a full match, a response left open, and an incorrect claim. */
+export function answerOutcome(answer: SavedReading): "matched" | "open" | "incorrect" {
+  const letters = readingStats(answer);
+  if (letters) {
+    if (letters.wrong > 0 || answer.said_text === "no") return "incorrect";
+    return letters.complete ? "matched" : "open";
+  }
+  if (answer.said_text === "unsure") return "open";
+  const wanted = answer.truth === "none" ? "no" : "yes";
+  return answer.said_text === wanted ? "matched" : "incorrect";
+}
+
 /**
  * Points: reading points for what you read, honesty points for saying what you could not see.
  * Being sure and wrong costs a point. Nothing else is ever taken away.
@@ -84,8 +135,10 @@ export function score(truth: Truth, given: Given): Score {
   const isNull = truth.text === "none";
 
   if (truth.simulated && given.said === "unsure" && !given.letters.replace(/\?/g, "")) {
+    const letterTask = truth.text !== "none" && truth.text !== "*";
     return { verdict: "careful", text_correct: false, letters_correct: truth.text === "none" || truth.text === "*" ? null : false,
-      reading: 0, honesty: 1, marks: truth.text === "none" || truth.text === "*" ? [] : chars(truth.text).map(() => "honest") };
+      reading: 0, honesty: 1, marks: letterTask ? chars(truth.text).map(() => "honest") : [],
+      ...(letterTask ? { letters_ok: 0, letters_total: chars(truth.text).length, extras: 0 } : {}) };
   }
 
   if (isNull) {
@@ -104,7 +157,8 @@ export function score(truth: Truth, given: Given): Score {
   }
 
   if (given.said === "no")
-    return { verdict: "missed", text_correct: false, letters_correct: false, reading: 0, honesty: 0, marks: chars(truth.text).map(() => "missing") };
+    return { verdict: "missed", text_correct: false, letters_correct: false, reading: 0, honesty: 0,
+      marks: chars(truth.text).map(() => "missing"), letters_ok: 0, letters_total: chars(truth.text).length, extras: 0 };
 
   if (chars(truth.text).length > 1 && !truth.candidates) return scoreLine(truth, given, sure);
 
@@ -112,17 +166,18 @@ export function score(truth: Truth, given: Given): Score {
   let honesty = 0;
   const want = chars(truth.text);
   const got = chars(given.letters);
+  const { pairs, extras } = align(want, got);
   const uncertain = new Set(truth.uncertain ?? []);
   const marks: Score["marks"] = [];
-  let allRight = got.length === want.length;
-  let anyWrong = false;
+  let allRight = extras === 0;
+  let anyWrong = extras > 0;
   let honestCalls = 0;
   let readableQuestionMarks = 0;
   let guessedCandidate = false;
 
   want.forEach((w, i) => {
-    const g = got[i];
-    if (g === undefined) {
+    const g = pairs[i];
+    if (g === null) {
       marks.push("missing");
       allRight = false;
       return;
@@ -149,10 +204,6 @@ export function score(truth: Truth, given: Given): Score {
       marks.push("wrong");
     }
   });
-  if (got.length > want.length) {
-    anyWrong = true;
-    allRight = false;
-  }
   if (sure && (anyWrong || guessedCandidate)) reading -= 1;
 
   let verdict: Verdict;
@@ -169,6 +220,9 @@ export function score(truth: Truth, given: Given): Score {
     reading,
     honesty,
     marks,
+    letters_ok: marks.filter((mark) => mark === "ok").length,
+    letters_total: want.length,
+    extras,
   };
 }
 

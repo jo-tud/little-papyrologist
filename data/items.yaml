@@ -11,8 +11,8 @@ sets:
   level: 2
   title: Your first line
   ordered: true
-  intro: Start with one familiar shape, build a short group, then explore a whole published line. A reading
-    guide is available whenever you need it.
+  intro: Start with familiar shapes, read short groups and compare handwriting in different lines. Trying
+    the whole line at the end is optional. A reading guide is available whenever you need it.
 - id: ir-500p2
   level: 2
   title: Look closer — ink or papyrus?
@@ -58,7 +58,7 @@ items:
   - topography2026
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: PHerc. 248
   sample_id: ε
   changes: whole brightfield photograph scaled down
@@ -87,7 +87,7 @@ items:
   source: *id001
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: PHerc. 250
   sample_id: ο
   changes: whole brightfield photograph scaled down
@@ -115,7 +115,7 @@ items:
   source: *id001
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: PHerc. 500P2
   sample_id: ιτ
   changes: whole brightfield photograph scaled down
@@ -137,7 +137,7 @@ items:
   source: *id001
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: PHerc. 500P2
   sample_id: ν2
   changes: whole brightfield photograph scaled down
@@ -160,7 +160,7 @@ items:
   source: *id001
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: PHerc. 500P2
   sample_id: ν
   changes: whole brightfield photograph scaled down
@@ -183,7 +183,7 @@ items:
   source: *id001
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: PHerc. 500P2
   sample_id: η
   changes: whole brightfield photograph scaled down
@@ -215,7 +215,7 @@ items:
   source: *id001
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: PHerc. 250
   sample_id: ρ
   changes: whole brightfield photograph scaled down
@@ -231,7 +231,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cropped and scaled down; greyscale as in the infrared photo
   task: detect
   image: ir-500p2-a.webp
@@ -249,7 +249,7 @@ items:
   source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cropped and scaled down; greyscale as in the infrared photo
   task: detect
   image: ir-500p2-b.webp
@@ -267,7 +267,7 @@ items:
   source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cropped and scaled down; greyscale as in the infrared photo
   task: detect
   image: ir-500p2-c.webp
@@ -285,7 +285,7 @@ items:
   source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cropped and scaled down; greyscale as in the infrared photo
   task: detect
   image: ir-500p2-d.webp
@@ -303,7 +303,7 @@ items:
   source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cropped and scaled down; greyscale as in the infrared photo
   task: detect
   image: ir-500p2-e-v2.webp
@@ -321,7 +321,7 @@ items:
   source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cropped and scaled down; greyscale as in the infrared photo
   task: detect
   image: ir-500p2-f.webp
@@ -339,7 +339,7 @@ items:
   source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cropped and scaled down; greyscale as in the infrared photo
   task: detect
   image: ir-500p2-g.webp
@@ -357,7 +357,7 @@ items:
   source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cropped and scaled down; greyscale as in the infrared photo
   task: detect
   image: ir-500p2-h.webp
@@ -375,7 +375,7 @@ items:
   source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cropped and scaled down; greyscale as in the infrared photo
   task: detect
   image: ir-500p2-i.webp
@@ -393,7 +393,7 @@ items:
   source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cropped and scaled down; greyscale as in the infrared photo
   task: detect
   image: ir-500p2-j.webp
@@ -411,7 +411,7 @@ items:
   source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cropped and scaled down; greyscale as in the infrared photo
   task: detect
   image: ir-500p2-k.webp
@@ -429,7 +429,7 @@ items:
   source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cropped and scaled down; greyscale as in the infrared photo
   task: detect
   image: ir-500p2-l.webp
@@ -447,7 +447,7 @@ items:
   source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cropped and scaled down; greyscale as in the infrared photo
   task: detect
   image: ir-500p2-x1.webp
@@ -469,7 +469,7 @@ items:
   source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cropped and scaled down; greyscale as in the infrared photo
   task: detect
   image: ir-500p2-x2.webp
@@ -491,7 +491,7 @@ items:
   source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cropped and scaled down; greyscale as in the infrared photo
   task: detect
   image: ir-500p2-x3.webp
@@ -513,7 +513,7 @@ items:
   source: *id002
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cropped and scaled down; greyscale as in the infrared photo
   task: detect
   image: ir-500p2-x4.webp
@@ -537,7 +537,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cut to one line
   task: read
   image: paris4-col-8-l04.webp
@@ -558,7 +558,7 @@ items:
   source: *id003
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cut to one line
   task: read
   image: paris4-col-8-l05.webp
@@ -578,7 +578,7 @@ items:
   source: *id003
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cut to one line
   task: read
   image: paris4-col-8-l06.webp
@@ -600,7 +600,7 @@ items:
   source: *id003
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cut to one line
   task: read
   image: paris4-col-8-l08.webp
@@ -621,7 +621,7 @@ items:
   source: *id003
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cut to one line
   task: read
   image: paris4-col-8-l11.webp
@@ -643,7 +643,7 @@ items:
   source: *id003
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cut to one line
   task: read
   image: paris4-col-8-l12.webp
@@ -664,7 +664,7 @@ items:
   source: *id003
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cut to one line
   task: read
   image: paris4-col-8-l14.webp
@@ -687,7 +687,7 @@ items:
   source: *id003
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cut to one line
   task: read
   image: paris4-col-8-l16.webp
@@ -711,7 +711,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cut to a small window
   task: detect
   alt: A small window of an ink detection image of a closed scroll
@@ -732,7 +732,7 @@ items:
   source: *id004
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cut to a small window
   task: detect
   alt: A small window of an ink detection image of a closed scroll
@@ -753,7 +753,7 @@ items:
   source: *id004
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cut to a small window
   task: detect
   alt: A small window of an ink detection image of a closed scroll
@@ -774,7 +774,7 @@ items:
   source: *id004
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cut to a small window
   task: detect
   alt: A small window of an ink detection image of a closed scroll
@@ -795,7 +795,7 @@ items:
   source: *id004
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cut to a small window
   task: detect
   alt: A small window of an ink detection image of a closed scroll
@@ -817,7 +817,7 @@ items:
   source: *id004
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cut to a small window
   task: detect
   alt: A small window of an ink detection image of a closed scroll
@@ -839,7 +839,7 @@ items:
   source: *id004
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   changes: cut to a small window
   task: detect
   alt: A small window of an ink detection image of a closed scroll
@@ -859,7 +859,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   edition: γείνεϲθαι, παραπλη-
   reading: column −8, line 5
   set: first-line
@@ -867,6 +867,7 @@ items:
   degradation: 0
   base_item: paris4-col-8-l05
   uncertain: []
+  practice_group: first-line
   image: paris4-col-8-l05.webp
   truth: ΓΕΙΝΕϹΘΑΙΠΑΡΑΠΛΗ
   guide: ΓΕΙΝΕϹΘΑΙΠΑΡΑΠΛΗ
@@ -884,8 +885,8 @@ items:
   task: study
   stage: Meet an ink map
   preparation: This line comes from inside a rolled papyrus. Bright marks are an ink-detection model's
-    output from a CT scan; the reading below comes from papyrologists. First we will find familiar shapes,
-    then build up to the whole line.
+    output from a CT scan; the reading below comes from papyrologists. First we will read short groups
+    and compare their handwriting. Trying the whole line at the end is optional.
   explain: This is column −8, line 5 of PHerc. Paris 4. Its beginning is clearer than its middle. Study
     the published reading here; a guide will remain available later. The letters run together, and the
     final word continues on the next line. This introduction is not scored.
@@ -894,7 +895,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   edition: γείνεϲθαι, παραπλη-
   reading: column −8, line 5
   set: first-line
@@ -902,6 +903,7 @@ items:
   degradation: 0
   base_item: paris4-col-8-l05
   uncertain: []
+  practice_group: first-line
   id: first-line-epsilon
   task: identify
   stage: A familiar curve
@@ -933,7 +935,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   edition: γείνεϲθαι, παραπλη-
   reading: column −8, line 5
   set: first-line
@@ -941,6 +943,7 @@ items:
   degradation: 0
   base_item: paris4-col-8-l05
   uncertain: []
+  practice_group: first-line
   id: first-line-gamma-epsilon
   task: identify
   stage: Two neighbours
@@ -972,7 +975,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   edition: γείνεϲθαι, παραπλη-
   reading: column −8, line 5
   set: first-line
@@ -980,6 +983,7 @@ items:
   degradation: 0
   base_item: paris4-col-8-l05
   uncertain: []
+  practice_group: first-line
   id: first-line-gamma-epsilon-iota
   task: read
   stage: Add an upright
@@ -1008,7 +1012,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   edition: γείνεϲθαι, παραπλη-
   reading: column −8, line 5
   set: first-line
@@ -1016,6 +1020,7 @@ items:
   degradation: 0
   base_item: paris4-col-8-l05
   uncertain: []
+  practice_group: first-line
   id: first-line-gamma-epsilon-iota-nu
   task: read
   stage: Four letters together
@@ -1044,7 +1049,88 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
+  edition: πάντωϲ κα̣ὶ ἡδίω
+  reading: column −8, line 12
+  set: first-line
+  level: 2
+  degradation: 0
+  base_item: paris4-col-8-l12
+  uncertain: []
+  practice_group: first-line
+  id: first-line-iota-eta-l12
+  task: identify
+  stage: Two familiar letters, another line
+  preparation: Take a short detour to line 12 of the same column. Iota can have a broad foot; Eta has
+    two linked uprights. Compare the actual strokes with the printed reference choices.
+  question: Which pair matches the narrow letter and the linked uprights beside it?
+  hint: The broad foot belongs to the first letter. In the second, the joining stroke sits below the top
+    ends.
+  explain: The edition reads Iota–Eta, ΙΗ, here. The first letter has a broad foot, and the second has
+    uprights of unequal proportions. Iota ends one word and Eta begins the next; this two-letter group
+    is not a word on its own.
+  truth: ΙΗ
+  guide: ΙΗ
+  image: first-line-iota-eta-l12.webp
+  alt: A short group of bright writing strokes from a verified line of PHerc. Paris 4
+  edition_indices:
+  - 8
+  - 10
+  source_crop:
+  - 8750
+  - 1135
+  - 8870
+  - 1235
+  changes: cropped to a verified character range in the original ink-detection image
+  choices:
+  - ΙΗ
+  - ΙΝ
+  - ΙΠ
+- source:
+  - cerc54
+  - grandprize
+  license: CC BY-NC 4.0
+  credit: Vesuvius Challenge; EduceLab, University of Kentucky
+  checked: '2026-10-29'
+  edition: λοϲ ε̣ἴη{ι}, καὶ κάπ̣πα-
+  reading: column −8, line 16
+  set: first-line
+  level: 2
+  degradation: 0
+  base_item: paris4-col-8-l16
+  uncertain: []
+  practice_group: first-line
+  id: first-line-iota-eta-l16
+  task: read
+  stage: Recognise the pair in another place
+  preparation: 'Now try a two-letter group from line 16. Handwriting changes even within one column: look
+    at the whole shapes, including their curled ends. The reading guide is available if you need it.'
+  question: Which two letters can you read here?
+  hint: Compare the narrow, curled shape with the linked uprights to its right. You have just met this
+    pair.
+  explain: These are Iota–Eta, ΙΗ, again, as recorded in the edition. Iota's ends curl and Eta's proportions
+    differ from the previous example. Here both letters are inside one word. You have matched a familiar
+    pair in a different part of the column.
+  truth: ΙΗ
+  guide: ΙΗ
+  image: first-line-iota-eta-l16.webp
+  alt: A short group of bright writing strokes from a verified line of PHerc. Paris 4
+  edition_indices:
+  - 4
+  - 6
+  source_crop:
+  - 8406
+  - 1550
+  - 8506
+  - 1635
+  changes: cropped to a verified character range in the original ink-detection image
+  assisted: true
+- source:
+  - cerc54
+  - grandprize
+  license: CC BY-NC 4.0
+  credit: Vesuvius Challenge; EduceLab, University of Kentucky
+  checked: '2026-10-29'
   edition: γείνεϲθαι, παραπλη-
   reading: column −8, line 5
   set: first-line
@@ -1052,6 +1138,47 @@ items:
   degradation: 0
   base_item: paris4-col-8-l05
   uncertain: []
+  practice_group: first-line
+  id: first-line-pi-lambda-eta
+  task: study
+  stage: When strokes run together
+  preparation: Back at the end of our first line, the edition identifies Pi–Lambda–Eta, ΠΛΗ. This connected
+    group is harder than the opening. Compare the named letters with the image; there is nothing to guess
+    or score on this step.
+  question: Compare the published group with its handwritten shapes.
+  hint: The rightmost letter has two linked uprights. To its left, bright strokes run together; the printed
+    letters separate them more clearly.
+  explain: The edition gives Pi–Lambda–Eta, ΠΛΗ, as the last three letters of line 5. The connected strokes
+    at the left do not look like three neatly separated print characters. Keeping the group together preserves
+    that context. It is the end of a word fragment, not a whole word; the word continues on the following
+    line.
+  truth: ΠΛΗ
+  guide: ΠΛΗ
+  image: first-line-pi-lambda-eta.webp
+  alt: A short group of bright writing strokes from a verified line of PHerc. Paris 4
+  edition_indices:
+  - 13
+  - 16
+  source_crop:
+  - 8914
+  - 452
+  - 9103
+  - 530
+  changes: cropped to a verified character range in the original ink-detection image
+- source:
+  - cerc54
+  - grandprize
+  license: CC BY-NC 4.0
+  credit: Vesuvius Challenge; EduceLab, University of Kentucky
+  checked: '2026-10-29'
+  edition: γείνεϲθαι, παραπλη-
+  reading: column −8, line 5
+  set: first-line
+  level: 2
+  degradation: 0
+  base_item: paris4-col-8-l05
+  uncertain: []
+  practice_group: first-line
   image: paris4-col-8-l05.webp
   truth: ΓΕΙΝΕϹΘΑΙΠΑΡΑΠΛΗ
   guide: ΓΕΙΝΕϹΘΑΙΠΑΡΑΠΛΗ
@@ -1067,10 +1194,11 @@ items:
   changes: cut to one line
   id: first-line-read
   task: read
-  stage: Your first line
-  preparation: 'Start with the four letters you know, then continue across the line. Its middle is harder:
-    use the optional guide, or put ? for a letter you cannot make out. Reading with help counts as supported
-    practice.'
+  stage: 'Optional: try the whole line'
+  optional_challenge: true
+  preparation: 'You have finished the short-group lesson. Try the whole line if you feel ready, or finish
+    here and return later. Its middle is harder than the groups you practised: use the optional guide,
+    or put ? for a letter you cannot make out. Reading with help counts as supported practice.'
   question: Read the line from left to right. Use the guide whenever you need it.
   hint: There are 16 letters. Ignore marks entering from the neighbouring lines; do not add spaces or
     accents.
@@ -1082,7 +1210,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   edition: γείνεϲθαι, παραπλη-
   reading: column −8, line 5
   set: first-line
@@ -1090,6 +1218,7 @@ items:
   degradation: 0
   base_item: paris4-col-8-l05
   uncertain: []
+  practice_group: first-line
   id: first-line-epsilon-recall
   task: read
   stage: Read it again
@@ -1119,7 +1248,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   edition: γείνεϲθαι, παραπλη-
   reading: column −8, line 5
   set: first-line
@@ -1127,6 +1256,7 @@ items:
   degradation: 0
   base_item: paris4-col-8-l05
   uncertain: []
+  practice_group: first-line
   id: first-line-gamma-epsilon-recall
   task: read
   stage: Read it again
@@ -1156,7 +1286,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   edition: γείνεϲθαι, παραπλη-
   reading: column −8, line 5
   set: first-line
@@ -1164,6 +1294,7 @@ items:
   degradation: 0
   base_item: paris4-col-8-l05
   uncertain: []
+  practice_group: first-line
   id: first-line-gamma-epsilon-iota-recall
   task: read
   stage: Read it again
@@ -1193,7 +1324,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   edition: γείνεϲθαι, παραπλη-
   reading: column −8, line 5
   set: first-line
@@ -1201,6 +1332,7 @@ items:
   degradation: 0
   base_item: paris4-col-8-l05
   uncertain: []
+  practice_group: first-line
   id: first-line-gamma-epsilon-iota-nu-recall
   task: read
   stage: Read it again
@@ -1230,7 +1362,123 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
+  edition: πάντωϲ κα̣ὶ ἡδίω
+  reading: column −8, line 12
+  set: first-line
+  level: 2
+  degradation: 0
+  base_item: paris4-col-8-l12
+  uncertain: []
+  practice_group: first-line
+  id: first-line-iota-eta-l12-recall
+  task: read
+  stage: Read it again
+  preparation: This is a fragment you met in the guided lesson. Try reading it without the guide this
+    time.
+  question: Which letters can you read, from left to right?
+  hint: Work through the visible strokes one character at a time; ? is welcome when you are unsure.
+  explain: The edition reads Iota–Eta, ΙΗ, here. The first letter has a broad foot, and the second has
+    uprights of unequal proportions. Iota ends one word and Eta begins the next; this two-letter group
+    is not a word on its own. This repeat uses the same source image; it is practice, not a new passage.
+  truth: ΙΗ
+  guide: ΙΗ
+  image: first-line-iota-eta-l12.webp
+  alt: A short group of bright writing strokes from a verified line of PHerc. Paris 4
+  edition_indices:
+  - 8
+  - 10
+  source_crop:
+  - 8750
+  - 1135
+  - 8870
+  - 1235
+  changes: cropped to a verified character range in the original ink-detection image
+  practice_only: true
+- source:
+  - cerc54
+  - grandprize
+  license: CC BY-NC 4.0
+  credit: Vesuvius Challenge; EduceLab, University of Kentucky
+  checked: '2026-10-29'
+  edition: λοϲ ε̣ἴη{ι}, καὶ κάπ̣πα-
+  reading: column −8, line 16
+  set: first-line
+  level: 2
+  degradation: 0
+  base_item: paris4-col-8-l16
+  uncertain: []
+  practice_group: first-line
+  id: first-line-iota-eta-l16-recall
+  task: read
+  stage: Read it again
+  preparation: This is a fragment you met in the guided lesson. Try reading it without the guide this
+    time.
+  question: Which letters can you read, from left to right?
+  hint: Work through the visible strokes one character at a time; ? is welcome when you are unsure.
+  explain: These are Iota–Eta, ΙΗ, again, as recorded in the edition. Iota's ends curl and Eta's proportions
+    differ from the previous example. Here both letters are inside one word. You have matched a familiar
+    pair in a different part of the column. This repeat uses the same source image; it is practice, not
+    a new passage.
+  truth: ΙΗ
+  guide: ΙΗ
+  image: first-line-iota-eta-l16.webp
+  alt: A short group of bright writing strokes from a verified line of PHerc. Paris 4
+  edition_indices:
+  - 4
+  - 6
+  source_crop:
+  - 8406
+  - 1550
+  - 8506
+  - 1635
+  changes: cropped to a verified character range in the original ink-detection image
+  practice_only: true
+- source:
+  - cerc54
+  - grandprize
+  license: CC BY-NC 4.0
+  credit: Vesuvius Challenge; EduceLab, University of Kentucky
+  checked: '2026-10-29'
+  edition: γείνεϲθαι, παραπλη-
+  reading: column −8, line 5
+  set: first-line
+  level: 2
+  degradation: 0
+  base_item: paris4-col-8-l05
+  uncertain: []
+  practice_group: first-line
+  id: first-line-pi-lambda-eta-recall
+  task: read
+  stage: Read it again
+  preparation: This connected group was an unscored comparison in the lesson. Try recalling the published
+    letters if you wish, or open the guide to compare them again.
+  question: Which letters can you read, from left to right?
+  hint: Work through the visible strokes one character at a time; ? is welcome when you are unsure.
+  explain: The edition gives Pi–Lambda–Eta, ΠΛΗ, as the last three letters of line 5. The connected strokes
+    at the left do not look like three neatly separated print characters. Keeping the group together preserves
+    that context. It is the end of a word fragment, not a whole word; the word continues on the following
+    line. This repeat uses the same source image; it is practice, not a new passage.
+  truth: ΠΛΗ
+  guide: ΠΛΗ
+  image: first-line-pi-lambda-eta.webp
+  alt: A short group of bright writing strokes from a verified line of PHerc. Paris 4
+  edition_indices:
+  - 13
+  - 16
+  source_crop:
+  - 8914
+  - 452
+  - 9103
+  - 530
+  changes: cropped to a verified character range in the original ink-detection image
+  practice_only: true
+- source:
+  - cerc54
+  - grandprize
+  license: CC BY-NC 4.0
+  credit: Vesuvius Challenge; EduceLab, University of Kentucky
+  checked: '2026-10-29'
   edition: γείνεϲθαι, παραπλη-
   reading: column −8, line 5
   id: first-line-extra-l05-iota
@@ -1240,6 +1488,7 @@ items:
   task: read
   practice_only: true
   base_item: paris4-col-8-l05
+  practice_group: first-line
   truth: Ι
   uncertain: []
   guide: Ι
@@ -1267,7 +1516,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   edition: γείνεϲθαι, παραπλη-
   reading: column −8, line 5
   id: first-line-extra-l05-nu
@@ -1277,6 +1526,7 @@ items:
   task: read
   practice_only: true
   base_item: paris4-col-8-l05
+  practice_group: first-line
   truth: Ν
   uncertain: []
   guide: Ν
@@ -1304,7 +1554,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   edition: εἶναι καὶ παρὰ πλε̣ί-
   reading: column −8, line 8
   id: first-line-extra-l08-iota
@@ -1314,6 +1564,7 @@ items:
   task: read
   practice_only: true
   base_item: paris4-col-8-l08
+  practice_group: first-line
   truth: Ι
   uncertain: []
   guide: Ι
@@ -1341,7 +1592,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   edition: πάντωϲ κα̣ὶ ἡδίω
   reading: column −8, line 12
   id: first-line-extra-l12-eta
@@ -1351,6 +1602,7 @@ items:
   task: read
   practice_only: true
   base_item: paris4-col-8-l12
+  practice_group: first-line
   truth: Η
   uncertain: []
   guide: Η
@@ -1378,7 +1630,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   edition: λοϲ ε̣ἴη{ι}, καὶ κάπ̣πα-
   reading: column −8, line 16
   id: first-line-extra-l16-eta
@@ -1388,6 +1640,7 @@ items:
   task: read
   practice_only: true
   base_item: paris4-col-8-l16
+  practice_group: first-line
   truth: Η
   uncertain: []
   guide: Η
@@ -1415,7 +1668,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   edition: πάντωϲ κα̣ὶ ἡδίω
   reading: column −8, line 12
   id: first-line-extra-l12-iota
@@ -1425,6 +1678,7 @@ items:
   task: read
   practice_only: true
   base_item: paris4-col-8-l12
+  practice_group: first-line
   truth: Ι
   uncertain: []
   guide: Ι
@@ -1453,7 +1707,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   edition: λοϲ ε̣ἴη{ι}, καὶ κάπ̣πα-
   reading: column −8, line 16
   id: first-line-extra-l16-iota
@@ -1463,6 +1717,7 @@ items:
   task: read
   practice_only: true
   base_item: paris4-col-8-l16
+  practice_group: first-line
   truth: Ι
   uncertain: []
   guide: Ι
@@ -1490,7 +1745,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   edition: πάντωϲ κα̣ὶ ἡδίω
   reading: column −8, line 12
   id: first-line-extra-l12-iota-eta
@@ -1500,6 +1755,7 @@ items:
   task: read
   practice_only: true
   base_item: paris4-col-8-l12
+  practice_group: first-line
   truth: ΙΗ
   uncertain: []
   guide: ΙΗ
@@ -1527,7 +1783,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   edition: λοϲ ε̣ἴη{ι}, καὶ κάπ̣πα-
   reading: column −8, line 16
   id: first-line-extra-l16-iota-eta
@@ -1537,6 +1793,7 @@ items:
   task: read
   practice_only: true
   base_item: paris4-col-8-l16
+  practice_group: first-line
   truth: ΙΗ
   uncertain: []
   guide: ΙΗ
@@ -1575,7 +1832,7 @@ items:
   source: *id001
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: PHerc. 248
   sample_id: ε
   changes: whole brightfield photograph scaled down
@@ -1601,7 +1858,7 @@ items:
   source: *id001
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: PHerc. 250
   sample_id: ο
   changes: whole brightfield photograph scaled down
@@ -1626,7 +1883,7 @@ items:
   source: *id001
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: PHerc. 500P2
   sample_id: ιτ
   changes: whole brightfield photograph scaled down
@@ -1651,7 +1908,7 @@ items:
   source: *id001
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: PHerc. 500P2
   sample_id: ν2
   changes: whole brightfield photograph scaled down
@@ -1677,7 +1934,7 @@ items:
   source: *id001
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: PHerc. 500P2
   sample_id: ν
   changes: whole brightfield photograph scaled down
@@ -1703,7 +1960,7 @@ items:
   source: *id001
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: PHerc. 500P2
   sample_id: η
   changes: whole brightfield photograph scaled down
@@ -1757,7 +2014,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-a-traced.webp
 - id: harder-d1-blank
@@ -1803,7 +2060,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
 - id: harder-d1-letters
   set: harder-images
@@ -1850,7 +2107,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 5
   edition: γείνεϲθαι, παραπλη-
   uncertain: []
@@ -1907,7 +2164,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
 - id: harder-d2-ink
   set: harder-images
@@ -1953,7 +2210,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-b-traced.webp
 - id: harder-d3-line
@@ -2001,7 +2258,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 5
   edition: γείνεϲθαι, παραπλη-
   uncertain: []
@@ -2049,7 +2306,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-c-traced.webp
 - id: harder-d3-blank
@@ -2095,7 +2352,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
 - id: harder-d4-blank
   set: harder-images
@@ -2140,7 +2397,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
 - id: harder-d4-ink
   set: harder-images
@@ -2185,7 +2442,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-d-traced.webp
 - id: harder-d5-ink
@@ -2235,7 +2492,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-e-v2-traced.webp
 - id: harder-d5-blank
@@ -2285,7 +2542,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
 - id: practice-d1-ir-500p2-a
   set: harder-practice
@@ -2330,7 +2587,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-a-traced.webp
   practice_only: true
@@ -2377,7 +2634,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-b-traced.webp
   practice_only: true
@@ -2424,7 +2681,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-c-traced.webp
   practice_only: true
@@ -2471,7 +2728,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-d-traced.webp
   practice_only: true
@@ -2518,7 +2775,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-e-v2-traced.webp
   practice_only: true
@@ -2565,7 +2822,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-f-traced.webp
   practice_only: true
@@ -2612,7 +2869,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-g-traced.webp
   practice_only: true
@@ -2659,7 +2916,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-h-traced.webp
   practice_only: true
@@ -2706,7 +2963,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-i-traced.webp
   practice_only: true
@@ -2753,7 +3010,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-j-traced.webp
   practice_only: true
@@ -2800,7 +3057,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-k-traced.webp
   practice_only: true
@@ -2847,7 +3104,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-l-traced.webp
   practice_only: true
@@ -2894,7 +3151,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d1-ir-500p2-x2
@@ -2940,7 +3197,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d1-ir-500p2-x3
@@ -2986,7 +3243,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d1-ir-500p2-x4
@@ -3032,7 +3289,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d1-paris4-col-8-w1
@@ -3078,7 +3335,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: inside the column, lines 4–6
   practice_only: true
 - id: practice-d1-paris4-col-8-w2
@@ -3124,7 +3381,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: inside the column, lines 8–9
   practice_only: true
 - id: practice-d1-paris4-col-8-w3
@@ -3170,7 +3427,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: inside the column, lines 11–13
   practice_only: true
 - id: practice-d1-paris4-col-8-w4
@@ -3216,7 +3473,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: inside the column, lines 16–17
   practice_only: true
 - id: practice-d1-paris4-col-8-b1
@@ -3263,7 +3520,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: blank space between columns −8 and −7
   practice_only: true
 - id: practice-d1-paris4-col-8-b2
@@ -3310,7 +3567,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: blank space between columns −8 and −7
   practice_only: true
 - id: practice-d1-paris4-col-8-b3
@@ -3357,7 +3614,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: blank space between columns −9 and −8
   practice_only: true
 - id: practice-d1-paris4-col-8-l04
@@ -3405,7 +3662,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 4
   edition: ὃ κα̣ὶ ὑπ’ ἄλλων δοκεῖ
   uncertain:
@@ -3457,7 +3714,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 5
   edition: γείνεϲθαι, παραπλη-
   uncertain: []
@@ -3508,7 +3765,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 6
   edition: ϲίωϲ δ̣’ ο̣ὐδὲ παρ’ ἑτέρωι
   uncertain:
@@ -3561,7 +3818,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 8
   edition: εἶναι καὶ παρὰ πλε̣ί-
   uncertain:
@@ -3613,7 +3870,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 11
   edition: ο̣ὐκ ἤδ̣η τὰ ϲπάνια
   uncertain:
@@ -3666,7 +3923,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 12
   edition: πάντωϲ κα̣ὶ ἡδίω
   uncertain:
@@ -3718,7 +3975,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 14
   edition: νομίζ̣ο̣με̣ν. οὐ γὰρ
   uncertain:
@@ -3772,7 +4029,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 16
   edition: λοϲ ε̣ἴη{ι}, καὶ κάπ̣πα-
   uncertain:
@@ -3824,7 +4081,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-a-traced.webp
   practice_only: true
@@ -3872,7 +4129,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-b-traced.webp
   practice_only: true
@@ -3920,7 +4177,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-c-traced.webp
   practice_only: true
@@ -3968,7 +4225,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-d-traced.webp
   practice_only: true
@@ -4016,7 +4273,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-e-v2-traced.webp
   practice_only: true
@@ -4064,7 +4321,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-f-traced.webp
   practice_only: true
@@ -4112,7 +4369,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-g-traced.webp
   practice_only: true
@@ -4160,7 +4417,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-h-traced.webp
   practice_only: true
@@ -4208,7 +4465,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-i-traced.webp
   practice_only: true
@@ -4256,7 +4513,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-j-traced.webp
   practice_only: true
@@ -4304,7 +4561,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-k-traced.webp
   practice_only: true
@@ -4352,7 +4609,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-l-traced.webp
   practice_only: true
@@ -4400,7 +4657,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d2-ir-500p2-x2
@@ -4447,7 +4704,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d2-ir-500p2-x3
@@ -4494,7 +4751,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d2-ir-500p2-x4
@@ -4541,7 +4798,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d2-paris4-col-8-w1
@@ -4588,7 +4845,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: inside the column, lines 4–6
   practice_only: true
 - id: practice-d2-paris4-col-8-w2
@@ -4635,7 +4892,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: inside the column, lines 8–9
   practice_only: true
 - id: practice-d2-paris4-col-8-w3
@@ -4682,7 +4939,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: inside the column, lines 11–13
   practice_only: true
 - id: practice-d2-paris4-col-8-w4
@@ -4729,7 +4986,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: inside the column, lines 16–17
   practice_only: true
 - id: practice-d2-paris4-col-8-b1
@@ -4777,7 +5034,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: blank space between columns −8 and −7
   practice_only: true
 - id: practice-d2-paris4-col-8-b2
@@ -4825,7 +5082,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: blank space between columns −8 and −7
   practice_only: true
 - id: practice-d2-paris4-col-8-b3
@@ -4873,7 +5130,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: blank space between columns −9 and −8
   practice_only: true
 - id: practice-d2-paris4-col-8-l04
@@ -4922,7 +5179,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 4
   edition: ὃ κα̣ὶ ὑπ’ ἄλλων δοκεῖ
   uncertain:
@@ -4975,7 +5232,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 5
   edition: γείνεϲθαι, παραπλη-
   uncertain: []
@@ -5027,7 +5284,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 6
   edition: ϲίωϲ δ̣’ ο̣ὐδὲ παρ’ ἑτέρωι
   uncertain:
@@ -5081,7 +5338,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 8
   edition: εἶναι καὶ παρὰ πλε̣ί-
   uncertain:
@@ -5134,7 +5391,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 11
   edition: ο̣ὐκ ἤδ̣η τὰ ϲπάνια
   uncertain:
@@ -5188,7 +5445,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 12
   edition: πάντωϲ κα̣ὶ ἡδίω
   uncertain:
@@ -5241,7 +5498,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 14
   edition: νομίζ̣ο̣με̣ν. οὐ γὰρ
   uncertain:
@@ -5296,7 +5553,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 16
   edition: λοϲ ε̣ἴη{ι}, καὶ κάπ̣πα-
   uncertain:
@@ -5347,7 +5604,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-a-traced.webp
   practice_only: true
@@ -5394,7 +5651,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-b-traced.webp
   practice_only: true
@@ -5441,7 +5698,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-c-traced.webp
   practice_only: true
@@ -5488,7 +5745,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-d-traced.webp
   practice_only: true
@@ -5535,7 +5792,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-e-v2-traced.webp
   practice_only: true
@@ -5582,7 +5839,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-f-traced.webp
   practice_only: true
@@ -5629,7 +5886,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-g-traced.webp
   practice_only: true
@@ -5676,7 +5933,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-h-traced.webp
   practice_only: true
@@ -5723,7 +5980,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-i-traced.webp
   practice_only: true
@@ -5770,7 +6027,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-j-traced.webp
   practice_only: true
@@ -5817,7 +6074,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-k-traced.webp
   practice_only: true
@@ -5864,7 +6121,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-l-traced.webp
   practice_only: true
@@ -5911,7 +6168,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d3-ir-500p2-x2
@@ -5957,7 +6214,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d3-ir-500p2-x3
@@ -6003,7 +6260,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d3-ir-500p2-x4
@@ -6049,7 +6306,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d3-paris4-col-8-w1
@@ -6095,7 +6352,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: inside the column, lines 4–6
   practice_only: true
 - id: practice-d3-paris4-col-8-w2
@@ -6141,7 +6398,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: inside the column, lines 8–9
   practice_only: true
 - id: practice-d3-paris4-col-8-w3
@@ -6187,7 +6444,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: inside the column, lines 11–13
   practice_only: true
 - id: practice-d3-paris4-col-8-w4
@@ -6233,7 +6490,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: inside the column, lines 16–17
   practice_only: true
 - id: practice-d3-paris4-col-8-b1
@@ -6280,7 +6537,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: blank space between columns −8 and −7
   practice_only: true
 - id: practice-d3-paris4-col-8-b2
@@ -6327,7 +6584,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: blank space between columns −8 and −7
   practice_only: true
 - id: practice-d3-paris4-col-8-b3
@@ -6374,7 +6631,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: blank space between columns −9 and −8
   practice_only: true
 - id: practice-d3-paris4-col-8-l04
@@ -6422,7 +6679,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 4
   edition: ὃ κα̣ὶ ὑπ’ ἄλλων δοκεῖ
   uncertain:
@@ -6474,7 +6731,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 5
   edition: γείνεϲθαι, παραπλη-
   uncertain: []
@@ -6525,7 +6782,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 6
   edition: ϲίωϲ δ̣’ ο̣ὐδὲ παρ’ ἑτέρωι
   uncertain:
@@ -6578,7 +6835,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 8
   edition: εἶναι καὶ παρὰ πλε̣ί-
   uncertain:
@@ -6630,7 +6887,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 11
   edition: ο̣ὐκ ἤδ̣η τὰ ϲπάνια
   uncertain:
@@ -6683,7 +6940,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 12
   edition: πάντωϲ κα̣ὶ ἡδίω
   uncertain:
@@ -6735,7 +6992,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 14
   edition: νομίζ̣ο̣με̣ν. οὐ γὰρ
   uncertain:
@@ -6789,7 +7046,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: column −8, line 16
   edition: λοϲ ε̣ἴη{ι}, καὶ κάπ̣πα-
   uncertain:
@@ -6840,7 +7097,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-a-traced.webp
   practice_only: true
@@ -6887,7 +7144,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-b-traced.webp
   practice_only: true
@@ -6934,7 +7191,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-c-traced.webp
   practice_only: true
@@ -6981,7 +7238,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-d-traced.webp
   practice_only: true
@@ -7028,7 +7285,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-e-v2-traced.webp
   practice_only: true
@@ -7075,7 +7332,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-f-traced.webp
   practice_only: true
@@ -7122,7 +7379,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-g-traced.webp
   practice_only: true
@@ -7169,7 +7426,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-h-traced.webp
   practice_only: true
@@ -7216,7 +7473,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-i-traced.webp
   practice_only: true
@@ -7263,7 +7520,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-j-traced.webp
   practice_only: true
@@ -7310,7 +7567,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-k-traced.webp
   practice_only: true
@@ -7357,7 +7614,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-l-traced.webp
   practice_only: true
@@ -7404,7 +7661,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d4-ir-500p2-x2
@@ -7450,7 +7707,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d4-ir-500p2-x3
@@ -7496,7 +7753,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d4-ir-500p2-x4
@@ -7542,7 +7799,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d4-paris4-col-8-w1
@@ -7588,7 +7845,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: inside the column, lines 4–6
   practice_only: true
 - id: practice-d4-paris4-col-8-w2
@@ -7634,7 +7891,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: inside the column, lines 8–9
   practice_only: true
 - id: practice-d4-paris4-col-8-w3
@@ -7680,7 +7937,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: inside the column, lines 11–13
   practice_only: true
 - id: practice-d4-paris4-col-8-w4
@@ -7726,7 +7983,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: inside the column, lines 16–17
   practice_only: true
 - id: practice-d4-paris4-col-8-b1
@@ -7773,7 +8030,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: blank space between columns −8 and −7
   practice_only: true
 - id: practice-d4-paris4-col-8-b2
@@ -7820,7 +8077,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: blank space between columns −8 and −7
   practice_only: true
 - id: practice-d4-paris4-col-8-b3
@@ -7867,7 +8124,7 @@ items:
   - grandprize
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge; EduceLab, University of Kentucky
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: blank space between columns −9 and −8
   practice_only: true
 - id: practice-d5-ir-500p2-a
@@ -7917,7 +8174,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-a-traced.webp
   practice_only: true
@@ -7968,7 +8225,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-b-traced.webp
   practice_only: true
@@ -8019,7 +8276,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-c-traced.webp
   practice_only: true
@@ -8070,7 +8327,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-d-traced.webp
   practice_only: true
@@ -8121,7 +8378,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-e-v2-traced.webp
   practice_only: true
@@ -8172,7 +8429,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-f-traced.webp
   practice_only: true
@@ -8223,7 +8480,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-g-traced.webp
   practice_only: true
@@ -8274,7 +8531,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-h-traced.webp
   practice_only: true
@@ -8325,7 +8582,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-i-traced.webp
   practice_only: true
@@ -8376,7 +8633,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-j-traced.webp
   practice_only: true
@@ -8427,7 +8684,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-k-traced.webp
   practice_only: true
@@ -8478,7 +8735,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: ink traced by the organizers; no published reading of the letters
   reference_answer_image: ir-500p2-l-traced.webp
   practice_only: true
@@ -8529,7 +8786,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d5-ir-500p2-x2
@@ -8579,7 +8836,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d5-ir-500p2-x3
@@ -8629,7 +8886,7 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true
 - id: practice-d5-ir-500p2-x4
@@ -8679,6 +8936,6 @@ items:
   - pherc0500p2-ir
   license: CC BY-NC 4.0
   credit: Vesuvius Challenge (infrared photograph, registration and ink tracing)
-  checked: '2026-10-28'
+  checked: '2026-10-29'
   reading: no ink traced within 320 px of this area
   practice_only: true

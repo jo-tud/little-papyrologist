@@ -117,6 +117,8 @@ for (const it of items) {
   if (!quizSets.some((s) => s.id === it.set)) fail(`${where}: unknown set "${it.set}"`);
   if (quizSets.find((s) => s.id === it.set)?.level !== it.level) fail(`${where}: item and set levels differ`);
   if (it.practice_only !== undefined && typeof it.practice_only !== "boolean") fail(`${where}: practice_only must be boolean`);
+  if (it.optional_challenge !== undefined && (typeof it.optional_challenge !== "boolean" || it.task !== "read")) fail(`${where}: optional challenges must be reading tasks`);
+  if (it.practice_group !== undefined && (typeof it.practice_group !== "string" || !/^[a-z0-9-]+$/.test(it.practice_group))) fail(`${where}: invalid practice group`);
   if (it.guide !== undefined && it.guide !== it.truth) fail(`${where}: guide must match the verified reading`);
   if (it.answer_image && !existsSync(new URL(`../public/images/${it.answer_image}`, import.meta.url))) fail(`${where}: answer image ${it.answer_image} not found`);
   checkSources(where, it.source);
@@ -126,6 +128,11 @@ for (const it of items) {
   }
 }
 const itemById = new Map(items.map((it) => [it.id, it]));
+for (const set of quizSets) {
+  const steps = items.filter(it => it.set === set.id && !it.practice_only);
+  if (steps.some((it, i) => it.optional_challenge && (i !== steps.length - 1 || !set.ordered)))
+    fail(`set ${set.id}: an optional challenge must be the final ordered step`);
+}
 for (const it of items) {
   if (it.base_item && !itemById.has(it.base_item)) fail(`item ${it.id}: unknown base_item`);
   if (it.simulated) {

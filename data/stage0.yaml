@@ -223,8 +223,9 @@ drills:
     draw: { empty: shuffle, pieces: [[Α, bar, -14, -34, 8], [Ξ, mid, -16, 38, -4], [Κ, leg, 12, -8, 0]] }
     truth: none
     explain: >-
-      Three short strokes that never touch. Real-looking pieces of ink, but no letter is built
-      like this.
+      These three strokes were deliberately scattered for this practice drawing. They do
+      not make any of the Α, Λ or Δ shapes introduced here. Separate strokes alone are not
+      a general test for ruling out a handwritten letter.
   - id: d-ald-7
     group: ald
     draw: { empty: fibres }
@@ -270,8 +271,9 @@ drills:
     draw: { empty: streaks }
     truth: none
     explain: >-
-      Two dark lines along the fibres, running the full height of the tile. Letters stop at
-      the line height. These are fibres.
+      In this practice drawing, the two full-height dark lines represent papyrus fibres,
+      with no letter added. Their height is a clue for this drawing, not a general rule
+      about how far handwritten letters can extend.
   - id: d-hnp-7
     group: hnp
     draw: { empty: fibres }
@@ -316,8 +318,9 @@ drills:
     draw: { empty: crack }
     truth: none
     explain: >-
-      A pale, jagged line with sharp edges is a crack in the papyrus. Ink is dark. A crack is
-      not an Ι.
+      The pale, jagged shape represents a crack in this practice drawing; there is no inked
+      Ι here. These drawings use dark ink, while other kinds of images can display writing
+      in different colours or brightness.
   # Mu and nu
   - id: d-mn-1
     group: mn

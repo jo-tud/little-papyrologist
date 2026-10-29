@@ -5,6 +5,8 @@ type PracticeAnswer = AnswerRecord & { help_used?: boolean | null };
 
 export interface PracticeOptions {
   size?: number;
+  /** Focused reading rounds deliberately practise related forms, without detection tasks. */
+  group?: string;
   /** Supply a seeded generator when a reproducible round is needed. */
   random?: () => number;
 }
@@ -76,7 +78,17 @@ export function planPractice(
   const requested = options.size ?? 12;
   if (!Number.isFinite(requested) || requested < 1) return [];
   const random = options.random ?? Math.random;
-  const remaining = pool(items, level);
+  let remaining = pool(items, level);
+  if (options.group) {
+    const images = new Set<string>();
+    remaining = remaining.filter(item => item.practice_group === options.group && item.task === "read" && !item.optional_challenge && item.truth.length <= 6)
+      .filter(item => {
+        const crop = item.source_crop ? `${item.base_item}:${item.source_crop.join(",")}` : item.image;
+        if (images.has(crop)) return false;
+        images.add(crop);
+        return true;
+      });
+  }
   const byId = new Map(items.map((item) => [item.id, item]));
   const origins = new Map(remaining.map((item) => [item.id, original(item, byId)]));
   const latest = new Map<string, PracticeAnswer>();

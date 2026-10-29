@@ -1,7 +1,8 @@
 import { BADGES, currentStreak, rankStatus } from "../badges";
-import { drills, groups, hero, LEVELS, playSets, quizItems } from "../data";
+import { drills, groups, hero, itemSetVersion, LEVELS, playSets, quizItems } from "../data";
+import { canResume } from "../round-session";
 import { summarizePractice } from "../practice";
-import { levelAvailable, totalPoints } from "../rules";
+import { levelAvailable, levelDone, totalPoints } from "../rules";
 import { lineSvg } from "../glyphs/render";
 import { state } from "../store";
 import { badgeIcon, rankSeal, skipIntroLink, sourceLinks, tip } from "../ui";
@@ -10,6 +11,17 @@ import { esc } from "../util";
 
 export function renderHome(main: HTMLElement): void {
   const s = state();
+  const version = itemSetVersion();
+  const resumeLabel = (id: string): string | undefined => {
+    const saved = s.rounds?.[id];
+    const match = id.match(/^practice-([1-3])(?:\/([a-z0-9-]+))?$/);
+    const level = match ? Number(match[1]) : undefined;
+    const group = match?.[2];
+    const allowed = new Set(quizItems.filter(item => level ? item.level === level && item.task !== "study"
+      && (!group || item.practice_group === group) : item.set === id && !item.practice_only).map(item => item.id));
+    return canResume(saved, version, allowed, s.answers)
+      ? `Continue · ${saved.index + (saved.checked ? 1 : 0)}/${saved.item_ids.length}` : undefined;
+  };
   const chars = Array.from(hero.line);
   const starts = new Set<number>();
   let pos = 0;
@@ -24,7 +36,7 @@ export function renderHome(main: HTMLElement): void {
     ?? availableSets.find((p) => !s.setsDone[p.id]);
   const showAlphabet = !s.setsDone["alphabet-seen"] && startingLevel === 0;
   const nextHref = showAlphabet ? "#/alphabet" : nextSet?.href ?? "#/results";
-  const nextLabel = showAlphabet ? "Meet the alphabet" : nextSet ? `Next: ${nextSet.title}` : "See my results";
+  const nextLabel = showAlphabet ? "Meet the alphabet" : nextSet ? `${resumeLabel(nextSet.id) ?? "Next"}: ${nextSet.title}` : "See my results";
   const { reading, honesty } = totalPoints(s);
   const streak = currentStreak(s);
   const rank = rankStatus(s);
@@ -55,10 +67,11 @@ export function renderHome(main: HTMLElement): void {
     return sets
       .map((p) => {
         const done = (s.setsDone[p.id] ?? 0) > 0;
+        const label = resumeLabel(p.id) ?? (done ? "Play again" : "Start");
         return `<li class="stop ${done ? "done" : open ? nextSet?.id === p.id ? "up-next" : "" : "locked"}">
           <span class="mark" aria-hidden="true">${l.level}</span>
           <div><h3>Level ${l.level}: ${esc(p.title)}</h3><p>${esc(l.text)}</p></div>
-          ${open ? `<a class="button ${nextSet?.id === p.id ? "primary" : ""}" href="${p.href}" aria-label="${done ? "Play again" : "Start"}: ${esc(p.title)}">${done ? "Play again" : "Start"}</a>` : `<span class="muted small">${s.levelOverride !== undefined ? `<a href="#/results">Change practice level</a>` : `Finish level ${l.level - 1} first`}</span>`}
+          ${open ? `<a class="button ${nextSet?.id === p.id ? "primary" : ""}" href="${p.href}" aria-label="${label}: ${esc(p.title)}">${label}</a>` : `<span class="muted small">${s.levelOverride !== undefined ? `<a href="#/results">Change practice level</a>` : `Finish level ${l.level - 1} first`}</span>`}
         </li>`;
       })
       .join("");
@@ -121,9 +134,11 @@ export function renderHome(main: HTMLElement): void {
     <div class="practice-cards">
       ${LEVELS.map((l) => {
         const counts = summarizePractice(quizItems, s.answers, l.level);
+        const focused = Object.keys(s.rounds ?? {}).filter(id => id.startsWith(`practice-${l.level}/`) && resumeLabel(id));
         return `<article class="practice-card"><h3>Level ${l.level}</h3><p>${esc(l.title)}</p>
           <p class="small muted">${counts.available} exercises · ${counts.originals} source regions</p>
-          ${levelAvailable(s, l.level) ? `<a class="button" href="#/practice/${l.level}">Practise ${Math.min(12, counts.available)} tiles</a>` : `<p class="small">Opens with level ${l.level}. <a href="#/results">Choose your level</a>.</p>`}</article>`;
+          ${levelAvailable(s, l.level) ? `<a class="button" href="#/practice/${l.level}">${resumeLabel(`practice-${l.level}`) ?? `Practise ${Math.min(12, counts.available)} tiles`}</a>` : `<p class="small">Opens with level ${l.level}. <a href="#/results">Choose your level</a>.</p>`}
+          ${levelAvailable(s, l.level) ? focused.map(id => `<p class="small"><a href="#/practice/${l.level}/group/${id.split("/")[1]}">${resumeLabel(id)} · focused reading</a></p>`).join("") : ""}</article>`;
       }).join("")}
     </div>
     <p class="small muted">Altered versions are counted under the same source region. Some source regions overlap.
@@ -151,6 +166,7 @@ export function renderHome(main: HTMLElement): void {
           ? `<p class="small"><strong>Next: ${rank.next.secret ? "a secret rank" : esc(rank.next.title)}.</strong> To get there:</p>${checksList(rank.nextChecks)}`
           : `<p class="small"><strong>This is the last rank.</strong> Thank you for reading so carefully.</p>`
       }
+      ${s.introSkipped && !levelDone(s, 0) ? `<p class="small muted">Some ranks include the drawn exercises. Skipping the introduction opens the real images without marking those exercises complete.</p>` : ""}
       <p class="small"><a href="#/ranks">See all ranks</a></p>
     </div>
   </div>

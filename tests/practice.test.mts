@@ -104,3 +104,16 @@ test("Practice rounds are varied, adaptive, balanced and reproducible without ch
   assert.equal(balancedShortRound.filter((tile) => tile.truth === "none").length, 1);
 
 });
+
+test("Focused rounds use related short readings and do not repeat the same crop or force a whole line", () => {
+  const round = planPractice([
+    item("short", { task: "read", practice_group: "first-line" }),
+    item("same-image", { task: "read", practice_group: "first-line", image: "short.webp" }),
+    item("pair", { task: "read", practice_group: "first-line", truth: "ΙΗ" }),
+    item("whole", { task: "read", practice_group: "first-line", truth: "ΓΕΙΝΕϹΘΑΙΠΑΡΑΠΛΗ", optional_challenge: true }),
+    item("study", { task: "study", practice_group: "first-line" }), item("other"),
+  ], [], 1, { group: "first-line", random: seeded(12) });
+  assert.equal(round.length, 2);
+  assert.ok(round.every(tile => tile.task === "read" && tile.truth.length <= 6));
+  assert.equal(new Set(round.map(tile => tile.image)).size, 2);
+});

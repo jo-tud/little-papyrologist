@@ -4,6 +4,7 @@
  * New conditions are added here once; new ranks and badges then need only data.
  */
 import { LEVELS, playSets } from "./data";
+import { answerOutcome, readingStats } from "./scoring";
 import type { State } from "./store";
 import type { AnswerRecord } from "./types";
 
@@ -45,7 +46,7 @@ export interface Check {
 }
 
 const isEmptyTile = (a: AnswerRecord) => a.truth === "none";
-const isUndecidable = (a: AnswerRecord) => a.truth.includes("?");
+const isUndecidable = (a: AnswerRecord) => a.truth.includes("?") || (a.letters_correct === true && a.letters.includes("?"));
 const good = (a: AnswerRecord) => a.verdict === "right" || a.verdict === "honest" || a.verdict === "careful";
 const confidentWrong = (a: AnswerRecord) => a.confidence === 3 && (a.verdict === "wrong" || a.verdict === "guessed");
 
@@ -114,15 +115,15 @@ export function evaluate(req: Requirements, s: State, badgeTitle: (id: string) =
   if (req.honest_calls)
     out.push(
       count(
-        `Answer “can't tell” ${req.honest_calls} times where nobody could tell`,
+        `Use “?” ${req.honest_calls} times where the reference leaves room for uncertainty`,
         answers.filter((a) => isUndecidable(a) && a.letters.includes("?")).length,
         req.honest_calls,
       ),
     );
   if (req.letters_right) {
     const { letters, count: need } = req.letters_right;
-    const have = answers.filter((a) => letters.includes(a.truth) && a.letters === a.truth).length;
-    out.push(count(`Read ${letters.join(" or ")} correctly ${need} times`, have, need));
+    const have = answers.filter((a) => letters.includes(a.truth) && readingStats(a)?.complete).length;
+    out.push(count(`Match ${letters.join(" or ")} ${need} times (clues and repeats count)`, have, need));
   }
   if (req.empty_streak)
     out.push(
@@ -151,8 +152,8 @@ export function evaluate(req: Requirements, s: State, badgeTitle: (id: string) =
   if (req.calibration) {
     const { sure_answers, right_share } = req.calibration;
     const sure = answers.filter((a) => a.confidence === 3);
-    const right = sure.filter((a) => a.verdict === "right" || a.verdict === "honest").length;
-    const text = `At least ${sure_answers} answers marked “sure”, and ${Math.round(right_share * 100)} % of them right`;
+    const right = sure.filter((a) => answerOutcome(a) === "matched").length;
+    const text = `At least ${sure_answers} answers marked “sure”, with ${Math.round(right_share * 100)} % fully matching the reference (clues and repeats count)`;
     out.push({ text, have: Math.min(sure.length, sure_answers), need: sure_answers, met: sure.length >= sure_answers && right / Math.max(1, sure.length) >= right_share });
   }
   for (const id of req.badges ?? []) {
