@@ -1,4 +1,4 @@
-import type { AnswerRecord, SaidText } from "./types";
+import type { AnswerRecord, Confidence, SaidText } from "./types";
 
 /** A paused round keeps its exact order and draft; scored answers remain in history. */
 export interface RoundSession {
@@ -6,7 +6,7 @@ export interface RoundSession {
   item_ids: string[];
   index: number;
   answer_keys: string[];
-  draft: { said?: SaidText; letters: string[]; confidence?: 1 | 2 | 3 };
+  draft: { said?: SaidText; letters: string[]; confidence?: Confidence };
   checked: boolean;
   help_used: boolean;
   elapsed_ms: number;
@@ -26,8 +26,8 @@ export function validSession(value: unknown): value is RoundSession {
     && !!r.draft && Array.isArray(r.draft.letters) && r.draft.letters.length <= 500
     && r.draft.letters.every(letter => typeof letter === "string" && /^[Α-ΩϹ?]$/.test(letter))
     && (r.draft.said === undefined || ["yes", "no", "unsure"].includes(r.draft.said))
-    && (r.draft.confidence === undefined || [1, 2, 3].includes(r.draft.confidence))
-    && typeof r.checked === "boolean" && (!r.checked || (!!r.draft.said && !!r.draft.confidence))
+    && (r.draft.confidence === undefined || r.draft.confidence === null || [1, 2, 3].includes(r.draft.confidence))
+    && typeof r.checked === "boolean" && (!r.checked || (!!r.draft.said && r.draft.confidence !== undefined))
     && typeof r.help_used === "boolean" && Number.isFinite(r.elapsed_ms) && r.elapsed_ms >= 0;
 }
 

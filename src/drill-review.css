@@ -1,0 +1,53 @@
+.round.drawing-round-review {
+  display: block;
+}
+
+.drill-review {
+  margin: 1rem 0;
+}
+
+.drill-review-controls {
+  margin-bottom: 0.75rem;
+}
+
+.drill-review-controls [aria-pressed="true"] {
+  border-color: var(--teal);
+  background: var(--teal-soft);
+}
+
+.drill-review-panels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: start;
+  max-width: 40rem;
+}
+
+.drill-review .tile-frame {
+  min-width: 0;
+  max-width: none;
+}
+
+.drill-review .tile {
+  width: 100%;
+  aspect-ratio: 120 / 142;
+}
+
+.drill-review .tile-frame[hidden] {
+  display: none;
+}
+
+.drill-review:not([data-mode="side"]) .drill-review-panels {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 20rem;
+}
+
+.drill-review-solution.has-reading .tile .ink path {
+  stroke: #a3261d;
+}
+
+@media (max-width: 40rem) {
+  .drill-review-panels {
+    gap: 0.65rem;
+  }
+}

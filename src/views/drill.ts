@@ -8,6 +8,7 @@ import { introBridge, letterLabel, namedLetter, owl, sourceLinks, tip } from "..
 import { levelDone } from "../rules";
 import { state } from "../store";
 import { esc, shuffle } from "../util";
+import "../drill-review.css";
 
 const CANT_TELL = "?";
 const keyToLetter = new Map<string, string>(glyphs.map((g) => [g.latin, g.char]));
@@ -85,6 +86,7 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
   let shownAt = performance.now();
   let checked: Score | null = null;
   let newRank: string | undefined; // rank reached with the current answer
+  let reviewMode: "side" | "original" | "solution" = window.matchMedia("(max-width: 40rem)").matches ? "solution" : "side";
   const ranksThisSet: string[] = [];
   const results: AnswerRecord[] = [];
 
@@ -113,11 +115,12 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
     </div>
     ${index === 0 && !checked ? `<p class="round-intro">${esc(group!.intro)}${group!.sources?.length ? ` <span class="cite">${sourceLinks(group!.sources)}</span>` : ""}</p>` : ""}
     ${progress()}
-    <div class="round">
+    <div class="round${checked ? " drawing-round-review" : ""}">
+      ${!checked ? `
       <figure class="tile-frame" data-item="${esc(d.id)}">
         ${tileSvg(d.id, d.draw, d.damage, `Drawn papyrus tile ${index + 1}${d.damage?.length ? ", partly damaged" : ""}`)}
         <figcaption>Drawn for this trainer.${d.damage?.length ? " Grey patches are holes in the papyrus." : ""}</figcaption>
-      </figure>
+      </figure>` : ""}
       <div class="answer">
         ${
           checked
@@ -194,6 +197,7 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
         <dt>You said</dt><dd>${esc(givenText(pick))}</dd>
         <dt>Answer</dt><dd>${esc(truthText(d))}</dd>
       </dl>
+      ${drawingReview(d)}
       <p>${esc(d.explain)}</p>
       <div class="points">${pointsChips(s)}</div>
       <p class="cite">Tile drawn for this trainer, so the answer is known exactly.${d.sources?.length ? ` See also: ${sourceLinks(d.sources)}.` : ""}</p>
@@ -201,6 +205,45 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
       <button type="button" class="primary" id="next">${index + 1 < order.length ? "Next tile" : "See how it went"}</button>
     </div>
     ${extraTip(d, s)}`;
+  }
+
+  function drawingReview(d: Drill): string {
+    const hasReading = d.truth !== "none" && d.truth !== CANT_TELL;
+    const explanation = hasReading
+      ? "Red marks the letter's visible strokes in this practice drawing. Missing parts stay missing."
+      : d.truth === "none"
+        ? "The same tile is shown unchanged: no letter was drawn here."
+        : "The same tile is shown unchanged: the missing strokes prevent a certain reading.";
+    return `<section class="drill-review" data-mode="${reviewMode}" aria-label="Compare the tile and its answer">
+      <div class="row drill-review-controls" role="group" aria-label="Comparison view">
+        <button type="button" data-review-mode="side" aria-pressed="${reviewMode === "side"}">Side by side</button>
+        <button type="button" data-review-mode="original" aria-pressed="${reviewMode === "original"}">A · Tile</button>
+        <button type="button" data-review-mode="solution" aria-pressed="${reviewMode === "solution"}">B · Answer</button>
+      </div>
+      <div class="drill-review-panels">
+        <figure class="tile-frame" data-item="${esc(d.id)}" data-review-panel="original" ${reviewMode === "solution" ? "hidden" : ""}>
+          ${tileSvg(d.id, d.draw, d.damage, "Original practice drawing")}
+          <figcaption><strong>A · Tile you answered</strong><br>Drawn for this trainer.${d.damage?.length ? " Grey patches are holes." : ""}</figcaption>
+        </figure>
+        <figure class="tile-frame drill-review-solution${hasReading ? " has-reading" : ""}" data-review-panel="solution" ${reviewMode === "original" ? "hidden" : ""}>
+          ${tileSvg(d.id, d.draw, d.damage, hasReading ? `The same practice drawing with the visible strokes of ${namedLetter(d.truth)} in red` : `The unchanged practice drawing: ${truthText(d)}`)}
+          <figcaption><strong>B · Answer: ${esc(truthText(d))}</strong><br>${esc(explanation)}</figcaption>
+        </figure>
+      </div>
+    </section>`;
+  }
+
+  function changeReview(mode: "side" | "original" | "solution"): void {
+    reviewMode = mode;
+    const review = main.querySelector<HTMLElement>(".drill-review");
+    if (!review) return;
+    review.dataset.mode = mode;
+    review.querySelectorAll<HTMLButtonElement>("[data-review-mode]").forEach(button => {
+      button.setAttribute("aria-pressed", String(button.dataset.reviewMode === mode));
+    });
+    review.querySelectorAll<HTMLElement>("[data-review-panel]").forEach(panel => {
+      panel.hidden = mode !== "side" && panel.dataset.reviewPanel !== mode;
+    });
   }
 
   function check(): void {
@@ -304,6 +347,10 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
   function onClick(e: Event): void {
     const t = (e.target as HTMLElement).closest("button");
     if (!t || t.disabled) return;
+    if (checked && ["side", "original", "solution"].includes(t.dataset.reviewMode ?? "")) {
+      changeReview(t.dataset.reviewMode as "side" | "original" | "solution");
+      return;
+    }
     if (t.id === "check") return check();
     if (t.id === "next") return next();
     if (checked) return;

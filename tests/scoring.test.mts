@@ -3,6 +3,60 @@ import test from "node:test";
 import { answerOutcome, readingStats, score } from "../src/scoring.ts";
 import type { AnswerRecord } from "../src/types.ts";
 
+test("Direct letter choices earn credit for matched letters, not for implicit presence", () => {
+  const cases = [
+    { truth: "Ε", letters: "Ε", reading: 2, verdict: "right" },
+    { truth: "Ε", letters: "Ο", reading: 0, verdict: "wrong" },
+    { truth: "ΙΤ", letters: "ΙΤ", reading: 2, verdict: "right" },
+    { truth: "ΙΤ", letters: "ΟΘ", reading: 0, verdict: "wrong" },
+    { truth: "ΙΤ", letters: "ΙΓ", reading: 1, verdict: "wrong" },
+  ];
+  for (const { truth, letters, reading, verdict } of cases) {
+    const given = { said: "yes", letters, confidence: null } as const;
+    const direct = score({ text: truth }, { ...given, presenceAsked: false });
+    const historical = score({ text: truth }, given);
+    assert.equal(direct.reading, reading);
+    assert.equal(direct.verdict, verdict);
+    assert.equal(direct.honesty, 0);
+    assert.deepEqual(direct, { ...historical, reading: historical.reading - 1 },
+      "only the implicit-presence point is removed; grades and letter counters are unchanged");
+    assert.deepEqual(score({ text: truth }, { ...given, presenceAsked: true }), historical,
+      "omitting the flag preserves the previous presence question behavior");
+  }
+});
+
+test("Not-sure direct choices receive no presence credit and preserve honest uncertainty", () => {
+  for (const text of ["Ε", "ΙΤ"]) {
+    const given = { said: "unsure", letters: "?".repeat(text.length), confidence: null } as const;
+    const direct = score({ text }, { ...given, presenceAsked: false });
+    assert.equal(direct.reading, 0);
+    assert.equal(direct.verdict, "careful");
+    assert.equal(direct.letters_ok, 0);
+    assert.equal(direct.letters_correct, false);
+    assert.deepEqual(direct, score({ text }, given));
+  }
+});
+
+test("Unasked confidence preserves reading credit without applying a sure-but-wrong penalty", () => {
+  const correct = score({ text: "Ε" }, { said: "yes", letters: "Ε", confidence: null });
+  assert.equal(correct.verdict, "right");
+  assert.equal(correct.reading, 3);
+  assert.equal(correct.honesty, 0);
+  assert.equal(correct.letters_ok, 1);
+  for (const [truth, letters] of [["Ε", "Ο"], ["ΙΤ", "ΙΓ"], ["none", "Ε"]]) {
+    const unasked = score({ text: truth }, { said: "yes", letters, confidence: null });
+    const rated = score({ text: truth }, { said: "yes", letters, confidence: 3 });
+    assert.equal(unasked.reading, rated.reading + 1);
+    assert.equal(unasked.verdict, rated.verdict);
+    assert.equal(unasked.honesty, 0);
+    assert.equal(unasked.letters_correct, rated.letters_correct);
+  }
+  const unsure = score({ text: "Ε" }, { said: "unsure", letters: "?", confidence: null });
+  assert.equal(unsure.verdict, "careful");
+  assert.equal(unsure.letters_ok, 0);
+  assert.equal(unsure.reading, 0);
+});
+
 test("An unreadable simulated image rewards restraint without claiming a correct ink detection", () => {
   const result = score({ text: "*", simulated: true }, { said: "unsure", letters: "", confidence: 2 });
   assert.equal(result.verdict, "careful");

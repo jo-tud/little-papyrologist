@@ -79,7 +79,15 @@ export function levelDone(s: State, level: number): boolean {
 
 export function levelAvailable(s: State, level: number): boolean {
   if (s.levelOverride !== undefined) return level <= s.levelOverride;
-  return level === 0 || (level === 1 && s.introSkipped === true) || levelDone(s, level - 1);
+  return level === 0 || level === 1 || levelDone(s, level - 1);
+}
+
+/** Trying the first three originals opens one short reading lesson, not the whole next level. */
+export function canStartFirstLine(s: State): boolean {
+  if (s.levelOverride !== undefined) return s.levelOverride >= 2;
+  if (levelAvailable(s, 2)) return true;
+  const tried = new Set(s.answers.map(answer => answer.item_id));
+  return ["photo-248-epsilon", "photo-250-omicron", "photo-500p2-iota-tau"].every(id => tried.has(id));
 }
 
 export function levelHasSets(level: number): boolean {

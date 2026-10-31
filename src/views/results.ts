@@ -108,6 +108,7 @@ function download(): void {
 
 export function renderResults(main: HTMLElement, openBackup = false): void {
   const answers = state().answers;
+  const confidenceUnasked = answers.filter((a) => a.confidence === null).length;
   const hasProgress = hasSavedProgress();
   const rows = summarise(answers);
   const conf = confusions(answers);
@@ -134,7 +135,7 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
   }
   ${
     answers.length === 0
-      ? tip(`Your first discoveries will appear here. <a href="#/drill/esot">Try the round letters</a>.`)
+      ? tip(`Your first discoveries will appear here. <a href="#/quiz/first-letters-500p2">Start with real letters</a>.`)
       : `
   <h2>By level</h2>
   <div class="table-wrap" tabindex="0" role="region" aria-label="Results by level, scroll to see all columns"><table>
@@ -192,6 +193,7 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
   <h2>How sure were you?</h2>
   <div class="table-wrap"><table><thead><tr><th>You said</th><th class="num">Answers</th><th class="num">Matched reference</th><th class="num">Left open</th><th class="num">Incorrect</th></tr></thead>
   <tbody>${confidenceRows(answers)}</tbody></table></div>
+  ${confidenceUnasked ? `<p class="small muted">Confidence was not asked for ${confidenceUnasked} ${confidenceUnasked === 1 ? "answer" : "answers"}. These attempts count in your results above and are left out of this confidence table.</p>` : ""}
   <p class="small muted">A full match means a complete reading or a correct writing/no-writing decision.
   Leaving something open is recorded separately, including caution that earned honesty points.
   These counts mix choices, clues, free reading and repeated images; they describe your practice, not a test of independent reading ability or confidence calibration.</p>`
@@ -210,7 +212,7 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
       <button type="button" id="apply-level">Apply</button>
       <button type="button" id="reset-level" ${state().levelOverride === undefined ? "disabled" : ""}>Use automatic progress</button>
     </div>
-    <p class="small muted" id="level-note" role="status">${state().levelOverride !== undefined ? `Manually opened through level ${state().levelOverride}.` : "Levels follow your progress. You can also skip the introduction from the path."}</p>
+    <p class="small muted" id="level-note" role="status">${state().levelOverride !== undefined ? `Manually opened through level ${state().levelOverride}.` : "Start with real letters in level 1, then unlock later levels through practice. The drawing exercises are optional."}</p>
     <a class="button" href="#/">Back to the path →</a>
   </section>
 
@@ -233,7 +235,7 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
       <div class="row"><button type="button" id="paste-load">Load pasted text</button></div>
     </div>
     <p class="small">The file holds, for each answer: tile, level, degradation, whether you saw text,
-    the letters you gave, how sure you were and how long you took. It also holds your finished sets,
+    the letters you gave, how sure you were when asked, and how long you took. It also holds your finished sets,
     badges, ranks and practice settings.</p>
   </details>
 

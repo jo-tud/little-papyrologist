@@ -123,6 +123,9 @@ export interface QuizItem {
 /** What the player said about one tile. */
 export type SaidText = "yes" | "no" | "unsure";
 
+/** null means confidence was not asked; it must not be treated as a rating. */
+export type Confidence = 1 | 2 | 3 | null;
+
 export interface AnswerRecord {
   item_id: string;
   /** Kept in exports so assisted recognition can be separated from transcription. */
@@ -135,7 +138,7 @@ export interface AnswerRecord {
   degradation: number;
   said_text: SaidText;
   letters: string; // "" when no letters were given; "?" marks an unreadable letter
-  confidence: 1 | 2 | 3;
+  confidence: Confidence;
   ms: number;
   answered_at: string;
   truth: string;

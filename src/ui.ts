@@ -17,13 +17,13 @@ export function letterLabel(char: string): string {
 
 export function skipIntroLink(): string {
   const first = playSets.find((p) => p.level === 1);
-  return first ? `<a href="${first.href}" data-skip-intro>Skip to real papyrus →</a>` : "";
+  return first ? `<a href="${first.href}" data-skip-intro>Start with real letters →</a>` : "";
 }
 
 export function introBridge(): string {
-  return `<div class="intro-bridge"><p><strong>Drawn letters now. Real papyrus next.</strong>
-    Practise the shapes here; level 1 starts with clearer photographs, then shows how handwriting can vary.</p>
-    <p>${skipIntroLink()} <span class="muted">You can return to these exercises anytime.</span></p></div>`;
+  return `<div class="intro-bridge"><p><strong>Optional practice with drawings.</strong>
+    Explore simplified letter shapes here, or begin with real photographs and learn the names as you go.</p>
+    <p>${skipIntroLink()} <span class="muted">No Greek needed. You can return to these exercises anytime.</span></p></div>`;
 }
 
 /** Glaux, a small owl (the owl of Athena), who gives short tips. */

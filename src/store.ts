@@ -124,7 +124,7 @@ export function exportPayload(appVersion: string, itemSet: string): object {
     app_version: appVersion,
     item_set: itemSet,
     exported_at: new Date().toISOString(),
-    note: "Answers from The Little Papyrologist. Level 0 tiles are drawings made for the trainer.",
+    note: "Answers from The Little Papyrologist. Level 0 tiles are drawings made for the trainer. A null confidence means confidence was not asked.",
     answers: memory.answers,
     progress: { sets_done: memory.setsDone, badges: memory.badges, ranks: memory.ranks, intro_skipped: !!memory.introSkipped, level_override: memory.levelOverride, rounds: memory.rounds },
   };
@@ -147,7 +147,7 @@ function validAnswer(a: unknown): a is AnswerRecord {
     typeof r.degradation === "number" &&
     SAID.has(r.said_text as string) &&
     typeof r.letters === "string" &&
-    [1, 2, 3].includes(r.confidence as number) &&
+    (r.confidence === null || [1, 2, 3].includes(r.confidence as number)) &&
     typeof r.ms === "number" &&
     typeof r.answered_at === "string" &&
     typeof r.truth === "string" &&

@@ -1,4 +1,4 @@
-import type { AnswerRecord, SaidText } from "./types";
+import type { AnswerRecord, Confidence, SaidText } from "./types";
 
 export interface Truth {
   /** Letters as read, "?" for a letter that cannot be decided, or "none" for no text. */
@@ -14,7 +14,9 @@ export interface Truth {
 export interface Given {
   said: SaidText;
   letters: string;
-  confidence: 1 | 2 | 3;
+  confidence: Confidence;
+  /** False when "yes" is implicit in a letter choice, rather than a separate presence answer. */
+  presenceAsked?: boolean;
 }
 
 export type Verdict =
@@ -128,7 +130,8 @@ export function answerOutcome(answer: SavedReading): "matched" | "open" | "incor
 
 /**
  * Points: reading points for what you read, honesty points for saying what you could not see.
- * Being sure and wrong costs a point. Nothing else is ever taken away.
+ * Being sure and wrong costs a point. Unasked confidence (null) never applies that penalty.
+ * Nothing else is ever taken away.
  */
 export function score(truth: Truth, given: Given): Score {
   const sure = given.confidence === 3;
@@ -162,7 +165,7 @@ export function score(truth: Truth, given: Given): Score {
 
   if (chars(truth.text).length > 1 && !truth.candidates) return scoreLine(truth, given, sure);
 
-  let reading = given.said === "yes" ? 1 : 0;
+  let reading = given.said === "yes" && given.presenceAsked !== false ? 1 : 0;
   let honesty = 0;
   const want = chars(truth.text);
   const got = chars(given.letters);
@@ -232,7 +235,7 @@ function scoreLine(truth: Truth, given: Given, sure: boolean): Score {
   const got = chars(given.letters);
   const uncertain = new Set(truth.uncertain ?? []);
   const { pairs, extras } = align(want, got);
-  let reading = given.said === "yes" ? 1 : 0;
+  let reading = given.said === "yes" && given.presenceAsked !== false ? 1 : 0;
   let honesty = 0;
   let ok = 0;
   let wrong = extras;

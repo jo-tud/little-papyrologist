@@ -2,7 +2,7 @@
 
 A small, unofficial trainer for reading Greek letters on the Herculaneum scrolls, and for noticing when there are none.
 
-You see a tile and decide whether there is a letter on it, and which one. You also say how sure you are. You then get the answer with a short explanation and its source.
+Start with real photographs and tap a letter name to see the published reading. Later exercises ask you to read short groups, judge whether ink is visible, and say how sure you are. Answers include an explanation and their source. Original and reference images can be compared side by side or switched in the same position with A/B view.
 
 Points are given for honest answers as well as for correct ones. A correct "no letter" on an empty tile, or "can't tell" where the deciding stroke is lost, both earn points.
 
@@ -12,9 +12,9 @@ Points are given for honest answers as well as for correct ones. A correct "no l
 
 ## Status
 
-- **Level 0 (the scribes' alphabet)** introduces all 24 letter names and five sets of look-alikes (Ε/Ϲ/Ο/Θ, Α/Λ/Δ, Η/Ν/Π, Ι/Τ/Γ, Μ/Ν), with empty and damaged tiles. Short, sourced reading breaks introduce papyrology along the way. You can skip straight to real photographs and return anytime.
+- **The alphabet** introduces all 24 letter names, with checked original images for six individual letters and four more in their published groups. Missing examples are labelled openly. Simplified drawings are optional references. **Level 0** offers five optional sets of look-alikes (Ε/Ϲ/Ο/Θ, Α/Λ/Δ, Η/Ν/Π, Ι/Τ/Γ, Μ/Ν), with empty and damaged tiles and short, sourced reading breaks.
 - **Ranks and badges** follow your path through the levels. Both are defined in `data/ranks.yaml` and `data/badges.yaml`. New material counts towards them automatically.
-- **Level 1** starts with a clear, rounded Epsilon, then an uneven Omicron and the pair Iota–Tau. Clues and reference drawings help connect handwriting with printed letter names. Three unscored examples then introduce two Nu forms and an unfamiliar Eta: a confirmed reading is not always easy to recognize. All six photographs come from named samples of PHerc. 248, 250 and 500P2 in the organizers' profilometry dataset. No answers come from model predictions.
+- **Level 1** is open from the start: a clear, rounded Epsilon, then an uneven Omicron and the pair Iota–Tau. These first three choices show feedback immediately, without a separate confidence question. Clues and reference drawings help connect handwriting with printed letter names. You can then explore three unscored examples of Nu and Eta, or try the first short reading lesson and return later. All six photographs come from named samples of PHerc. 248, 250 and 500P2 in the organizers' profilometry dataset. No answers come from model predictions.
 - **Level 2** starts with short groups, compares the same letters in different places, and explains connected handwriting without scoring it. The whole published line is an optional challenge; you can finish the lesson with the short groups. Reading guides can be opened when needed. Further rounds distinguish ink from papyrus in infrared photos, then explore eight lines and small windows of PHerc. Paris 4, column −8. Answers come from the organizers' tracing or the published edition, according to the task.
 - **Level 3** introduces five controlled changes: blur, noise, low contrast, coarser sampling and partial covering. Each altered image keeps its unchanged source for comparison. These are teaching variants, not simulations of a stated scanner resolution. A source reading does not prove that a stroke remains visible after alteration.
 - **Repeat practice** offers short rounds at each level, favouring unfamiliar source images and previous difficulties. Crops and altered versions are counted under their original source; they are not presented as independent handwriting samples. Practice records answers without completing lessons. The library includes a later guided Rho example and extra edition-backed fragments. “Practise this group” opens a focused round of related short readings after feedback.
@@ -66,6 +66,8 @@ Crop selections and source readings are specified in `data/crops.yaml`. Addition
 There is no server and no tracking. Answers, badges and ranks stay in your browser's local storage. At the end of **My results** you can save your progress as a file and load it in another browser. New answer records include task type, guide use, practice mode, source image and whether the view was artificially altered. Results distinguish recognition with choices, reading with help and reading without opening a guide. An attempt without a guide is not necessarily a first encounter with that image. Skipping the introduction is saved separately from completed exercises and earns no completion credit.
 
 Results distinguish full matches, answers left open and incorrect claims. Accepted uncertainty does not count as a letter read; historical responses keep their original points.
+
+Confidence is saved as `null` when it was not asked and excluded from confidence statistics. Direct introductory choices award reading points for matched letters, without an extra point for an ink-presence decision that was not asked.
 
 Guided study examples add no answers or points. Earlier answers remain in your history even when a photograph is now used as an unscored example.
 

@@ -26,3 +26,16 @@ test("Resume accepts a partial draft and rejects broken or unsafe saved data", (
     { ...session, draft: { letters: ["<script>"] } }, { ...session, draft: { letters: ["Ι"], confidence: 4 } },
     { ...session, checked: true, draft: { letters: ["Ι"] } }]) assert.equal(validSession(malformed), false);
 });
+
+test("Checked answers with unasked confidence resume without inventing a rating", () => {
+  const unasked: AnswerRecord = { ...answer, task: "identify", level: 1, confidence: null };
+  const checked: RoundSession = { ...session, draft: { ...session.draft, confidence: null } };
+  const restored = JSON.parse(JSON.stringify(checked));
+  assert.equal(validSession(restored), true);
+  assert.equal(canResume(restored, "abc", new Set(["a", "b"]), [unasked]), true);
+  assert.equal(canResume(restored, "abc", new Set(["a", "b"]), [answer]), false,
+    "an explicit historical rating must match its saved draft");
+  assert.equal(canResume(session, "abc", new Set(["a", "b"]), [unasked]), false);
+  assert.equal(validSession({ ...checked, draft: { ...checked.draft, confidence: undefined } }), false,
+    "checked answers must distinguish unasked confidence from an unfinished response");
+});
