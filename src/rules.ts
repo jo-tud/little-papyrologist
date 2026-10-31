@@ -78,8 +78,10 @@ export function levelDone(s: State, level: number): boolean {
 }
 
 export function levelAvailable(s: State, level: number): boolean {
+  if (level === 0) return true;
+  if (!LEVELS.some(entry => entry.level === level)) return false;
   if (s.levelOverride !== undefined) return level <= s.levelOverride;
-  return level === 0 || level === 1 || levelDone(s, level - 1);
+  return LEVELS.filter(entry => entry.level < level).every(entry => levelDone(s, entry.level));
 }
 
 /** Trying the first three originals opens one short reading lesson, not the whole next level. */

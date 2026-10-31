@@ -2,7 +2,7 @@
 
 > The tiles in `public/images/` are crops of Vesuvius Challenge data. Their use in this trainer
 > was confirmed by the Vesuvius Challenge on 2026-10-28 (see below). They are made by
-> `tools/make_items.py` from the list in `data/crops.yaml`, and each tile's source, license and
+> `tools/make_items.py` from the crop and corpus manifests, and each tile's source, license and
 > credit are listed in `data/items.yaml` (exercises) and `data/alphabet-items.yaml` (labelled references).
 
 ## Code
@@ -13,9 +13,9 @@ or any image derived from Vesuvius Challenge data. Those keep the licenses liste
 
 ## Our own drawings
 
-The letter drawings (`data/glyphs.yaml`) and the drawn exercise tiles of stage 0 are made for this trainer.
+The letter drawings (`data/glyphs.yaml`), additional form guides (`data/letter-forms.yaml`) and the drawn exercise tiles of stage 0 are made for this trainer.
 They are drawn freehand as vector paths, after the letter shapes visible in the published images of PHerc. Paris 4 (https://scrollprize.org/grandprize).
-Nothing is traced from those images.
+Additional guides cite the particular edition-backed group or named organizer photograph that illustrates the form. These are simplified drawings, not tracings or a complete catalogue of Greek handwriting.
 They are released under the MIT License, together with the code.
 
 ## Fonts
@@ -56,7 +56,8 @@ That data is licensed under **CC BY-NC 4.0** (https://creativecommons.org/licens
 
 - Images derived from that data stay under CC BY-NC 4.0. Use them only for non-commercial purposes.
 - They are provided "as is", without warranties (Section 5 of the license).
-- Our changes: cropping, rescaling, contrast adjustment and artificial degradation (blur, noise, coarser sampling, partial occlusion) for a learning game.
+- Current exercises use cropping and, for some earlier photographs, rescaling. New corpus crops preserve the source’s decoded pixels using lossless WebP. Organizer ink annotations are shown in red where available.
+- Retired historical images also include contrast adjustment and artificial degradation (blur, noise, coarser sampling, partial occlusion). These are excluded from new lessons and practice.
 
 Each image in `data/items` lists its exact source, license and retrieval date.
 
@@ -65,11 +66,13 @@ Each image in `data/items` lists its exact source, license and retrieval date.
 | Tiles | Source | License | Credit |
 |---|---|---|---|
 | `photo-248-*`, `photo-250-*`, `photo-500p2-*` (level 1 and alphabet) | Named brightfield photographs in [Optical profilometry of opened Herculaneum papyri](https://huggingface.co/datasets/scrollprize/profilometer) | CC BY-NC 4.0 | Vesuvius Challenge |
-| `ir-500p2-*` (level 2) | Infrared photograph and ink tracing of PHerc. 500 P2, https://dl.ash2txt.org/fragments/PHerc0500P2/ | CC BY-NC 4.0 | Vesuvius Challenge |
+| `ir-500p2-*` (retired ink-only exercises) | Infrared photograph and ink tracing of PHerc. 500 P2, https://dl.ash2txt.org/fragments/PHerc0500P2/ | CC BY-NC 4.0 | Vesuvius Challenge |
 | `paris4-col-8-*`, `first-line-*` (level 2) | Grand Prize 2023 image of PHerc. Paris 4, https://scrollprize.org/grandprize | CC BY-NC 4.0 | Vesuvius Challenge; EduceLab, University of Kentucky |
+| `corpus-paris4-*` (levels 3–12 and alphabet) | Further short groups from the Grand Prize 2023 image, with readings from the same CErc 54 edition; exact columns and ranges in `data/corpus-paris4.yaml` | CC BY-NC 4.0 | Vesuvius Challenge; EduceLab, University of Kentucky |
+| `corpus-pherc1667-*` (levels 3–12 and alphabet) | Published ink-detection rendering from the Vesuvius Challenge open-data bucket, PHerc. 1667 columns 14–16; exact source URL/hash and edition ranges in `data/corpus-1667.yaml` | CC BY-NC 4.0 | Vesuvius Challenge; EduceLab, University of Kentucky |
 | `alphabet-paris4-*` (alphabet) | Groups from columns −8 and −12 in the same Grand Prize image; reading from *Cronache Ercolanesi* 54 (2024), pp.17,20 | CC BY-NC 4.0 | Vesuvius Challenge; EduceLab, University of Kentucky |
 
-Altered-image exercises (`harder-*`, `practice-d*`) derive from these same sources, retain their credits and license, and include the unchanged reference. Their deterministic image-change parameters are recorded per item. They do not represent a different physical scan.
+Retired altered-image exercises (`harder-*`, `practice-d*`) derive from these same sources, retain their credits and license, and include the unchanged reference. Their deterministic image-change parameters are recorded per item. They do not represent a different physical scan.
 
 Changes: cropped and scaled; answer images add the organizers' ink annotations in red where available.
 Readings for PHerc. Paris 4 are from *Cronache Ercolanesi* 54 (2024), see below.
@@ -134,5 +137,4 @@ The answers shown in the quiz come only from:
 
 The profilometry dataset identifies the photographed regions used in level 1 and its extra practice.
 We have not established a published, coordinate-matched transcription for every region of
-the separate infrared photograph. Its exercises therefore score visible ink only; typed
-letter suggestions are saved without being marked right or wrong.
+the separate infrared photograph. Those ink-only exercises are retired. Historical letter suggestions remain saved without being marked right or wrong; current reading lessons use edition-backed or named sample readings.

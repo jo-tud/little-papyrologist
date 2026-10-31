@@ -56,6 +56,9 @@
   display: grid;
   gap: 1.3rem;
 }
+.other-levels {
+  margin-top: 1.2rem !important;
+}
 .path-level > h3 {
   display: flex;
   gap: .55rem;

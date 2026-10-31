@@ -1,5 +1,6 @@
 import type { AnswerRecord } from "./types";
 import { canResume, validSession, type RoundSession } from "./round-session";
+import { availableLevelNumbers } from "./data";
 
 const KEY = "little-papyrologist:v1";
 
@@ -27,6 +28,7 @@ export function load(): State {
     if (raw) {
       const parsed = JSON.parse(raw) as Partial<State>;
       memory = { ...empty(), ...parsed };
+      if (!availableLevelNumbers.includes(memory.levelOverride ?? -1)) delete memory.levelOverride;
       memory.rounds = cleanRounds(parsed.rounds);
     }
   } catch {
@@ -87,7 +89,7 @@ export function skipIntro(): void {
 
 export function setLevelOverride(level?: number): void {
   if (level === undefined) delete memory.levelOverride;
-  else if (Number.isInteger(level) && level >= 0 && level <= 3) memory.levelOverride = level;
+  else if (availableLevelNumbers.includes(level)) memory.levelOverride = level;
   save();
 }
 
@@ -209,8 +211,7 @@ export function importText(text: string, currentItemSet?: string): ImportResult 
   }
   memory.rounds = mergedRounds;
   if (progress.intro_skipped === true) memory.introSkipped = true;
-  if (memory.levelOverride === undefined && Number.isInteger(progress.level_override)
-      && (progress.level_override as number) >= 0 && (progress.level_override as number) <= 3)
+  if (memory.levelOverride === undefined && availableLevelNumbers.includes(progress.level_override as number))
     memory.levelOverride = progress.level_override as number;
   const sets = progress.sets_done;
   if (sets && typeof sets === "object")

@@ -1,0 +1,33 @@
+# Additional simplified shape guides, based on named or edition-backed examples.
+# These drawings illustrate proportions; they are not ink tracings or new readings.
+forms:
+  - char: Γ
+    example: first-line-gamma-epsilon
+    label: A hooked lower end
+    paths: ['M28 32 L78 26', 'M28 32 L30 87 Q29 108 16 109']
+    sources: [cerc54, grandprize]
+  - char: Η
+    example: photo-500p2-eta
+    label: A high joining stroke and short upper right end
+    paths: ['M22 28 L24 104', 'M22 47 L76 29', 'M76 22 L80 98']
+    sources: [profilometer, topography2026]
+  - char: Ι
+    example: first-line-extra-l12-iota
+    label: An upright with a broad foot
+    paths: ['M46 26 L48 89 Q52 105 75 98']
+    sources: [cerc54, grandprize]
+  - char: Μ
+    example: corpus-paris4-15-l03-04-07
+    label: A rounded inner curve between unequal uprights
+    paths: ['M16 105 Q29 85 29 34', 'M29 34 Q33 101 57 100 Q77 101 77 76', 'M77 30 Q76 71 82 107']
+    sources: [cerc54, grandprize]
+  - char: Ν
+    example: photo-500p2-nu
+    label: A much flatter joining stroke
+    paths: ['M22 32 L25 100', 'M22 67 L79 47', 'M75 26 L80 102']
+    sources: [profilometer, topography2026]
+  - char: Υ
+    example: alphabet-paris4-12-phi-upsilon-rho
+    label: Broad shallow arms above the stem
+    paths: ['M14 32 Q50 56 86 32', 'M50 47 L48 109']
+    sources: [cerc54, grandprize]

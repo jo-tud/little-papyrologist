@@ -82,6 +82,8 @@ export interface QuizItem {
   reference_answer_image?: string;
   base_item?: string;
   simulated?: boolean;
+  /** Retained for saved answers, but unavailable in lessons or practice. */
+  retired?: boolean;
   degradation_recipe?: Record<string, unknown>;
   /** Extra practice does not add a required step to the path. */
   practice_only?: boolean;
@@ -136,6 +138,8 @@ export interface AnswerRecord {
   help_used?: boolean;
   base_item?: string;
   simulated?: boolean;
+  /** Whether the attempt separately asked about text presence; absent in older exports. */
+  presence_asked?: boolean;
   level: number;
   degradation: number;
   said_text: SaidText;
@@ -162,6 +166,13 @@ export interface QuizSet {
   ordered?: boolean;
   intro?: string;
   practice_only?: boolean;
+  retired?: boolean;
+}
+
+export interface Level {
+  level: number;
+  title: string;
+  text: string;
 }
 
 export interface PlaySet {

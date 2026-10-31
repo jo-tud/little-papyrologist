@@ -1,10 +1,11 @@
-import { glyphByChar, itemSetVersion, LEVELS, playSets, quizItems } from "../data";
+import { activeQuizItems, availableLevelNumbers, glyphByChar, itemSetVersion, LEVELS, playSets, quizItems } from "../data";
 import { clearAll, exportPayload, importText, isPersistent, setLevelOverride, state } from "../store";
 import { progressAfterAnswer, syncRankChip } from "../progress-ui";
 import { align, answerOutcome, readingStats } from "../scoring";
 import type { AnswerRecord } from "../types";
 import { learningAction } from "../learning-action";
 import { levelAvailable } from "../rules";
+import { readingModes } from "../reading-modes";
 import "../orientation.css";
 import { esc, pct } from "../util";
 
@@ -16,6 +17,7 @@ function levelName(level: number): string {
 
 interface Row {
   level: number;
+  archived: boolean;
   n: number;
   textTiles: number;
   textSeen: number;
@@ -28,16 +30,21 @@ interface Row {
   sureWrong: number;
 }
 
+const activeIds = new Set(activeQuizItems.map(item => item.id));
+const archivedAnswer = (answer: AnswerRecord) => answer.level > 0
+  && (!!answer.simulated || answer.degradation > 0 || !activeIds.has(answer.item_id));
+
 function summarise(answers: AnswerRecord[]): Row[] {
-  const levels = [...new Set(answers.map((a) => a.level))].sort();
-  return levels.map((level) => {
-    const list = answers.filter((a) => a.level === level);
+  const levels = [...new Set(answers.map((a) => a.level))].sort((a, b) => a - b);
+  return levels.flatMap(level => [false, true].flatMap(archived => {
+    const list = answers.filter((a) => a.level === level && archivedAnswer(a) === archived);
+    if (!list.length) return [];
     const textTiles = list.filter((a) => a.truth !== "none");
     const nulls = list.filter((a) => a.truth === "none");
     // Tiles whose letters can be checked: not empty, not "ink only" (*), not undecidable (?).
     const readable = list.filter((a) => readingStats(a) !== null && !a.truth.includes("?"));
-    return {
-      level,
+    return [{
+      level, archived,
       n: list.length,
       textTiles: textTiles.length,
       textSeen: textTiles.filter((a) => a.said_text === "yes").length,
@@ -48,8 +55,8 @@ function summarise(answers: AnswerRecord[]): Row[] {
       leftOpen: list.filter((a) => answerOutcome(a) === "open").length,
       incorrect: list.filter((a) => answerOutcome(a) === "incorrect").length,
       sureWrong: list.filter((a) => a.confidence === 3 && answerOutcome(a) === "incorrect").length,
-    };
-  });
+    }];
+  }));
 }
 
 /** Show local substitutions, without turning an omitted letter into a guessed letter. */
@@ -113,7 +120,7 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
   const answers = current.answers;
   const next = learningAction(current);
   const finishedLessons = playSets.filter(p => p.level > 0 && current.setsDone[p.id]).length;
-  const practiceLevel = [...answers].reverse().find(a => a.level > 0 && levelAvailable(current, a.level))?.level;
+  const practiceLevel = [...answers].reverse().find(a => a.level > 0 && !archivedAnswer(a) && levelAvailable(current, a.level))?.level;
   const confidenceMissing = answers.filter((a) => a.confidence === null).length;
   const hasProgress = hasSavedProgress();
   const rows = summarise(answers);
@@ -126,11 +133,7 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
     return id;
   };
   const originals = new Set(realAnswers.map((a) => original(a.base_item ?? a.item_id))).size;
-  const modes = [
-    { title: "Recognition with choices", list: realAnswers.filter((a) => a.task === "identify") },
-    { title: "Reading with clues or a guide", list: realAnswers.filter((a) => a.task === "read" && a.help_used) },
-    { title: "Reading without clues or a guide", list: realAnswers.filter((a) => a.task === "read" && a.help_used === false) },
-  ];
+  const modes = readingModes(answers);
 
   main.innerHTML = `
   <div class="orientation-page results-page">
@@ -155,7 +158,7 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
     ${rows
       .map(
         (r) => `<tr>
-        <td>${esc(levelName(r.level))}</td>
+        <td>${esc(r.archived ? `Earlier exercises · level ${r.level}` : levelName(r.level))}</td>
         <td class="num">${r.n}</td>
         <td class="num">${r.textSeen}/${r.textTiles} (${pct(r.textSeen, r.textTiles)})</td>
         <td class="num">${r.falseAlarms}/${r.nulls} (${pct(r.falseAlarms, r.nulls)})</td>
@@ -173,20 +176,22 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
   Tiles without a complete reference reading are excluded from that column. “Left open” includes “Not sure” and unfinished readings
   without an incorrect letter claim; a response with both gaps and wrong letters counts as incorrect.
   Level 1 recognition uses clues and choices. Guided examples are unscored.</p>
+  ${rows.some(row => row.archived) ? `<p class="small muted">Earlier exercises remain in your history with their original points. They do not count as completing the new lessons at the same level.</p>` : ""}
 
   <h2>Practice and support</h2>
   <p>${realAnswers.length} answers on photographed or scan-derived material, from ${originals} source regions.
   ${realAnswers.filter((a) => a.practice).length} answers came from extra practice rounds.
   Altered versions count under their original region; some regions overlap. Returning to one image is repetition, not a new sample.</p>
   <div class="table-wrap" tabindex="0" role="region" aria-label="Reading modes, scroll to see all columns"><table><thead><tr><th>Reading mode</th><th class="num">Answers</th><th class="num">Fully matched</th></tr></thead><tbody>
-    ${modes.map(({ title, list }) => `<tr><td>${title}</td><td class="num">${list.length}</td><td class="num">${pct(list.filter((a) => readingStats(a)?.complete).length, list.length)}</td></tr>`).join("")}
+    ${modes.map(({ title, answers, matched }) => `<tr><td>${title}</td><td class="num">${answers}</td><td class="num">${pct(matched, answers)}</td></tr>`).join("")}
   </tbody></table></div>
   <p class="small muted">Older saved answers may not record help use and are left out of the last two rows.
-  “Without clues or a guide” describes that attempt; a familiar image may have appeared before.
+  A full match includes a correct “No letters” answer. “Without opening extra help” describes that attempt;
+  the keyboard's form guides are always available, and a familiar image may have appeared before.
   Displayed matches are derived from your saved response and reference. Your original points and saved answers stay unchanged.</p>
-  ${answers.some((a) => a.simulated) ? `<h3>Altered-image practice</h3><div class="table-wrap" tabindex="0" role="region" aria-label="Altered-image practice, scroll to see all columns"><table><thead><tr><th>Difficulty</th><th class="num">Answers</th><th class="num">Not sure</th></tr></thead><tbody>
+  ${answers.some((a) => a.simulated) ? `<h3>Earlier altered-image practice</h3><div class="table-wrap" tabindex="0" role="region" aria-label="Altered-image practice, scroll to see all columns"><table><thead><tr><th>Difficulty</th><th class="num">Answers</th><th class="num">Not sure</th></tr></thead><tbody>
     ${[1, 2, 3, 4, 5].map((degree) => { const list = answers.filter((a) => a.simulated && a.degradation === degree); return `<tr><td>${degree}/5</td><td class="num">${list.length}</td><td class="num">${list.filter((a) => a.said_text === "unsure" || a.letters.includes("?")).length}</td></tr>`; }).join("")}
-    </tbody></table></div><p class="small muted">These are controlled image changes, not scanner resolutions. Their source readings do not establish what remains visible after alteration.</p>` : ""}
+    </tbody></table></div><p class="small muted">These older exercises used artificially changed images and are no longer offered. Your saved answers are unchanged.</p>` : ""}
 
   <h2>Most frequent mix-ups</h2>
   ${
@@ -213,7 +218,7 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
     <div class="row">
       <select id="practice-level">
         <option value="auto" ${state().levelOverride === undefined ? "selected" : ""}>Follow my progress automatically</option>
-        ${[...new Set(playSets.map((p) => p.level))].sort().map((level) => `<option value="${level}" ${state().levelOverride === level ? "selected" : ""}>${esc(levelName(level))}</option>`).join("")}
+        ${availableLevelNumbers.map((level) => `<option value="${level}" ${state().levelOverride === level ? "selected" : ""}>${esc(levelName(level))}</option>`).join("")}
       </select>
       <button type="button" id="apply-level">Apply</button>
       <button type="button" id="reset-level" ${state().levelOverride === undefined ? "disabled" : ""}>Use automatic progress</button>

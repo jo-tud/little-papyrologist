@@ -94,7 +94,43 @@ export const alphabetExamples: Record<string, AlphabetExample[]> = {
 export function resolveAlphabetExamples(items: QuizItem[]): Map<string, (AlphabetExample & { item: QuizItem })[]> {
   const references = (referenceData as { items: QuizItem[] }).items;
   const byId = new Map([...items, ...references].map(item => [item.id, item]));
-  return new Map(Object.entries(alphabetExamples).map(([char, examples]) => [char, examples.map(example => {
+  const selected = Object.fromEntries(Object.entries(alphabetExamples).map(([char, examples]) => [char, [...examples]]));
+  // Reviewed corpus groups expand the reference too. Spread examples across
+  // passages before adding several neighbouring groups from the same line.
+  const corpus = items.filter(item => item.id.startsWith("corpus-") && !item.retired && !item.simulated
+    && item.truth !== "none" && item.truth !== "*" && !item.uncertain?.length && item.letter_regions?.length);
+  const allLetters = new Set(corpus.flatMap(item => Array.from(item.truth)));
+  for (const char of allLetters) {
+    const examples = selected[char] ??= [];
+    const seen = new Set(examples.map(example => example.itemId));
+    const candidates = corpus.filter(item => item.truth.includes(char));
+    const lines = new Set<string>();
+    const diverse = candidates.filter(item => {
+      const line = item.reading ?? item.id;
+      if (lines.has(line)) return false;
+      lines.add(line);
+      return true;
+    });
+    const byWitness = new Map<string, QuizItem[]>();
+    for (const item of [...diverse, ...candidates]) {
+      const witness = item.source.includes("preprint1667") ? "1667" : "paris4";
+      const bucket = byWitness.get(witness) ?? [];
+      if (!bucket.some(other => other.id === item.id)) bucket.push(item);
+      byWitness.set(witness, bucket);
+    }
+    const ordered: QuizItem[] = [];
+    while ([...byWitness.values()].some(bucket => bucket.length)) {
+      for (const bucket of byWitness.values()) if (bucket.length) ordered.push(bucket.shift()!);
+    }
+    for (const item of ordered) {
+      if (examples.length >= 12) break;
+      if (seen.has(item.id)) continue;
+      seen.add(item.id);
+      examples.push({ itemId: item.id, study: true,
+        description: `${item.reading}. Select the named letters to compare their positions in this published group.` });
+    }
+  }
+  return new Map(Object.entries(selected).map(([char, examples]) => [char, examples.map(example => {
       const item = byId.get(example.itemId);
     if (!item || item.degradation !== 0 || item.simulated || item.uncertain?.length || !item.truth.includes(char)
       || !item.checked || !item.source.length || !item.license || !item.credit) {

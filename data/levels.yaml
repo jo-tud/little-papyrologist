@@ -1,0 +1,37 @@
+levels:
+- level: 1
+  title: First real letters
+  text: Start with clearer shapes, then explore unfamiliar handwriting with named examples.
+- level: 2
+  title: Your first short readings
+  text: Read small groups and recognise spaces without letters in the same round.
+- level: 3
+  title: New places, familiar letters
+  text: Read short groups from several columns of PHerc. Paris 4.
+- level: 4
+  title: More letter combinations
+  text: Follow familiar shapes in new combinations.
+- level: 5
+  title: Curves and corners
+  text: Compare rounded letters, broad feet and joining strokes.
+- level: 6
+  title: Meet another hand
+  text: Start with a guided example from PHerc. 1667, then compare both scrolls.
+- level: 7
+  title: Changing letter shapes
+  text: The same letters can look different from one hand to another.
+- level: 8
+  title: Across two scrolls
+  text: Read fresh passages from both papyri, a few letters at a time.
+- level: 9
+  title: Joining the strokes
+  text: Look closely where strokes meet or outlines become less distinct.
+- level: 10
+  title: Less distinct originals
+  text: Try naturally harder groups; use ? whenever a letter remains unclear.
+- level: 11
+  title: Broken outlines
+  text: Compare surviving strokes with the published reading.
+- level: 12
+  title: Mixed reading challenge
+  text: Bring the forms together in varied, more demanding originals.

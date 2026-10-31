@@ -1,0 +1,2615 @@
+# Original short readings, checked against the published edition.
+sources:
+  paris4-banner:
+    url: https://scrollprize.org/img/grandprize/youssef_text_wbb-hq.webp
+    sha256: 8c3c4a54332806baf74e518d0623f67c3698e22e4f19179802479fed7f8d0760
+    size:
+    - 16000
+    - 1932
+    source_ids:
+    - cerc54
+    - grandprize
+    credit: Vesuvius Challenge; EduceLab, University of Kentucky
+    license: CC BY-NC 4.0
+    papyrus: PHerc. Paris 4
+items:
+- id: corpus-paris4-15-l03-00-04
+  source_key: paris4-banner
+  column: -15
+  line: 3
+  edition_page: 15
+  edition: οὶ δὲ ὁμοίωϲ καὶ οἱ τὸ
+  line_truth: ΟΙΔΕΟΜΟΙΩϹΚΑΙΟΙΤΟ
+  indices:
+  - 0
+  - 4
+  truth: ΟΙΔΕ
+  rect:
+  - 293
+  - 375
+  - 501
+  - 447
+  letter_regions:
+  - - 0.01442
+    - 0.04
+    - 0.26923
+    - 0.96
+  - - 0.26923
+    - 0.04
+    - 0.48077
+    - 0.96
+  - - 0.48077
+    - 0.04
+    - 0.74519
+    - 0.96
+  - - 0.74519
+    - 0.04
+    - 0.98558
+    - 0.96
+  difficulty: easy
+  hint: Iota can have a broad foot here. Follow its upright before counting neighbouring strokes.
+  explain: Omicron–Iota–Delta–Epsilon. This is the edition’s reading at column −15, line 3. The source image
+    is unchanged; the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-15-l03-04-07
+  source_key: paris4-banner
+  column: -15
+  line: 3
+  edition_page: 15
+  edition: οὶ δὲ ὁμοίωϲ καὶ οἱ τὸ
+  line_truth: ΟΙΔΕΟΜΟΙΩϹΚΑΙΟΙΤΟ
+  indices:
+  - 4
+  - 7
+  truth: ΟΜΟ
+  rect:
+  - 495
+  - 384
+  - 661
+  - 449
+  letter_regions:
+  - - 0.01807
+    - 0.04
+    - 0.3253
+    - 0.96
+  - - 0.3253
+    - 0.04
+    - 0.68675
+    - 0.96
+  - - 0.68675
+    - 0.04
+    - 0.98193
+    - 0.96
+  difficulty: medium
+  hint: The inner strokes of Mu curve into a rounded dip here.
+  explain: Omicron–Mu–Omicron. This is the edition’s reading at column −15, line 3. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-15-l03-07-10
+  source_key: paris4-banner
+  column: -15
+  line: 3
+  edition_page: 15
+  edition: οὶ δὲ ὁμοίωϲ καὶ οἱ τὸ
+  line_truth: ΟΙΔΕΟΜΟΙΩϹΚΑΙΟΙΤΟ
+  indices:
+  - 7
+  - 10
+  truth: ΙΩϹ
+  rect:
+  - 655
+  - 385
+  - 805
+  - 449
+  letter_regions:
+  - - 0.02
+    - 0.04
+    - 0.29333
+    - 0.96
+  - - 0.29333
+    - 0.04
+    - 0.62667
+    - 0.96
+  - - 0.62667
+    - 0.04
+    - 0.98
+    - 0.96
+  difficulty: medium
+  hint: Iota can have a broad foot here. Follow its upright before counting neighbouring strokes.
+  explain: Iota–Omega–Sigma. This is the edition’s reading at column −15, line 3. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-15-l03-10-13
+  source_key: paris4-banner
+  column: -15
+  line: 3
+  edition_page: 15
+  edition: οὶ δὲ ὁμοίωϲ καὶ οἱ τὸ
+  line_truth: ΟΙΔΕΟΜΟΙΩϹΚΑΙΟΙΤΟ
+  indices:
+  - 10
+  - 13
+  truth: ΚΑΙ
+  rect:
+  - 799
+  - 370
+  - 948
+  - 447
+  letter_regions:
+  - - 0.02013
+    - 0.04
+    - 0.36242
+    - 0.96
+  - - 0.36242
+    - 0.04
+    - 0.69799
+    - 0.96
+  - - 0.69799
+    - 0.04
+    - 0.97987
+    - 0.96
+  difficulty: medium
+  hint: Iota can have a broad foot here. Follow its upright before counting neighbouring strokes.
+  explain: Kappa–Alpha–Iota. This is the edition’s reading at column −15, line 3. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-15-l03-13-17
+  source_key: paris4-banner
+  column: -15
+  line: 3
+  edition_page: 15
+  edition: οὶ δὲ ὁμοίωϲ καὶ οἱ τὸ
+  line_truth: ΟΙΔΕΟΜΟΙΩϹΚΑΙΟΙΤΟ
+  indices:
+  - 13
+  - 17
+  truth: ΟΙΤΟ
+  rect:
+  - 942
+  - 371
+  - 1133
+  - 447
+  letter_regions:
+  - - 0.01571
+    - 0.04
+    - 0.27749
+    - 0.96
+  - - 0.27749
+    - 0.04
+    - 0.48168
+    - 0.96
+  - - 0.48168
+    - 0.04
+    - 0.72251
+    - 0.96
+  - - 0.72251
+    - 0.04
+    - 0.98429
+    - 0.96
+  difficulty: easy
+  hint: Iota can have a broad foot here. Follow its upright before counting neighbouring strokes.
+  explain: Omicron–Iota–Tau–Omicron. This is the edition’s reading at column −15, line 3. The source image
+    is unchanged; the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-15-l05-00-03
+  source_key: paris4-banner
+  column: -15
+  line: 5
+  edition_page: 15
+  edition: θαυμάϲιον κατὰ μου-
+  line_truth: ΘΑΥΜΑϹΙΟΝΚΑΤΑΜΟΥ
+  indices:
+  - 0
+  - 3
+  truth: ΘΑΥ
+  rect:
+  - 276
+  - 548
+  - 435
+  - 641
+  letter_regions:
+  - - 0.01887
+    - 0.04
+    - 0.32704
+    - 0.96
+  - - 0.32704
+    - 0.04
+    - 0.67296
+    - 0.96
+  - - 0.67296
+    - 0.04
+    - 0.98113
+    - 0.96
+  difficulty: easy
+  hint: 'Compare the rounded letters: a cross-stroke inside the outline helps distinguish Theta.'
+  explain: Theta–Alpha–Upsilon. This is the edition’s reading at column −15, line 5. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-15-l05-03-06
+  source_key: paris4-banner
+  column: -15
+  line: 5
+  edition_page: 15
+  edition: θαυμάϲιον κατὰ μου-
+  line_truth: ΘΑΥΜΑϹΙΟΝΚΑΤΑΜΟΥ
+  indices:
+  - 3
+  - 6
+  truth: ΜΑϹ
+  rect:
+  - 429
+  - 544
+  - 619
+  - 650
+  letter_regions:
+  - - 0.01579
+    - 0.04
+    - 0.48421
+    - 0.96
+  - - 0.48421
+    - 0.04
+    - 0.74737
+    - 0.96
+  - - 0.74737
+    - 0.04
+    - 0.98421
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Mu–Alpha–Sigma. This is the edition’s reading at column −15, line 5. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-15-l05-06-09
+  source_key: paris4-banner
+  column: -15
+  line: 5
+  edition_page: 15
+  edition: θαυμάϲιον κατὰ μου-
+  line_truth: ΘΑΥΜΑϹΙΟΝΚΑΤΑΜΟΥ
+  indices:
+  - 6
+  - 9
+  truth: ΙΟΝ
+  rect:
+  - 613
+  - 555
+  - 746
+  - 646
+  letter_regions:
+  - - 0.02256
+    - 0.04
+    - 0.28571
+    - 0.96
+  - - 0.28571
+    - 0.04
+    - 0.57895
+    - 0.96
+  - - 0.57895
+    - 0.04
+    - 0.97744
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Iota–Omicron–Nu. This is the edition’s reading at column −15, line 5. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-15-l05-09-13
+  source_key: paris4-banner
+  column: -15
+  line: 5
+  edition_page: 15
+  edition: θαυμάϲιον κατὰ μου-
+  line_truth: ΘΑΥΜΑϹΙΟΝΚΑΤΑΜΟΥ
+  indices:
+  - 9
+  - 13
+  truth: ΚΑΤΑ
+  rect:
+  - 740
+  - 554
+  - 969
+  - 649
+  letter_regions:
+  - - 0.0131
+    - 0.04
+    - 0.26201
+    - 0.96
+  - - 0.26201
+    - 0.04
+    - 0.51092
+    - 0.96
+  - - 0.51092
+    - 0.04
+    - 0.74236
+    - 0.96
+  - - 0.74236
+    - 0.04
+    - 0.9869
+    - 0.96
+  difficulty: medium
+  hint: The proportions of Alpha vary. Look at its complete connected outline.
+  explain: Kappa–Alpha–Tau–Alpha. This is the edition’s reading at column −15, line 5. The source image is
+    unchanged; the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-15-l05-13-16
+  source_key: paris4-banner
+  column: -15
+  line: 5
+  edition_page: 15
+  edition: θαυμάϲιον κατὰ μου-
+  line_truth: ΘΑΥΜΑϹΙΟΝΚΑΤΑΜΟΥ
+  indices:
+  - 13
+  - 16
+  truth: ΜΟΥ
+  rect:
+  - 963
+  - 562
+  - 1153
+  - 654
+  letter_regions:
+  - - 0.01579
+    - 0.04
+    - 0.40526
+    - 0.96
+  - - 0.40526
+    - 0.04
+    - 0.73158
+    - 0.96
+  - - 0.73158
+    - 0.04
+    - 0.98421
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Mu–Omicron–Upsilon. This is the edition’s reading at column −15, line 5. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-14-l03-00-04
+  source_key: paris4-banner
+  column: -14
+  line: 3
+  edition_page: 16
+  edition: οὐ μὴν προχείρωϲ γε
+  line_truth: ΟΥΜΗΝΠΡΟΧΕΙΡΩϹΓΕ
+  indices:
+  - 0
+  - 4
+  truth: ΟΥΜΗ
+  rect:
+  - 1409
+  - 386
+  - 1608
+  - 451
+  letter_regions:
+  - - 0.01508
+    - 0.04
+    - 0.23618
+    - 0.96
+  - - 0.23618
+    - 0.04
+    - 0.47739
+    - 0.96
+  - - 0.47739
+    - 0.04
+    - 0.74372
+    - 0.96
+  - - 0.74372
+    - 0.04
+    - 0.98492
+    - 0.96
+  difficulty: medium
+  hint: Follow the main strokes from left to right, keeping the neighbouring letters separate.
+  explain: Omicron–Upsilon–Mu–Eta. This is the edition’s reading at column −14, line 3. The source image is
+    unchanged; the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-14-l03-04-07
+  source_key: paris4-banner
+  column: -14
+  line: 3
+  edition_page: 16
+  edition: οὐ μὴν προχείρωϲ γε
+  line_truth: ΟΥΜΗΝΠΡΟΧΕΙΡΩϹΓΕ
+  indices:
+  - 4
+  - 7
+  truth: ΝΠΡ
+  rect:
+  - 1602
+  - 365
+  - 1786
+  - 449
+  letter_regions:
+  - - 0.0163
+    - 0.04
+    - 0.26087
+    - 0.96
+  - - 0.26087
+    - 0.04
+    - 0.61413
+    - 0.96
+  - - 0.61413
+    - 0.04
+    - 0.9837
+    - 0.96
+  difficulty: medium
+  hint: Look for Rho’s upper loop and the stroke continuing below it.
+  explain: Nu–Pi–Rho. This is the edition’s reading at column −14, line 3. The source image is unchanged; the
+    boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-14-l03-07-11
+  source_key: paris4-banner
+  column: -14
+  line: 3
+  edition_page: 16
+  edition: οὐ μὴν προχείρωϲ γε
+  line_truth: ΟΥΜΗΝΠΡΟΧΕΙΡΩϹΓΕ
+  indices:
+  - 7
+  - 11
+  truth: ΟΧΕΙ
+  rect:
+  - 1780
+  - 344
+  - 2006
+  - 425
+  letter_regions:
+  - - 0.01327
+    - 0.04
+    - 0.26991
+    - 0.96
+  - - 0.26991
+    - 0.04
+    - 0.5531
+    - 0.96
+  - - 0.5531
+    - 0.04
+    - 0.77434
+    - 0.96
+  - - 0.77434
+    - 0.04
+    - 0.98673
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Omicron–Chi–Epsilon–Iota. This is the edition’s reading at column −14, line 3. The source image
+    is unchanged; the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-14-l03-11-14
+  source_key: paris4-banner
+  column: -14
+  line: 3
+  edition_page: 16
+  edition: οὐ μὴν προχείρωϲ γε
+  line_truth: ΟΥΜΗΝΠΡΟΧΕΙΡΩϹΓΕ
+  indices:
+  - 11
+  - 14
+  truth: ΡΩϹ
+  rect:
+  - 2000
+  - 336
+  - 2177
+  - 430
+  letter_regions:
+  - - 0.01695
+    - 0.04
+    - 0.32768
+    - 0.96
+  - - 0.32768
+    - 0.04
+    - 0.68362
+    - 0.96
+  - - 0.68362
+    - 0.04
+    - 0.98305
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Rho–Omega–Sigma. This is the edition’s reading at column −14, line 3. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-14-l03-14-16
+  source_key: paris4-banner
+  column: -14
+  line: 3
+  edition_page: 16
+  edition: οὐ μὴν προχείρωϲ γε
+  line_truth: ΟΥΜΗΝΠΡΟΧΕΙΡΩϹΓΕ
+  indices:
+  - 14
+  - 16
+  truth: ΓΕ
+  rect:
+  - 2171
+  - 332
+  - 2265
+  - 419
+  letter_regions:
+  - - 0.03191
+    - 0.04
+    - 0.47872
+    - 0.96
+  - - 0.47872
+    - 0.04
+    - 0.96809
+    - 0.96
+  difficulty: medium
+  hint: Follow the main strokes from left to right, keeping the neighbouring letters separate.
+  explain: Gamma–Epsilon. This is the edition’s reading at column −14, line 3. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-14-l04-00-04
+  source_key: paris4-banner
+  column: -14
+  line: 4
+  edition_page: 16
+  edition: τοῦτ’ ἐργάζεται, καθά-
+  line_truth: ΤΟΥΤΕΡΓΑΖΕΤΑΙΚΑΘΑ
+  indices:
+  - 0
+  - 4
+  truth: ΤΟΥΤ
+  rect:
+  - 1405
+  - 470
+  - 1612
+  - 552
+  letter_regions:
+  - - 0.01449
+    - 0.04
+    - 0.25121
+    - 0.96
+  - - 0.25121
+    - 0.04
+    - 0.47343
+    - 0.96
+  - - 0.47343
+    - 0.04
+    - 0.74879
+    - 0.96
+  - - 0.74879
+    - 0.04
+    - 0.98551
+    - 0.96
+  difficulty: easy
+  hint: Follow the main strokes from left to right, keeping the neighbouring letters separate.
+  explain: Tau–Omicron–Upsilon–Tau. This is the edition’s reading at column −14, line 4. The source image is
+    unchanged; the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-14-l04-04-08
+  source_key: paris4-banner
+  column: -14
+  line: 4
+  edition_page: 16
+  edition: τοῦτ’ ἐργάζεται, καθά-
+  line_truth: ΤΟΥΤΕΡΓΑΖΕΤΑΙΚΑΘΑ
+  indices:
+  - 4
+  - 8
+  truth: ΕΡΓΑ
+  rect:
+  - 1606
+  - 440
+  - 1798
+  - 556
+  letter_regions:
+  - - 0.01562
+    - 0.04
+    - 0.30729
+    - 0.96
+  - - 0.30729
+    - 0.04
+    - 0.54167
+    - 0.96
+  - - 0.54167
+    - 0.04
+    - 0.72396
+    - 0.96
+  - - 0.72396
+    - 0.04
+    - 0.98438
+    - 0.96
+  difficulty: medium
+  hint: Look for Rho’s upper loop and the stroke continuing below it.
+  explain: Epsilon–Rho–Gamma–Alpha. This is the edition’s reading at column −14, line 4. The source image is
+    unchanged; the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-14-l04-08-11
+  source_key: paris4-banner
+  column: -14
+  line: 4
+  edition_page: 16
+  edition: τοῦτ’ ἐργάζεται, καθά-
+  line_truth: ΤΟΥΤΕΡΓΑΖΕΤΑΙΚΑΘΑ
+  indices:
+  - 8
+  - 11
+  truth: ΖΕΤ
+  rect:
+  - 1792
+  - 437
+  - 1948
+  - 523
+  letter_regions:
+  - - 0.01923
+    - 0.04
+    - 0.33974
+    - 0.96
+  - - 0.33974
+    - 0.04
+    - 0.70513
+    - 0.96
+  - - 0.70513
+    - 0.04
+    - 0.98077
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Zeta–Epsilon–Tau. This is the edition’s reading at column −14, line 4. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-14-l04-11-14
+  source_key: paris4-banner
+  column: -14
+  line: 4
+  edition_page: 16
+  edition: τοῦτ’ ἐργάζεται, καθά-
+  line_truth: ΤΟΥΤΕΡΓΑΖΕΤΑΙΚΑΘΑ
+  indices:
+  - 11
+  - 14
+  truth: ΑΙΚ
+  rect:
+  - 1942
+  - 428
+  - 2121
+  - 526
+  letter_regions:
+  - - 0.01676
+    - 0.04
+    - 0.48045
+    - 0.96
+  - - 0.48045
+    - 0.04
+    - 0.68156
+    - 0.96
+  - - 0.68156
+    - 0.04
+    - 0.98324
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Alpha–Iota–Kappa. This is the edition’s reading at column −14, line 4. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-14-l04-14-17
+  source_key: paris4-banner
+  column: -14
+  line: 4
+  edition_page: 16
+  edition: τοῦτ’ ἐργάζεται, καθά-
+  line_truth: ΤΟΥΤΕΡΓΑΖΕΤΑΙΚΑΘΑ
+  indices:
+  - 14
+  - 17
+  truth: ΑΘΑ
+  rect:
+  - 2115
+  - 414
+  - 2293
+  - 509
+  letter_regions:
+  - - 0.01685
+    - 0.04
+    - 0.28652
+    - 0.96
+  - - 0.28652
+    - 0.04
+    - 0.63483
+    - 0.96
+  - - 0.63483
+    - 0.04
+    - 0.98315
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Alpha–Theta–Alpha. This is the edition’s reading at column −14, line 4. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-14-l05-00-03
+  source_key: paris4-banner
+  column: -14
+  line: 5
+  edition_page: 16
+  edition: περ ἄλλο τι τῶν κατὰ
+  line_truth: ΠΕΡΑΛΛΟΤΙΤΩΝΚΑΤΑ
+  indices:
+  - 0
+  - 3
+  truth: ΠΕΡ
+  rect:
+  - 1401
+  - 572
+  - 1587
+  - 645
+  letter_regions:
+  - - 0.01613
+    - 0.04
+    - 0.43548
+    - 0.96
+  - - 0.43548
+    - 0.04
+    - 0.69355
+    - 0.96
+  - - 0.69355
+    - 0.04
+    - 0.98387
+    - 0.96
+  difficulty: easy
+  hint: Look for Rho’s upper loop and the stroke continuing below it.
+  explain: Pi–Epsilon–Rho. This is the edition’s reading at column −14, line 5. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-14-l05-09-12
+  source_key: paris4-banner
+  column: -14
+  line: 5
+  edition_page: 16
+  edition: περ ἄλλο τι τῶν κατὰ
+  line_truth: ΠΕΡΑΛΛΟΤΙΤΩΝΚΑΤΑ
+  indices:
+  - 9
+  - 12
+  truth: ΤΩΝ
+  rect:
+  - 1837
+  - 560
+  - 2051
+  - 632
+  letter_regions:
+  - - 0.01402
+    - 0.04
+    - 0.29439
+    - 0.96
+  - - 0.29439
+    - 0.04
+    - 0.66822
+    - 0.96
+  - - 0.66822
+    - 0.04
+    - 0.98598
+    - 0.96
+  difficulty: medium
+  hint: Compare the open, broad Omega with the more enclosed rounded forms.
+  explain: Tau–Omega–Nu. This is the edition’s reading at column −14, line 5. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-14-l05-12-16
+  source_key: paris4-banner
+  column: -14
+  line: 5
+  edition_page: 16
+  edition: περ ἄλλο τι τῶν κατὰ
+  line_truth: ΠΕΡΑΛΛΟΤΙΤΩΝΚΑΤΑ
+  indices:
+  - 12
+  - 16
+  truth: ΚΑΤΑ
+  rect:
+  - 2045
+  - 535
+  - 2293
+  - 618
+  letter_regions:
+  - - 0.0121
+    - 0.04
+    - 0.27419
+    - 0.96
+  - - 0.27419
+    - 0.04
+    - 0.5121
+    - 0.96
+  - - 0.5121
+    - 0.04
+    - 0.72177
+    - 0.96
+  - - 0.72177
+    - 0.04
+    - 0.9879
+    - 0.96
+  difficulty: medium
+  hint: The proportions of Alpha vary. Look at its complete connected outline.
+  explain: Kappa–Alpha–Tau–Alpha. This is the edition’s reading at column −14, line 5. The source image is
+    unchanged; the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-14-l06-00-03
+  source_key: paris4-banner
+  column: -14
+  line: 6
+  edition_page: 16
+  edition: μουϲικήν – ἢ τρίτον ὑ-
+  line_truth: ΜΟΥϹΙΚΗΝΗΤΡΙΤΟΝΥ
+  indices:
+  - 0
+  - 3
+  truth: ΜΟΥ
+  rect:
+  - 1388
+  - 667
+  - 1577
+  - 746
+  letter_regions:
+  - - 0.01587
+    - 0.04
+    - 0.42328
+    - 0.96
+  - - 0.42328
+    - 0.04
+    - 0.69841
+    - 0.96
+  - - 0.69841
+    - 0.04
+    - 0.98413
+    - 0.96
+  difficulty: medium
+  hint: Follow the main strokes from left to right, keeping the neighbouring letters separate.
+  explain: Mu–Omicron–Upsilon. This is the edition’s reading at column −14, line 6. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-14-l06-03-07
+  source_key: paris4-banner
+  column: -14
+  line: 6
+  edition_page: 16
+  edition: μουϲικήν – ἢ τρίτον ὑ-
+  line_truth: ΜΟΥϹΙΚΗΝΗΤΡΙΤΟΝΥ
+  indices:
+  - 3
+  - 7
+  truth: ϹΙΚΗ
+  rect:
+  - 1571
+  - 659
+  - 1776
+  - 736
+  letter_regions:
+  - - 0.01463
+    - 0.04
+    - 0.27317
+    - 0.96
+  - - 0.27317
+    - 0.04
+    - 0.40488
+    - 0.96
+  - - 0.40488
+    - 0.04
+    - 0.66829
+    - 0.96
+  - - 0.66829
+    - 0.04
+    - 0.98537
+    - 0.96
+  difficulty: medium
+  hint: Iota can have a broad foot here. Follow its upright before counting neighbouring strokes.
+  explain: Sigma–Iota–Kappa–Eta. This is the edition’s reading at column −14, line 6. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-14-l06-07-09
+  source_key: paris4-banner
+  column: -14
+  line: 6
+  edition_page: 16
+  edition: μουϲικήν – ἢ τρίτον ὑ-
+  line_truth: ΜΟΥϹΙΚΗΝΗΤΡΙΤΟΝΥ
+  indices:
+  - 7
+  - 9
+  truth: ΝΗ
+  rect:
+  - 1770
+  - 650
+  - 1912
+  - 736
+  letter_regions:
+  - - 0.02113
+    - 0.04
+    - 0.51408
+    - 0.96
+  - - 0.51408
+    - 0.04
+    - 0.97887
+    - 0.96
+  difficulty: medium
+  hint: Keep the neighbouring uprights separate and follow the sloping stroke of Nu.
+  explain: Nu–Eta. This is the edition’s reading at column −14, line 6. The source image is unchanged; the
+    boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-14-l06-09-12
+  source_key: paris4-banner
+  column: -14
+  line: 6
+  edition_page: 16
+  edition: μουϲικήν – ἢ τρίτον ὑ-
+  line_truth: ΜΟΥϹΙΚΗΝΗΤΡΙΤΟΝΥ
+  indices:
+  - 9
+  - 12
+  truth: ΤΡΙ
+  rect:
+  - 1906
+  - 638
+  - 2058
+  - 726
+  letter_regions:
+  - - 0.01974
+    - 0.04
+    - 0.40132
+    - 0.96
+  - - 0.40132
+    - 0.04
+    - 0.75658
+    - 0.96
+  - - 0.75658
+    - 0.04
+    - 0.98026
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Tau–Rho–Iota. This is the edition’s reading at column −14, line 6. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-14-l06-12-16
+  source_key: paris4-banner
+  column: -14
+  line: 6
+  edition_page: 16
+  edition: μουϲικήν – ἢ τρίτον ὑ-
+  line_truth: ΜΟΥϹΙΚΗΝΗΤΡΙΤΟΝΥ
+  indices:
+  - 12
+  - 16
+  truth: ΤΟΝΥ
+  rect:
+  - 2052
+  - 627
+  - 2271
+  - 724
+  letter_regions:
+  - - 0.0137
+    - 0.04
+    - 0.24201
+    - 0.96
+  - - 0.24201
+    - 0.04
+    - 0.49315
+    - 0.96
+  - - 0.49315
+    - 0.04
+    - 0.73516
+    - 0.96
+  - - 0.73516
+    - 0.04
+    - 0.9863
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Tau–Omicron–Nu–Upsilon. This is the edition’s reading at column −14, line 6. The source image is
+    unchanged; the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-13-l04-00-03
+  source_key: paris4-banner
+  column: -13
+  line: 4
+  edition_page: 16
+  edition: παινον. τὸ μὲν οὖν
+  line_truth: ΠΑΙΝΟΝΤΟΜΕΝΟΥΝ
+  indices:
+  - 0
+  - 3
+  truth: ΠΑΙ
+  rect:
+  - 2505
+  - 435
+  - 2700
+  - 515
+  letter_regions:
+  - - 0.01538
+    - 0.04
+    - 0.47692
+    - 0.96
+  - - 0.47692
+    - 0.04
+    - 0.77949
+    - 0.96
+  - - 0.77949
+    - 0.04
+    - 0.98462
+    - 0.96
+  difficulty: medium
+  hint: Iota can have a broad foot here. Follow its upright before counting neighbouring strokes.
+  explain: Pi–Alpha–Iota. This is the edition’s reading at column −13, line 4. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-13-l04-03-06
+  source_key: paris4-banner
+  column: -13
+  line: 4
+  edition_page: 16
+  edition: παινον. τὸ μὲν οὖν
+  line_truth: ΠΑΙΝΟΝΤΟΜΕΝΟΥΝ
+  indices:
+  - 3
+  - 6
+  truth: ΝΟΝ
+  rect:
+  - 2694
+  - 424
+  - 2885
+  - 510
+  letter_regions:
+  - - 0.01571
+    - 0.04
+    - 0.3089
+    - 0.96
+  - - 0.3089
+    - 0.04
+    - 0.63351
+    - 0.96
+  - - 0.63351
+    - 0.04
+    - 0.98429
+    - 0.96
+  difficulty: easy
+  hint: Keep the neighbouring uprights separate and follow the sloping stroke of Nu.
+  explain: Nu–Omicron–Nu. This is the edition’s reading at column −13, line 4. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-13-l04-06-09
+  source_key: paris4-banner
+  column: -13
+  line: 4
+  edition_page: 16
+  edition: παινον. τὸ μὲν οὖν
+  line_truth: ΠΑΙΝΟΝΤΟΜΕΝΟΥΝ
+  indices:
+  - 6
+  - 9
+  truth: ΤΟΜ
+  rect:
+  - 2879
+  - 414
+  - 3113
+  - 503
+  letter_regions:
+  - - 0.01282
+    - 0.04
+    - 0.31197
+    - 0.96
+  - - 0.31197
+    - 0.04
+    - 0.53846
+    - 0.96
+  - - 0.53846
+    - 0.04
+    - 0.98718
+    - 0.96
+  difficulty: medium
+  hint: Follow the main strokes from left to right, keeping the neighbouring letters separate.
+  explain: Tau–Omicron–Mu. This is the edition’s reading at column −13, line 4. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-13-l04-09-11
+  source_key: paris4-banner
+  column: -13
+  line: 4
+  edition_page: 16
+  edition: παινον. τὸ μὲν οὖν
+  line_truth: ΠΑΙΝΟΝΤΟΜΕΝΟΥΝ
+  indices:
+  - 9
+  - 11
+  truth: ΕΝ
+  rect:
+  - 3107
+  - 407
+  - 3213
+  - 488
+  letter_regions:
+  - - 0.0283
+    - 0.04
+    - 0.48113
+    - 0.96
+  - - 0.48113
+    - 0.04
+    - 0.9717
+    - 0.96
+  difficulty: medium
+  hint: Keep the neighbouring uprights separate and follow the sloping stroke of Nu.
+  explain: Epsilon–Nu. This is the edition’s reading at column −13, line 4. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-13-l04-11-14
+  source_key: paris4-banner
+  column: -13
+  line: 4
+  edition_page: 16
+  edition: παινον. τὸ μὲν οὖν
+  line_truth: ΠΑΙΝΟΝΤΟΜΕΝΟΥΝ
+  indices:
+  - 11
+  - 14
+  truth: ΟΥΝ
+  rect:
+  - 3207
+  - 402
+  - 3380
+  - 486
+  letter_regions:
+  - - 0.01734
+    - 0.04
+    - 0.32948
+    - 0.96
+  - - 0.32948
+    - 0.04
+    - 0.57803
+    - 0.96
+  - - 0.57803
+    - 0.04
+    - 0.98266
+    - 0.96
+  difficulty: medium
+  hint: Keep the neighbouring uprights separate and follow the sloping stroke of Nu.
+  explain: Omicron–Upsilon–Nu. This is the edition’s reading at column −13, line 4. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-13-l05-00-04
+  source_key: paris4-banner
+  column: -13
+  line: 5
+  edition_page: 16
+  edition: κατὰ τὸν ἐνχρονιϲ-
+  line_truth: ΚΑΤΑΤΟΝΕΝΧΡΟΝΙϹ
+  indices:
+  - 0
+  - 4
+  truth: ΚΑΤΑ
+  rect:
+  - 2496
+  - 543
+  - 2758
+  - 616
+  letter_regions:
+  - - 0.01145
+    - 0.04
+    - 0.23282
+    - 0.96
+  - - 0.23282
+    - 0.04
+    - 0.48473
+    - 0.96
+  - - 0.48473
+    - 0.04
+    - 0.75573
+    - 0.96
+  - - 0.75573
+    - 0.04
+    - 0.98855
+    - 0.96
+  difficulty: medium
+  hint: The proportions of Alpha vary. Look at its complete connected outline.
+  explain: Kappa–Alpha–Tau–Alpha. This is the edition’s reading at column −13, line 5. The source image is
+    unchanged; the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-13-l05-04-07
+  source_key: paris4-banner
+  column: -13
+  line: 5
+  edition_page: 16
+  edition: κατὰ τὸν ἐνχρονιϲ-
+  line_truth: ΚΑΤΑΤΟΝΕΝΧΡΟΝΙϹ
+  indices:
+  - 4
+  - 7
+  truth: ΤΟΝ
+  rect:
+  - 2752
+  - 533
+  - 2913
+  - 608
+  letter_regions:
+  - - 0.01863
+    - 0.04
+    - 0.3354
+    - 0.96
+  - - 0.3354
+    - 0.04
+    - 0.65839
+    - 0.96
+  - - 0.65839
+    - 0.04
+    - 0.98137
+    - 0.96
+  difficulty: easy
+  hint: Keep the neighbouring uprights separate and follow the sloping stroke of Nu.
+  explain: Tau–Omicron–Nu. This is the edition’s reading at column −13, line 5. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-13-l05-07-10
+  source_key: paris4-banner
+  column: -13
+  line: 5
+  edition_page: 16
+  edition: κατὰ τὸν ἐνχρονιϲ-
+  line_truth: ΚΑΤΑΤΟΝΕΝΧΡΟΝΙϹ
+  indices:
+  - 7
+  - 10
+  truth: ΕΝΧ
+  rect:
+  - 2907
+  - 521
+  - 3096
+  - 593
+  letter_regions:
+  - - 0.01587
+    - 0.04
+    - 0.24339
+    - 0.96
+  - - 0.24339
+    - 0.04
+    - 0.51852
+    - 0.96
+  - - 0.51852
+    - 0.04
+    - 0.98413
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Epsilon–Nu–Chi. This is the edition’s reading at column −13, line 5. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-13-l05-10-13
+  source_key: paris4-banner
+  column: -13
+  line: 5
+  edition_page: 16
+  edition: κατὰ τὸν ἐνχρονιϲ-
+  line_truth: ΚΑΤΑΤΟΝΕΝΧΡΟΝΙϹ
+  indices:
+  - 10
+  - 13
+  truth: ΡΟΝ
+  rect:
+  - 3090
+  - 516
+  - 3268
+  - 588
+  letter_regions:
+  - - 0.01685
+    - 0.04
+    - 0.34831
+    - 0.96
+  - - 0.34831
+    - 0.04
+    - 0.64045
+    - 0.96
+  - - 0.64045
+    - 0.04
+    - 0.98315
+    - 0.96
+  difficulty: medium
+  hint: Look for Rho’s upper loop and the stroke continuing below it.
+  explain: Rho–Omicron–Nu. This is the edition’s reading at column −13, line 5. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-13-l05-13-15
+  source_key: paris4-banner
+  column: -13
+  line: 5
+  edition_page: 16
+  edition: κατὰ τὸν ἐνχρονιϲ-
+  line_truth: ΚΑΤΑΤΟΝΕΝΧΡΟΝΙϹ
+  indices:
+  - 13
+  - 15
+  truth: ΙϹ
+  rect:
+  - 3262
+  - 514
+  - 3355
+  - 587
+  letter_regions:
+  - - 0.03226
+    - 0.04
+    - 0.41935
+    - 0.96
+  - - 0.41935
+    - 0.04
+    - 0.96774
+    - 0.96
+  difficulty: medium
+  hint: Iota can have a broad foot here. Follow its upright before counting neighbouring strokes.
+  explain: Iota–Sigma. This is the edition’s reading at column −13, line 5. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-12-l03-00-04
+  source_key: paris4-banner
+  column: -12
+  line: 3
+  edition_page: 17
+  edition: δεικνύονταϲ ἡμῖν ἐ-
+  line_truth: ΔΕΙΚΝΥΟΝΤΑϹΗΜΙΝΕ
+  indices:
+  - 0
+  - 4
+  truth: ΔΕΙΚ
+  rect:
+  - 3605
+  - 341
+  - 3849
+  - 422
+  letter_regions:
+  - - 0.0123
+    - 0.04
+    - 0.30738
+    - 0.96
+  - - 0.30738
+    - 0.04
+    - 0.56967
+    - 0.96
+  - - 0.56967
+    - 0.04
+    - 0.71721
+    - 0.96
+  - - 0.71721
+    - 0.04
+    - 0.9877
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Delta–Epsilon–Iota–Kappa. This is the edition’s reading at column −12, line 3. The source image
+    is unchanged; the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-12-l03-04-08
+  source_key: paris4-banner
+  column: -12
+  line: 3
+  edition_page: 17
+  edition: δεικνύονταϲ ἡμῖν ἐ-
+  line_truth: ΔΕΙΚΝΥΟΝΤΑϹΗΜΙΝΕ
+  indices:
+  - 4
+  - 8
+  truth: ΝΥΟΝ
+  rect:
+  - 3843
+  - 344
+  - 4048
+  - 418
+  letter_regions:
+  - - 0.01463
+    - 0.04
+    - 0.30244
+    - 0.96
+  - - 0.30244
+    - 0.04
+    - 0.50732
+    - 0.96
+  - - 0.50732
+    - 0.04
+    - 0.75122
+    - 0.96
+  - - 0.75122
+    - 0.04
+    - 0.98537
+    - 0.96
+  difficulty: medium
+  hint: Keep the neighbouring uprights separate and follow the sloping stroke of Nu.
+  explain: Nu–Upsilon–Omicron–Nu. This is the edition’s reading at column −12, line 3. The source image is
+    unchanged; the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-12-l03-08-11
+  source_key: paris4-banner
+  column: -12
+  line: 3
+  edition_page: 17
+  edition: δεικνύονταϲ ἡμῖν ἐ-
+  line_truth: ΔΕΙΚΝΥΟΝΤΑϹΗΜΙΝΕ
+  indices:
+  - 8
+  - 11
+  truth: ΤΑϹ
+  rect:
+  - 4042
+  - 340
+  - 4214
+  - 424
+  letter_regions:
+  - - 0.01744
+    - 0.04
+    - 0.4186
+    - 0.96
+  - - 0.4186
+    - 0.04
+    - 0.73837
+    - 0.96
+  - - 0.73837
+    - 0.04
+    - 0.98256
+    - 0.96
+  difficulty: medium
+  hint: 'Sigma is written as an open curve here: Ϲ.'
+  explain: Tau–Alpha–Sigma. This is the edition’s reading at column −12, line 3. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-12-l04-00-04
+  source_key: paris4-banner
+  column: -12
+  line: 4
+  edition_page: 17
+  edition: πί τε πορφύραϲ καὶ
+  line_truth: ΠΙΤΕΠΟΡΦΥΡΑϹΚΑΙ
+  indices:
+  - 0
+  - 4
+  truth: ΠΙΤΕ
+  rect:
+  - 3630
+  - 440
+  - 3865
+  - 523
+  letter_regions:
+  - - 0.01277
+    - 0.04
+    - 0.42553
+    - 0.96
+  - - 0.42553
+    - 0.04
+    - 0.55745
+    - 0.96
+  - - 0.55745
+    - 0.04
+    - 0.77872
+    - 0.96
+  - - 0.77872
+    - 0.04
+    - 0.98723
+    - 0.96
+  difficulty: easy
+  hint: Iota can have a broad foot here. Follow its upright before counting neighbouring strokes.
+  explain: Pi–Iota–Tau–Epsilon. This is the edition’s reading at column −12, line 4. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-12-l04-04-07
+  source_key: paris4-banner
+  column: -12
+  line: 4
+  edition_page: 17
+  edition: πί τε πορφύραϲ καὶ
+  line_truth: ΠΙΤΕΠΟΡΦΥΡΑϹΚΑΙ
+  indices:
+  - 4
+  - 7
+  truth: ΠΟΡ
+  rect:
+  - 3859
+  - 434
+  - 4054
+  - 530
+  letter_regions:
+  - - 0.01538
+    - 0.04
+    - 0.43077
+    - 0.96
+  - - 0.43077
+    - 0.04
+    - 0.71282
+    - 0.96
+  - - 0.71282
+    - 0.04
+    - 0.98462
+    - 0.96
+  difficulty: easy
+  hint: Look for Rho’s upper loop and the stroke continuing below it.
+  explain: Pi–Omicron–Rho. This is the edition’s reading at column −12, line 4. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-12-l05-03-07
+  source_key: paris4-banner
+  column: -12
+  line: 5
+  edition_page: 17
+  edition: τῶν ὁμοίων ὅτι κρά-
+  line_truth: ΤΩΝΟΜΟΙΩΝΟΤΙΚΡΑ
+  indices:
+  - 3
+  - 7
+  truth: ΟΜΟΙ
+  rect:
+  - 3854
+  - 546
+  - 4060
+  - 623
+  letter_regions:
+  - - 0.01456
+    - 0.04
+    - 0.22816
+    - 0.96
+  - - 0.22816
+    - 0.04
+    - 0.56796
+    - 0.96
+  - - 0.56796
+    - 0.04
+    - 0.83981
+    - 0.96
+  - - 0.83981
+    - 0.04
+    - 0.98544
+    - 0.96
+  difficulty: medium
+  hint: Iota can have a broad foot here. Follow its upright before counting neighbouring strokes.
+  explain: Omicron–Mu–Omicron–Iota. This is the edition’s reading at column −12, line 5. The source image is
+    unchanged; the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-12-l05-07-11
+  source_key: paris4-banner
+  column: -12
+  line: 5
+  edition_page: 17
+  edition: τῶν ὁμοίων ὅτι κρά-
+  line_truth: ΤΩΝΟΜΟΙΩΝΟΤΙΚΡΑ
+  indices:
+  - 7
+  - 11
+  truth: ΩΝΟΤ
+  rect:
+  - 4054
+  - 541
+  - 4317
+  - 623
+  letter_regions:
+  - - 0.01141
+    - 0.04
+    - 0.37643
+    - 0.96
+  - - 0.37643
+    - 0.04
+    - 0.58175
+    - 0.96
+  - - 0.58175
+    - 0.04
+    - 0.80228
+    - 0.96
+  - - 0.80228
+    - 0.04
+    - 0.98859
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Omega–Nu–Omicron–Tau. This is the edition’s reading at column −12, line 5. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-12-l05-11-15
+  source_key: paris4-banner
+  column: -12
+  line: 5
+  edition_page: 17
+  edition: τῶν ὁμοίων ὅτι κρά-
+  line_truth: ΤΩΝΟΜΟΙΩΝΟΤΙΚΡΑ
+  indices:
+  - 11
+  - 15
+  truth: ΙΚΡΑ
+  rect:
+  - 4311
+  - 535
+  - 4503
+  - 632
+  letter_regions:
+  - - 0.01562
+    - 0.04
+    - 0.17708
+    - 0.96
+  - - 0.17708
+    - 0.04
+    - 0.46354
+    - 0.96
+  - - 0.46354
+    - 0.04
+    - 0.69271
+    - 0.96
+  - - 0.69271
+    - 0.04
+    - 0.98438
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Iota–Kappa–Rho–Alpha. This is the edition’s reading at column −12, line 5. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-7-l05-00-03
+  source_key: paris4-banner
+  column: -7
+  line: 5
+  edition_page: 21
+  edition: θεωρηθήϲεται δὲ τὰ
+  line_truth: ΘΕΩΡΗΘΗϹΕΤΑΙΔΕΤΑ
+  indices:
+  - 0
+  - 3
+  truth: ΘΕΩ
+  rect:
+  - 9337
+  - 464
+  - 9551
+  - 541
+  letter_regions:
+  - - 0.01402
+    - 0.04
+    - 0.31776
+    - 0.96
+  - - 0.31776
+    - 0.04
+    - 0.57477
+    - 0.96
+  - - 0.57477
+    - 0.04
+    - 0.98598
+    - 0.96
+  difficulty: medium
+  hint: 'Compare the rounded letters: a cross-stroke inside the outline helps distinguish Theta.'
+  explain: Theta–Epsilon–Omega. This is the edition’s reading at column −7, line 5. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-7-l05-03-07
+  source_key: paris4-banner
+  column: -7
+  line: 5
+  edition_page: 21
+  edition: θεωρηθήϲεται δὲ τὰ
+  line_truth: ΘΕΩΡΗΘΗϹΕΤΑΙΔΕΤΑ
+  indices:
+  - 3
+  - 7
+  truth: ΡΗΘΗ
+  rect:
+  - 9545
+  - 466
+  - 9758
+  - 562
+  letter_regions:
+  - - 0.01408
+    - 0.04
+    - 0.25352
+    - 0.96
+  - - 0.25352
+    - 0.04
+    - 0.52582
+    - 0.96
+  - - 0.52582
+    - 0.04
+    - 0.7277
+    - 0.96
+  - - 0.7277
+    - 0.04
+    - 0.98592
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Rho–Eta–Theta–Eta. This is the edition’s reading at column −7, line 5. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-7-l05-07-10
+  source_key: paris4-banner
+  column: -7
+  line: 5
+  edition_page: 21
+  edition: θεωρηθήϲεται δὲ τὰ
+  line_truth: ΘΕΩΡΗΘΗϹΕΤΑΙΔΕΤΑ
+  indices:
+  - 7
+  - 10
+  truth: ϹΕΤ
+  rect:
+  - 9752
+  - 467
+  - 9920
+  - 547
+  letter_regions:
+  - - 0.01786
+    - 0.04
+    - 0.35714
+    - 0.96
+  - - 0.35714
+    - 0.04
+    - 0.65476
+    - 0.96
+  - - 0.65476
+    - 0.04
+    - 0.98214
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Sigma–Epsilon–Tau. This is the edition’s reading at column −7, line 5. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-7-l05-10-14
+  source_key: paris4-banner
+  column: -7
+  line: 5
+  edition_page: 21
+  edition: θεωρηθήϲεται δὲ τὰ
+  line_truth: ΘΕΩΡΗΘΗϹΕΤΑΙΔΕΤΑ
+  indices:
+  - 10
+  - 14
+  truth: ΑΙΔΕ
+  rect:
+  - 9914
+  - 462
+  - 10123
+  - 550
+  letter_regions:
+  - - 0.01435
+    - 0.04
+    - 0.25837
+    - 0.96
+  - - 0.25837
+    - 0.04
+    - 0.37321
+    - 0.96
+  - - 0.37321
+    - 0.04
+    - 0.67464
+    - 0.96
+  - - 0.67464
+    - 0.04
+    - 0.98565
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Alpha–Iota–Delta–Epsilon. This is the edition’s reading at column −7, line 5. The source image is
+    unchanged; the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-7-l05-14-16
+  source_key: paris4-banner
+  column: -7
+  line: 5
+  edition_page: 21
+  edition: θεωρηθήϲεται δὲ τὰ
+  line_truth: ΘΕΩΡΗΘΗϹΕΤΑΙΔΕΤΑ
+  indices:
+  - 14
+  - 16
+  truth: ΤΑ
+  rect:
+  - 10117
+  - 459
+  - 10225
+  - 551
+  letter_regions:
+  - - 0.02778
+    - 0.04
+    - 0.56481
+    - 0.96
+  - - 0.56481
+    - 0.04
+    - 0.97222
+    - 0.96
+  difficulty: medium
+  hint: The proportions of Alpha vary. Look at its complete connected outline.
+  explain: Tau–Alpha. This is the edition’s reading at column −7, line 5. The source image is unchanged; the
+    boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-6-l04-00-04
+  source_key: paris4-banner
+  column: -6
+  line: 4
+  edition_page: 21
+  edition: παραλογιϲθηϲόμεθ’ ὡϲ
+  line_truth: ΠΑΡΑΛΟΓΙϹΘΗϹΟΜΕΘΩϹ
+  indices:
+  - 0
+  - 4
+  truth: ΠΑΡΑ
+  rect:
+  - 10457
+  - 378
+  - 10675
+  - 462
+  letter_regions:
+  - - 0.01376
+    - 0.04
+    - 0.2844
+    - 0.96
+  - - 0.2844
+    - 0.04
+    - 0.5367
+    - 0.96
+  - - 0.5367
+    - 0.04
+    - 0.74771
+    - 0.96
+  - - 0.74771
+    - 0.04
+    - 0.98624
+    - 0.96
+  difficulty: medium
+  hint: Look for Rho’s upper loop and the stroke continuing below it.
+  explain: Pi–Alpha–Rho–Alpha. This is the edition’s reading at column −6, line 4. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-6-l04-04-08
+  source_key: paris4-banner
+  column: -6
+  line: 4
+  edition_page: 21
+  edition: παραλογιϲθηϲόμεθ’ ὡϲ
+  line_truth: ΠΑΡΑΛΟΓΙϹΘΗϹΟΜΕΘΩϹ
+  indices:
+  - 4
+  - 8
+  truth: ΛΟΓΙ
+  rect:
+  - 10669
+  - 377
+  - 10846
+  - 454
+  letter_regions:
+  - - 0.01695
+    - 0.04
+    - 0.31638
+    - 0.96
+  - - 0.31638
+    - 0.04
+    - 0.55932
+    - 0.96
+  - - 0.55932
+    - 0.04
+    - 0.80226
+    - 0.96
+  - - 0.80226
+    - 0.04
+    - 0.98305
+    - 0.96
+  difficulty: medium
+  hint: Iota can have a broad foot here. Follow its upright before counting neighbouring strokes.
+  explain: Lambda–Omicron–Gamma–Iota. This is the edition’s reading at column −6, line 4. The source image
+    is unchanged; the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-6-l04-08-11
+  source_key: paris4-banner
+  column: -6
+  line: 4
+  edition_page: 21
+  edition: παραλογιϲθηϲόμεθ’ ὡϲ
+  line_truth: ΠΑΡΑΛΟΓΙϹΘΗϹΟΜΕΘΩϹ
+  indices:
+  - 8
+  - 11
+  truth: ϹΘΗ
+  rect:
+  - 10840
+  - 381
+  - 10988
+  - 459
+  letter_regions:
+  - - 0.02027
+    - 0.04
+    - 0.2973
+    - 0.96
+  - - 0.2973
+    - 0.04
+    - 0.63514
+    - 0.96
+  - - 0.63514
+    - 0.04
+    - 0.97973
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Sigma–Theta–Eta. This is the edition’s reading at column −6, line 4. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-6-l04-11-14
+  source_key: paris4-banner
+  column: -6
+  line: 4
+  edition_page: 21
+  edition: παραλογιϲθηϲόμεθ’ ὡϲ
+  line_truth: ΠΑΡΑΛΟΓΙϹΘΗϹΟΜΕΘΩϹ
+  indices:
+  - 11
+  - 14
+  truth: ϹΟΜ
+  rect:
+  - 10982
+  - 378
+  - 11130
+  - 463
+  letter_regions:
+  - - 0.02027
+    - 0.04
+    - 0.31757
+    - 0.96
+  - - 0.31757
+    - 0.04
+    - 0.61486
+    - 0.96
+  - - 0.61486
+    - 0.04
+    - 0.97973
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Sigma–Omicron–Mu. This is the edition’s reading at column −6, line 4. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-6-l04-14-18
+  source_key: paris4-banner
+  column: -6
+  line: 4
+  edition_page: 21
+  edition: παραλογιϲθηϲόμεθ’ ὡϲ
+  line_truth: ΠΑΡΑΛΟΓΙϹΘΗϹΟΜΕΘΩϹ
+  indices:
+  - 14
+  - 18
+  truth: ΕΘΩϹ
+  rect:
+  - 11124
+  - 375
+  - 11339
+  - 464
+  letter_regions:
+  - - 0.01395
+    - 0.04
+    - 0.2
+    - 0.96
+  - - 0.2
+    - 0.04
+    - 0.42326
+    - 0.96
+  - - 0.42326
+    - 0.04
+    - 0.75814
+    - 0.96
+  - - 0.75814
+    - 0.04
+    - 0.98605
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Epsilon–Theta–Omega–Sigma. This is the edition’s reading at column −6, line 4. The source image
+    is unchanged; the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-5-l04-01-04
+  source_key: paris4-banner
+  column: -5
+  line: 4
+  edition_page: 22
+  edition: χρόνον προϲκαρτε-
+  line_truth: ΧΡΟΝΟΝΠΡΟϹΚΑΡΤΕ
+  indices:
+  - 1
+  - 4
+  truth: ΡΟΝ
+  rect:
+  - 11605
+  - 390
+  - 11773
+  - 473
+  letter_regions:
+  - - 0.01786
+    - 0.04
+    - 0.29167
+    - 0.96
+  - - 0.29167
+    - 0.04
+    - 0.60714
+    - 0.96
+  - - 0.60714
+    - 0.04
+    - 0.98214
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Rho–Omicron–Nu. This is the edition’s reading at column −5, line 4. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-5-l04-04-07
+  source_key: paris4-banner
+  column: -5
+  line: 4
+  edition_page: 22
+  edition: χρόνον προϲκαρτε-
+  line_truth: ΧΡΟΝΟΝΠΡΟϹΚΑΡΤΕ
+  indices:
+  - 4
+  - 7
+  truth: ΟΝΠ
+  rect:
+  - 11767
+  - 389
+  - 11943
+  - 455
+  letter_regions:
+  - - 0.01705
+    - 0.04
+    - 0.28977
+    - 0.96
+  - - 0.28977
+    - 0.04
+    - 0.61364
+    - 0.96
+  - - 0.61364
+    - 0.04
+    - 0.98295
+    - 0.96
+  difficulty: medium
+  hint: Follow the top stroke of Pi to its two uprights.
+  explain: Omicron–Nu–Pi. This is the edition’s reading at column −5, line 4. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-5-l04-07-10
+  source_key: paris4-banner
+  column: -5
+  line: 4
+  edition_page: 22
+  edition: χρόνον προϲκαρτε-
+  line_truth: ΧΡΟΝΟΝΠΡΟϹΚΑΡΤΕ
+  indices:
+  - 7
+  - 10
+  truth: ΡΟϹ
+  rect:
+  - 11937
+  - 384
+  - 12093
+  - 473
+  letter_regions:
+  - - 0.01923
+    - 0.04
+    - 0.37179
+    - 0.96
+  - - 0.37179
+    - 0.04
+    - 0.67949
+    - 0.96
+  - - 0.67949
+    - 0.04
+    - 0.98077
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Rho–Omicron–Sigma. This is the edition’s reading at column −5, line 4. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-5-l04-10-13
+  source_key: paris4-banner
+  column: -5
+  line: 4
+  edition_page: 22
+  edition: χρόνον προϲκαρτε-
+  line_truth: ΧΡΟΝΟΝΠΡΟϹΚΑΡΤΕ
+  indices:
+  - 10
+  - 13
+  truth: ΚΑΡ
+  rect:
+  - 12087
+  - 379
+  - 12263
+  - 467
+  letter_regions:
+  - - 0.01705
+    - 0.04
+    - 0.34091
+    - 0.96
+  - - 0.34091
+    - 0.04
+    - 0.65341
+    - 0.96
+  - - 0.65341
+    - 0.04
+    - 0.98295
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Kappa–Alpha–Rho. This is the edition’s reading at column −5, line 4. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-5-l04-13-15
+  source_key: paris4-banner
+  column: -5
+  line: 4
+  edition_page: 22
+  edition: χρόνον προϲκαρτε-
+  line_truth: ΧΡΟΝΟΝΠΡΟϹΚΑΡΤΕ
+  indices:
+  - 13
+  - 15
+  truth: ΤΕ
+  rect:
+  - 12257
+  - 374
+  - 12403
+  - 453
+  letter_regions:
+  - - 0.02055
+    - 0.04
+    - 0.61644
+    - 0.96
+  - - 0.61644
+    - 0.04
+    - 0.97945
+    - 0.96
+  difficulty: medium
+  hint: Follow the main strokes from left to right, keeping the neighbouring letters separate.
+  explain: Tau–Epsilon. This is the edition’s reading at column −5, line 4. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-2-l03-00-03
+  source_key: paris4-banner
+  column: -2
+  line: 3
+  edition_page: 24
+  edition: θεωροῦνται, πρὸϲ δέ,
+  line_truth: ΘΕΩΡΟΥΝΤΑΙΠΡΟϹΔΕ
+  indices:
+  - 0
+  - 3
+  truth: ΘΕΩ
+  rect:
+  - 14864
+  - 290
+  - 15057
+  - 350
+  letter_regions:
+  - - 0.01554
+    - 0.04
+    - 0.29534
+    - 0.96
+  - - 0.29534
+    - 0.04
+    - 0.59585
+    - 0.96
+  - - 0.59585
+    - 0.04
+    - 0.98446
+    - 0.96
+  difficulty: hard
+  hint: Trace the larger connected strokes first. Use the reading guide if the faint parts are too difficult.
+  explain: Theta–Epsilon–Omega. This is the edition’s reading at column −2, line 3. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-2-l03-03-06
+  source_key: paris4-banner
+  column: -2
+  line: 3
+  edition_page: 24
+  edition: θεωροῦνται, πρὸϲ δέ,
+  line_truth: ΘΕΩΡΟΥΝΤΑΙΠΡΟϹΔΕ
+  indices:
+  - 3
+  - 6
+  truth: ΡΟΥ
+  rect:
+  - 15051
+  - 290
+  - 15211
+  - 369
+  letter_regions:
+  - - 0.01875
+    - 0.04
+    - 0.3375
+    - 0.96
+  - - 0.3375
+    - 0.04
+    - 0.65625
+    - 0.96
+  - - 0.65625
+    - 0.04
+    - 0.98125
+    - 0.96
+  difficulty: easy
+  hint: Look for Rho’s upper loop and the stroke continuing below it.
+  explain: Rho–Omicron–Upsilon. This is the edition’s reading at column −2, line 3. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-2-l03-06-10
+  source_key: paris4-banner
+  column: -2
+  line: 3
+  edition_page: 24
+  edition: θεωροῦνται, πρὸϲ δέ,
+  line_truth: ΘΕΩΡΟΥΝΤΑΙΠΡΟϹΔΕ
+  indices:
+  - 6
+  - 10
+  truth: ΝΤΑΙ
+  rect:
+  - 15205
+  - 289
+  - 15403
+  - 356
+  letter_regions:
+  - - 0.01515
+    - 0.04
+    - 0.22727
+    - 0.96
+  - - 0.22727
+    - 0.04
+    - 0.5404
+    - 0.96
+  - - 0.5404
+    - 0.04
+    - 0.82323
+    - 0.96
+  - - 0.82323
+    - 0.04
+    - 0.98485
+    - 0.96
+  difficulty: easy
+  hint: Iota can have a broad foot here. Follow its upright before counting neighbouring strokes.
+  explain: Nu–Tau–Alpha–Iota. This is the edition’s reading at column −2, line 3. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-2-l03-10-13
+  source_key: paris4-banner
+  column: -2
+  line: 3
+  edition_page: 24
+  edition: θεωροῦνται, πρὸϲ δέ,
+  line_truth: ΘΕΩΡΟΥΝΤΑΙΠΡΟϹΔΕ
+  indices:
+  - 10
+  - 13
+  truth: ΠΡΟ
+  rect:
+  - 15397
+  - 292
+  - 15590
+  - 374
+  letter_regions:
+  - - 0.01554
+    - 0.04
+    - 0.45078
+    - 0.96
+  - - 0.45078
+    - 0.04
+    - 0.74611
+    - 0.96
+  - - 0.74611
+    - 0.04
+    - 0.98446
+    - 0.96
+  difficulty: medium
+  hint: Look for Rho’s upper loop and the stroke continuing below it.
+  explain: Pi–Rho–Omicron. This is the edition’s reading at column −2, line 3. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-2-l03-13-16
+  source_key: paris4-banner
+  column: -2
+  line: 3
+  edition_page: 24
+  edition: θεωροῦνται, πρὸϲ δέ,
+  line_truth: ΘΕΩΡΟΥΝΤΑΙΠΡΟϹΔΕ
+  indices:
+  - 13
+  - 16
+  truth: ϹΔΕ
+  rect:
+  - 15584
+  - 299
+  - 15748
+  - 361
+  letter_regions:
+  - - 0.01829
+    - 0.04
+    - 0.28049
+    - 0.96
+  - - 0.28049
+    - 0.04
+    - 0.7378
+    - 0.96
+  - - 0.7378
+    - 0.04
+    - 0.98171
+    - 0.96
+  difficulty: medium
+  hint: 'Sigma is written as an open curve here: Ϲ.'
+  explain: Sigma–Delta–Epsilon. This is the edition’s reading at column −2, line 3. The source image is unchanged;
+    the boxes only locate the letters approximately.
+  checked: '2026-10-31'
+- id: corpus-paris4-between-15-14-01
+  source_key: paris4-banner
+  blank: true
+  truth: none
+  rect:
+  - 1180
+  - 380
+  - 1370
+  - 470
+  column: -15
+  reading: Between columns −15 and −14
+  difficulty: medium
+  hint: Look for a connected letter outline, rather than isolated bright flecks.
+  explain: This crop lies in the space between columns −15 and −14. No letters are visible here. Bright texture
+    in an ink map is not by itself a reading.
+  checked: '2026-10-31'
+- id: corpus-paris4-between-15-14-02
+  source_key: paris4-banner
+  blank: true
+  truth: none
+  rect:
+  - 1190
+  - 650
+  - 1370
+  - 740
+  column: -15
+  reading: Between columns −15 and −14
+  difficulty: medium
+  hint: Look for a connected letter outline, rather than isolated bright flecks.
+  explain: This crop lies in the space between columns −15 and −14. No letters are visible here. Bright texture
+    in an ink map is not by itself a reading.
+  checked: '2026-10-31'
+- id: corpus-paris4-between-14-13-03
+  source_key: paris4-banner
+  blank: true
+  truth: none
+  rect:
+  - 2310
+  - 370
+  - 2470
+  - 460
+  column: -14
+  reading: Between columns −14 and −13
+  difficulty: medium
+  hint: Look for a connected letter outline, rather than isolated bright flecks.
+  explain: This crop lies in the space between columns −14 and −13. No letters are visible here. Bright texture
+    in an ink map is not by itself a reading.
+  checked: '2026-10-31'
+- id: corpus-paris4-between-14-13-04
+  source_key: paris4-banner
+  blank: true
+  truth: none
+  rect:
+  - 2310
+  - 650
+  - 2470
+  - 740
+  column: -14
+  reading: Between columns −14 and −13
+  difficulty: medium
+  hint: Look for a connected letter outline, rather than isolated bright flecks.
+  explain: This crop lies in the space between columns −14 and −13. No letters are visible here. Bright texture
+    in an ink map is not by itself a reading.
+  checked: '2026-10-31'
+- id: corpus-paris4-between-13-12-05
+  source_key: paris4-banner
+  blank: true
+  truth: none
+  rect:
+  - 3420
+  - 360
+  - 3570
+  - 455
+  column: -13
+  reading: Between columns −13 and −12
+  difficulty: medium
+  hint: Look for a connected letter outline, rather than isolated bright flecks.
+  explain: This crop lies in the space between columns −13 and −12. No letters are visible here. Bright texture
+    in an ink map is not by itself a reading.
+  checked: '2026-10-31'
+- id: corpus-paris4-between-13-12-06
+  source_key: paris4-banner
+  blank: true
+  truth: none
+  rect:
+  - 3425
+  - 700
+  - 3575
+  - 800
+  column: -13
+  reading: Between columns −13 and −12
+  difficulty: medium
+  hint: Look for a connected letter outline, rather than isolated bright flecks.
+  explain: This crop lies in the space between columns −13 and −12. No letters are visible here. Bright texture
+    in an ink map is not by itself a reading.
+  checked: '2026-10-31'
+- id: corpus-paris4-between-7-6-07
+  source_key: paris4-banner
+  blank: true
+  truth: none
+  rect:
+  - 10280
+  - 390
+  - 10430
+  - 480
+  column: -7
+  reading: Between columns −7 and −6
+  difficulty: medium
+  hint: Look for a connected letter outline, rather than isolated bright flecks.
+  explain: This crop lies in the space between columns −7 and −6. No letters are visible here. Bright texture
+    in an ink map is not by itself a reading.
+  checked: '2026-10-31'
+- id: corpus-paris4-between-7-6-08
+  source_key: paris4-banner
+  blank: true
+  truth: none
+  rect:
+  - 10280
+  - 650
+  - 10430
+  - 740
+  column: -7
+  reading: Between columns −7 and −6
+  difficulty: medium
+  hint: Look for a connected letter outline, rather than isolated bright flecks.
+  explain: This crop lies in the space between columns −7 and −6. No letters are visible here. Bright texture
+    in an ink map is not by itself a reading.
+  checked: '2026-10-31'
+- id: corpus-paris4-between-6-5-09
+  source_key: paris4-banner
+  blank: true
+  truth: none
+  rect:
+  - 11370
+  - 390
+  - 11510
+  - 480
+  column: -6
+  reading: Between columns −6 and −5
+  difficulty: medium
+  hint: Look for a connected letter outline, rather than isolated bright flecks.
+  explain: This crop lies in the space between columns −6 and −5. No letters are visible here. Bright texture
+    in an ink map is not by itself a reading.
+  checked: '2026-10-31'
+- id: corpus-paris4-between-6-5-10
+  source_key: paris4-banner
+  blank: true
+  truth: none
+  rect:
+  - 11360
+  - 740
+  - 11510
+  - 840
+  column: -6
+  reading: Between columns −6 and −5
+  difficulty: medium
+  hint: Look for a connected letter outline, rather than isolated bright flecks.
+  explain: This crop lies in the space between columns −6 and −5. No letters are visible here. Bright texture
+    in an ink map is not by itself a reading.
+  checked: '2026-10-31'
+- id: corpus-paris4-between-5-4-11
+  source_key: paris4-banner
+  blank: true
+  truth: none
+  rect:
+  - 12450
+  - 360
+  - 12650
+  - 450
+  column: -5
+  reading: Between columns −5 and −4
+  difficulty: medium
+  hint: Look for a connected letter outline, rather than isolated bright flecks.
+  explain: This crop lies in the space between columns −5 and −4. No letters are visible here. Bright texture
+    in an ink map is not by itself a reading.
+  checked: '2026-10-31'
+- id: corpus-paris4-between-5-4-12
+  source_key: paris4-banner
+  blank: true
+  truth: none
+  rect:
+  - 12450
+  - 620
+  - 12650
+  - 710
+  column: -5
+  reading: Between columns −5 and −4
+  difficulty: medium
+  hint: Look for a connected letter outline, rather than isolated bright flecks.
+  explain: This crop lies in the space between columns −5 and −4. No letters are visible here. Bright texture
+    in an ink map is not by itself a reading.
+  checked: '2026-10-31'
+- id: corpus-paris4-between-3-2-13
+  source_key: paris4-banner
+  blank: true
+  truth: none
+  rect:
+  - 14650
+  - 1000
+  - 14830
+  - 1090
+  column: -3
+  reading: Between columns −3 and −2
+  difficulty: medium
+  hint: Look for a connected letter outline, rather than isolated bright flecks.
+  explain: This crop lies in the space between columns −3 and −2. No letters are visible here. Bright texture
+    in an ink map is not by itself a reading.
+  checked: '2026-10-31'
+- id: corpus-paris4-between-5-4-14
+  source_key: paris4-banner
+  blank: true
+  truth: none
+  rect:
+  - 12460
+  - 1040
+  - 12640
+  - 1130
+  column: -5
+  reading: Between columns −5 and −4
+  difficulty: medium
+  hint: Look for a connected letter outline, rather than isolated bright flecks.
+  explain: This crop lies in the space between columns −5 and −4. No letters are visible here. Bright texture
+    in an ink map is not by itself a reading.
+  checked: '2026-10-31'
+- id: corpus-paris4-between-15-14-15
+  source_key: paris4-banner
+  blank: true
+  truth: none
+  rect:
+  - 1190
+  - 880
+  - 1370
+  - 970
+  column: -15
+  reading: Between columns −15 and −14
+  difficulty: medium
+  hint: Look for a connected letter outline, rather than isolated bright flecks.
+  explain: This crop lies in the space between columns −15 and −14. No letters are visible here. Bright texture
+    in an ink map is not by itself a reading.
+  checked: '2026-10-31'
+- id: corpus-paris4-between-14-13-16
+  source_key: paris4-banner
+  blank: true
+  truth: none
+  rect:
+  - 2310
+  - 880
+  - 2470
+  - 970
+  column: -14
+  reading: Between columns −14 and −13
+  difficulty: medium
+  hint: Look for a connected letter outline, rather than isolated bright flecks.
+  explain: This crop lies in the space between columns −14 and −13. No letters are visible here. Bright texture
+    in an ink map is not by itself a reading.
+  checked: '2026-10-31'
+- id: corpus-paris4-between-7-6-17
+  source_key: paris4-banner
+  blank: true
+  truth: none
+  rect:
+  - 10280
+  - 890
+  - 10430
+  - 980
+  column: -7
+  reading: Between columns −7 and −6
+  difficulty: medium
+  hint: Look for a connected letter outline, rather than isolated bright flecks.
+  explain: This crop lies in the space between columns −7 and −6. No letters are visible here. Bright texture
+    in an ink map is not by itself a reading.
+  checked: '2026-10-31'
+- id: corpus-paris4-between-6-5-18
+  source_key: paris4-banner
+  blank: true
+  truth: none
+  rect:
+  - 11365
+  - 1080
+  - 11510
+  - 1170
+  column: -6
+  reading: Between columns −6 and −5
+  difficulty: medium
+  hint: Look for a connected letter outline, rather than isolated bright flecks.
+  explain: This crop lies in the space between columns −6 and −5. No letters are visible here. Bright texture
+    in an ink map is not by itself a reading.
+  checked: '2026-10-31'

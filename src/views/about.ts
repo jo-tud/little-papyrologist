@@ -14,7 +14,7 @@ export function renderAbout(main: HTMLElement): void {
   <p>Thank you to the <a href="https://scrollprize.org/" rel="noopener">Vesuvius Challenge</a>
   for making these images available and granting permission to use them in this trainer.
   Thanks also to EduceLab, University of Kentucky, for the original CT scans behind the
-  PHerc. Paris 4 images, and to the papyrologists whose published readings make the reading
+  scroll images, and to the papyrologists whose published readings make the reading
   exercises possible.</p>
 
   <h2>Where the answers come from</h2>
@@ -31,11 +31,14 @@ export function renderAbout(main: HTMLElement): void {
 
   <h2>Learning through practice</h2>
   <p>The guided path introduces shapes and reading methods; extra rounds let you revisit them.
-  Altered views reuse known source images. They can help you practise with less detail, but do not
-  replace encountering different handwriting. Results show repeated attempts and counts of source regions separately.</p>
-  <p>In level 3, blur, noise and partial covering are deliberate image exercises, not scans at a
-  different resolution. The unchanged source explains the answer; it does not guarantee that
-  every letter can still be recognized in the altered image. Saying “not sure” is welcome.</p>
+  New passages bring different letter combinations and handwritten forms. Results show repeated attempts
+  and counts of source regions separately.</p>
+  <p>Later lessons use naturally harder originals: faint, connected or damaged writing. We do not add blur,
+  noise or covering to these exercises. Read the letters you can see, use “?” for an uncertain position,
+  or choose “No letters”. The published reading remains available for comparison.</p>
+  <p>Letter buttons show simplified handwritten forms beside printed capitals and names.
+  These are visual guides, not a complete catalogue of Greek handwriting. The
+  <a href="#/alphabet">alphabet</a> lets you compare the actual original examples.</p>
 
   <h2>Your data</h2>
   <p>The page has no server, no tracking and no analytics. Your answers, badges and ranks are

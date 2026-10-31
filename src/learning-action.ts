@@ -1,15 +1,16 @@
-import { itemSetVersion, playSets, quizItems } from "./data";
+import { activeQuizItems, itemSetVersion, LEVELS, playSets } from "./data";
+import { isPracticeItem } from "./curriculum";
 import { canResume } from "./round-session";
 import { canStartFirstLine, levelAvailable } from "./rules";
 import type { State } from "./store";
 
 export function savedRoundLabel(s: State, id: string, version = itemSetVersion()): string | undefined {
   const saved = s.rounds?.[id];
-  const match = id.match(/^practice-([1-3])(?:\/([a-z0-9-]+))?$/);
+  const match = id.match(/^practice-([1-9]\d*)(?:\/([a-z0-9-]+))?$/);
   const level = match ? Number(match[1]) : undefined;
   const group = match?.[2];
-  const allowed = new Set(quizItems.filter(item => level ? item.level === level && item.task !== "study"
-    && (!group || item.practice_group === group) : item.set === id && !item.practice_only).map(item => item.id));
+  const allowed = new Set(activeQuizItems.filter(item => level ? isPracticeItem(item, level, group)
+    : item.set === id && !item.practice_only).map(item => item.id));
   return canResume(saved, version, allowed, s.answers)
     ? `Continue · ${saved.index + (saved.checked ? 1 : 0)}/${saved.item_ids.length}` : undefined;
 }
@@ -35,7 +36,7 @@ export function learningAction(s: State): { href: string; label: string; setId?:
     label: resume(next.id) ? `Continue: ${next.title}`
       : next.id === "first-letters-500p2" ? "Start with real letters" : `Next: ${next.title}`,
   };
-  const level = [3, 2, 1].find(n => levelAvailable(s, n));
+  const level = [...LEVELS].reverse().find(entry => levelAvailable(s, entry.level))?.level;
   return level ? { href: `#/practice/${level}`, label: `Practise level ${level}` }
     : { href: "#/alphabet", label: "Explore the alphabet" };
 }

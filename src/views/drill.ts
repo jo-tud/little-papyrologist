@@ -4,7 +4,8 @@ import { tileSvg } from "../glyphs/render";
 import { score, type Score } from "../scoring";
 import { addAnswer, markSetDone, state } from "../store";
 import type { AnswerRecord, Drill, SaidText } from "../types";
-import { letterLabel, namedLetter, skipIntroLink, sourceLinks } from "../ui";
+import { namedLetter, skipIntroLink, sourceLinks } from "../ui";
+import { letterFormLabel } from "../letter-forms";
 import { levelDone } from "../rules";
 import { esc, shuffle } from "../util";
 import "../drill-review.css";
@@ -88,7 +89,7 @@ export function renderDrill(main: HTMLElement, groupId: string): () => void {
     return `<fieldset class="question">
       <legend id="drawing-question" tabindex="-1">Which letter can you see?</legend>
       <div class="drawing-choices" style="--drawing-choice-count:${group!.letters.length}">
-        ${group!.letters.map(l => `<button type="button" class="choice letter named-letter" data-letter="${esc(l)}">${letterLabel(l)}</button>`).join("")}
+        ${group!.letters.map(l => `<button type="button" class="choice letter named-letter" data-letter="${esc(l)}">${letterFormLabel(l)}</button>`).join("")}
       </div>
       <div class="drawing-open-choices">
         <button type="button" class="choice" data-said="no">No letter</button>

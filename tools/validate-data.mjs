@@ -9,7 +9,7 @@ const fail = (msg) => errors.push(msg);
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 const LICENSES = ["CC BY-NC 4.0"];
 // Credits the Vesuvius Challenge asked for (email of 2026-10-28, see LICENSES.md).
-const EDUCELAB_SOURCES = ["grandprize", "firstletters"];
+const EDUCELAB_SOURCES = ["grandprize", "firstletters", "firstscroll"];
 const NULL_SHARE_MIN = 0.18; // about every fourth to fifth round
 const NULL_KINDS = ["fibres", "streaks", "crack", "blot", "shuffle"];
 
@@ -19,6 +19,12 @@ const stage0 = read("data/stage0.yaml");
 const itemFile = read("data/items.yaml");
 const items = itemFile.items ?? [];
 const quizSets = itemFile.sets ?? [];
+const { levels } = read("data/levels.yaml");
+const levelIds = new Set(levels.map(l => l.level));
+if (levelIds.size !== levels.length || levels.some((l, i) => l.level !== i + 1 || !l.title || !l.text))
+  fail("levels: consecutive numbered levels with titles and descriptions required");
+const active = it => !it.retired && !it.simulated && it.degradation === 0 && it.task !== "detect" && it.truth !== "*"
+  && !quizSets.find(s => s.id === it.set)?.retired;
 const { badges } = read("data/badges.yaml");
 const { ranks } = read("data/ranks.yaml");
 // Keep in step with REQUIREMENT_KEYS in src/rules.ts.
@@ -84,7 +90,7 @@ for (const d of stage0.drills) {
 const share = (list) => list.filter((x) => x.truth === "none").length / Math.max(1, list.length);
 if (share(stage0.drills) < NULL_SHARE_MIN) fail(`stage 0: only ${Math.round(100 * share(stage0.drills))} % empty tiles`);
 
-// Quiz items (levels 1–3)
+// Quiz items, including retired records needed to interpret old answers.
 const itemIds = new Set();
 for (const it of items) {
   const where = `item ${it.id ?? "(no id)"}`;
@@ -102,14 +108,14 @@ for (const it of items) {
       if (typeof it[key] !== "string" || !it[key].trim()) fail(`${where}: identification needs "${key}"`);
   }
   if (it.task === "study") {
-    if (!it.answer_image && !(it.edition && it.source?.includes("cerc54"))) fail(`${where}: study needs a traced photo or a published edition`);
+    if (!it.answer_image && !(it.edition && it.source?.some(id => ["cerc54", "preprint1667"].includes(id)))) fail(`${where}: study needs a traced photo or a published edition`);
     if (it.choices !== undefined) fail(`${where}: study examples must not have answer choices`);
   }
   for (const key of ["id", "level", "image", "alt", "truth", "source", "license", "credit", "checked", "explain"])
     if (it[key] === undefined || it[key] === "" || it[key] === null) fail(`${where}: missing "${key}"`);
   if (itemIds.has(it.id)) fail(`${where}: duplicate id`);
   itemIds.add(it.id);
-  if (![1, 2, 3].includes(it.level)) fail(`${where}: level must be 1, 2 or 3`);
+  if (!levelIds.has(it.level)) fail(`${where}: unknown level`);
   if (!Number.isInteger(it.degradation ?? 0)) fail(`${where}: degradation must be a whole number`);
   if (!LICENSES.includes(it.license)) fail(`${where}: license "${it.license}" is not cleared for this repo`);
   if (typeof it.credit === "string" && !it.credit.includes("Vesuvius Challenge")) fail(`${where}: credit must name the Vesuvius Challenge`);
@@ -122,6 +128,7 @@ for (const it of items) {
   if (!quizSets.some((s) => s.id === it.set)) fail(`${where}: unknown set "${it.set}"`);
   if (quizSets.find((s) => s.id === it.set)?.level !== it.level) fail(`${where}: item and set levels differ`);
   if (it.practice_only !== undefined && typeof it.practice_only !== "boolean") fail(`${where}: practice_only must be boolean`);
+  if (it.retired !== undefined && typeof it.retired !== "boolean") fail(`${where}: retired must be boolean`);
   if (it.optional_challenge !== undefined && (typeof it.optional_challenge !== "boolean" || it.task !== "read")) fail(`${where}: optional challenges must be reading tasks`);
   if (it.practice_group !== undefined && (typeof it.practice_group !== "string" || !/^[a-z0-9-]+$/.test(it.practice_group))) fail(`${where}: invalid practice group`);
   if (it.guide !== undefined && it.guide !== it.truth) fail(`${where}: guide must match the verified reading`);
@@ -187,10 +194,71 @@ for (const entry of regionEntries) {
     || entry.source.some(id => !it?.source.includes(id))) fail(`${where}: missing source check`);
 }
 const regionImages = new Set(regionEntries.map(entry => `${entry.image}:${entry.truth}`));
+const corpusConfig = existsSync(new URL("../data/corpus-lessons.yaml", import.meta.url)) ? read("data/corpus-lessons.yaml") : null;
+const corpusManifests = corpusConfig ? corpusConfig.manifests.map(name => read(`data/${name}`)) : [];
+const corpusEntries = new Map(corpusManifests.flatMap(manifest => manifest.items.map(it => [it.id, { ...it, original: manifest.sources[it.source_key] }])));
+if (corpusEntries.size !== corpusManifests.reduce((count, manifest) => count + manifest.items.length, 0))
+  fail("corpus: duplicate manifest item IDs");
+const corpusLessons = corpusConfig?.lessons ?? [];
+const corpusLessonIds = new Set();
+const assignedCorpusIds = new Set();
+for (const lesson of corpusLessons) {
+  const where = `corpus lesson ${lesson.id}`;
+  if (corpusLessonIds.has(lesson.id)) fail(`${where}: duplicate lesson ID`);
+  corpusLessonIds.add(lesson.id);
+  const matches = quizSets.filter(set => set.id === lesson.id);
+  const generated = matches[0];
+  if (matches.length !== 1 || generated.level !== lesson.level || generated.title !== lesson.title
+    || generated.intro !== lesson.intro || generated.ordered !== true || generated.retired || generated.practice_only)
+    fail(`${where}: generated lesson metadata differs; regenerate items`);
+  if (!Array.isArray(lesson.items) || !lesson.items.length) {
+    fail(`${where}: ordered item list required`); continue;
+  }
+  const generatedItems = items.filter(item => item.set === lesson.id);
+  if (JSON.stringify(generatedItems.map(item => item.id)) !== JSON.stringify(lesson.items)
+    || generatedItems.some(item => !item.corpus || item.level !== lesson.level || item.practice_only))
+    fail(`${where}: generated membership, level or order differs; regenerate items`);
+  for (const id of lesson.items) {
+    if (!corpusEntries.has(id)) fail(`${where}: unknown item ${id}`);
+    if (assignedCorpusIds.has(id)) fail(`${where}: item assigned more than once: ${id}`);
+    assignedCorpusIds.add(id);
+  }
+}
+for (const id of corpusEntries.keys())
+  if (!assignedCorpusIds.has(id)) fail(`corpus ${id}: not assigned to a lesson`);
+for (const item of items.filter(item => item.corpus))
+  if (!corpusEntries.has(item.id) || !corpusLessonIds.has(item.set))
+    fail(`corpus ${item.id}: generated item has no configured manifest and lesson`);
+const corpusRegions = new Set();
+for (const [id, entry] of corpusEntries) {
+  const it = itemById.get(id), original = entry.original;
+  const where = `corpus ${id}`;
+  if (!it || !it.corpus || !active(it) || it.source_image !== original?.url || it.source_sha256 !== original?.sha256
+    || JSON.stringify(it.source_crop) !== JSON.stringify(entry.rect)) {
+    fail(`${where}: changed source or crop`); continue;
+  }
+  if (it.license !== original.license || it.credit !== original.credit
+    || JSON.stringify(it.source) !== JSON.stringify(original.source_ids)) fail(`${where}: changed attribution`);
+  const identity = `${original.sha256}:${entry.rect.join(",")}`;
+  if (corpusRegions.has(identity)) fail(`${where}: repeated source rectangle`);
+  corpusRegions.add(identity);
+  if (!entry.checked || !["easy", "medium", "hard"].includes(entry.difficulty)) fail(`${where}: missing review or difficulty`);
+  if (entry.blank) {
+    if (it.truth !== "none" || it.task !== "read" || it.letter_regions?.length) fail(`${where}: invalid empty reading`);
+  } else {
+    if (it.edition !== entry.edition || it.truth !== entry.line_truth.slice(...entry.indices)
+      || JSON.stringify(it.edition_indices) !== JSON.stringify(entry.indices)
+      || JSON.stringify(it.letter_regions) !== JSON.stringify(entry.letter_regions)) fail(`${where}: changed edition mapping`);
+    if (!Array.isArray(it.letter_regions) || it.letter_regions.length !== Array.from(it.truth).length
+      || it.letter_regions.some(box => !Array.isArray(box) || box.length !== 4 || box.some(n => !Number.isFinite(n) || n < 0 || n > 1)
+        || box[0] >= box[2] || box[1] >= box[3])) fail(`${where}: invalid letter locations`);
+    regionImages.add(`${it.image}:${it.truth}`);
+  }
+}
 for (const it of items) {
-  if (it.task === "read" && !it.practice_only && !quizSets.find(s => s.id === it.set)?.practice_only && it.truth.length > 4)
+  if (it.task === "read" && it.truth !== "none" && active(it) && !it.practice_only && !quizSets.find(s => s.id === it.set)?.practice_only && it.truth.length > 4)
     fail(`item ${it.id}: required readings must be short groups`);
-  if (["read", "identify"].includes(it.task) && it.truth.length <= 4
+  if (["read", "identify"].includes(it.task) && it.truth !== "none" && it.truth.length <= 4
     && !regionImages.has(`${it.reference_image ?? it.image}:${it.truth}`)) fail(`item ${it.id}: short reading needs reviewed letter locations`);
 }
 for (const set of quizSets) {
@@ -214,10 +282,10 @@ for (const it of items) {
   if (!comparison || !["identify", "study"].includes(comparison.task) || comparison.truth !== it.truth)
     fail(`item ${it.id}: comparison must reference a guided photograph with the same reading`);
 }
-for (const level of [1, 2, 3]) {
+for (const level of levelIds) {
   // Guided first-letter recognition introduces real ink before blank-tile discrimination.
   // Optional practice is sampled with its own blank quota by planPractice.
-  const list = items.filter((i) => i.level === level && !i.practice_only
+  const list = items.filter((i) => i.level === level && active(i) && !i.practice_only
     && !quizSets.find(s => s.id === i.set)?.practice_only && !["identify", "study"].includes(i.task));
   if (list.length && share(list) < NULL_SHARE_MIN) fail(`level ${level}: only ${Math.round(100 * share(list))} % empty tiles`);
 }
@@ -228,8 +296,8 @@ function checkRequires(where, req) {
   if (!req || typeof req !== "object") return fail(`${where}: "requires" must be a map ({} for none)`);
   for (const [key, value] of Object.entries(req)) {
     if (!REQUIREMENT_KEYS.includes(key)) fail(`${where}: unknown condition "${key}"`);
-    if (key === "levels_done" && !(Array.isArray(value) && value.every((l) => [0, 1, 2, 3].includes(l))))
-      fail(`${where}: levels_done must list levels 0–3`);
+    if (key === "levels_done" && !(Array.isArray(value) && value.every((l) => l === 0 || levelIds.has(l))))
+      fail(`${where}: levels_done must list known levels`);
     if (key === "badges") for (const id of value ?? []) if (!badgeIds.has(id)) fail(`${where}: unknown badge "${id}"`);
     if (key === "letters_right") for (const l of value?.letters ?? []) if (!glyphByChar.has(l)) fail(`${where}: unknown letter ${l}`);
   }
@@ -249,6 +317,18 @@ ranks.forEach((r, i) => {
   checkSources(`rank ${r.id}`, r.sources);
   if (i === 0 && Object.keys(r.requires ?? {}).length) fail(`rank ${r.id}: the first rank must have no conditions`);
 });
+
+// Printed letters and shape aids must remain tied to known source examples.
+const formChars = new Set();
+for (const form of read("data/letter-forms.yaml").forms) {
+  const example = itemById.get(form.example);
+  if (formChars.has(form.char) || !glyphByChar.has(form.char) || !example?.truth.includes(form.char)
+    || example.simulated || !form.sources?.length || !form.label) fail(`letter forms: invalid reference for ${form.char}`);
+  formChars.add(form.char);
+  checkSources(`letter forms ${form.char}`, form.sources);
+  if (!form.paths?.length || form.paths.some(path => !/^[MmLlHhVvCcSsQqTtAaZz0-9.,\s-]+$/.test(path)))
+    fail(`letter forms: invalid drawing for ${form.char}`);
+}
 
 if (errors.length) {
   console.error(`Data check failed (${errors.length}):\n  - ${errors.join("\n  - ")}`);

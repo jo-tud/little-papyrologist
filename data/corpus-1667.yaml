@@ -1,0 +1,796 @@
+# Curated original groups; character identities follow the published edition.
+version: 1
+sources:
+  pherc1667-readable-surface:
+    papyrus: PHerc. 1667
+    url: https://vesuvius-challenge-open-data.s3.us-east-1.amazonaws.com/PHerc1667/segments/20240304161941-w023_20240304161941_flatboi/ink-detection/downsampled/PHerc1667-20240304161941-2.399um-0.22m-78keV-volume-20251217075048-20260417190342-new_canon_autoresearch_recipe-tile256-stride128-ds8.jpg
+    sha256: 197f59e28b4491181809bf2bccedebf4c1bdfe9849d711c64d7b085f4a405c6f
+    size:
+    - 12795
+    - 5233
+    source_ids:
+    - preprint1667
+    - firstscroll
+    credit: Vesuvius Challenge; EduceLab, University of Kentucky
+    license: CC BY-NC 4.0
+    checked: '2026-10-31'
+    description: PHerc. 1667, publicly released ink-detection rendering; selected columns 14–16
+    mode: CT-derived ink-detection rendering
+items:
+- id: corpus-pherc1667-c14-l5-6-8
+  source_key: pherc1667-readable-surface
+  column: 14
+  line: 5
+  edition: π̣ . . . τ̣ο̣ π̣α̣ . . . τέλεον
+  line_truth: ΠΤΟΠΑΤΕΛΕΟΝ
+  indices:
+  - 5
+  - 8
+  rect:
+  - 1995
+  - 1555
+  - 2515
+  - 1815
+  truth: ΤΕΛ
+  letter_regions:
+  - - 0.02885
+    - 0.05769
+    - 0.375
+    - 0.94231
+  - - 0.375
+    - 0.05769
+    - 0.625
+    - 0.94231
+  - - 0.625
+    - 0.05769
+    - 0.97115
+    - 0.94231
+  difficulty: medium
+  hint: 'Tau, Epsilon and Lambda: compare the crossbar, the open side and the angle.'
+  explain: The published edition reads ΤΕΛ at column 14, line 5 of PHerc. 1667. This is an unchanged crop of
+    a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-c14-l5-9-11
+  source_key: pherc1667-readable-surface
+  column: 14
+  line: 5
+  edition: π̣ . . . τ̣ο̣ π̣α̣ . . . τέλεον
+  line_truth: ΠΤΟΠΑΤΕΛΕΟΝ
+  indices:
+  - 8
+  - 11
+  rect:
+  - 2485
+  - 1535
+  - 3055
+  - 1815
+  truth: ΕΟΝ
+  letter_regions:
+  - - 0.02632
+    - 0.05357
+    - 0.30702
+    - 0.94643
+  - - 0.30702
+    - 0.05357
+    - 0.57895
+    - 0.94643
+  - - 0.57895
+    - 0.05357
+    - 0.97368
+    - 0.94643
+  difficulty: hard
+  hint: Epsilon, Omicron and Nu sit close together; nearby bright flecks are part of the source image.
+  explain: The published edition reads ΕΟΝ at column 14, line 5 of PHerc. 1667. This is an unchanged crop of
+    a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-c15-l3-12-14
+  source_key: pherc1667-readable-surface
+  column: 15
+  line: 3
+  edition: π̣αραπ̣λ̣ηϲίων πάν-
+  line_truth: ΠΑΡΑΠΛΗϹΙΩΝΠΑΝ
+  indices:
+  - 11
+  - 14
+  rect:
+  - 5885
+  - 765
+  - 6785
+  - 1065
+  truth: ΠΑΝ
+  letter_regions:
+  - - 0.01667
+    - 0.05
+    - 0.32778
+    - 0.95
+  - - 0.32778
+    - 0.05
+    - 0.55
+    - 0.95
+  - - 0.55
+    - 0.05
+    - 0.98333
+    - 0.95
+  difficulty: medium
+  hint: Pi has a top bar; Alpha and Nu lean into their neighbours.
+  explain: The published edition reads ΠΑΝ at column 15, line 3 of PHerc. 1667. This is an unchanged crop of
+    a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-c15-l4-7-10
+  source_key: pherc1667-readable-surface
+  column: 15
+  line: 4
+  edition: των. καθ᾿ οἷον γὰρ εἶδοϲ
+  line_truth: ΤΩΝΚΑΘΟΙΟΝΓΑΡΕΙΔΟϹ
+  indices:
+  - 6
+  - 10
+  rect:
+  - 5165
+  - 1055
+  - 5755
+  - 1335
+  truth: ΟΙΟΝ
+  letter_regions:
+  - - 0.02542
+    - 0.05357
+    - 0.24576
+    - 0.94643
+  - - 0.24576
+    - 0.05357
+    - 0.39831
+    - 0.94643
+  - - 0.39831
+    - 0.05357
+    - 0.58475
+    - 0.94643
+  - - 0.58475
+    - 0.05357
+    - 0.97458
+    - 0.94643
+  difficulty: medium
+  hint: The narrow Iota separates two rounded Omicrons. Nu ends the group.
+  explain: The published edition reads ΟΙΟΝ at column 15, line 4 of PHerc. 1667. This is an unchanged crop
+    of a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-c15-l4-14-16
+  source_key: pherc1667-readable-surface
+  column: 15
+  line: 4
+  edition: των. καθ᾿ οἷον γὰρ εἶδοϲ
+  line_truth: ΤΩΝΚΑΘΟΙΟΝΓΑΡΕΙΔΟϹ
+  indices:
+  - 13
+  - 16
+  rect:
+  - 6325
+  - 1055
+  - 6725
+  - 1345
+  truth: ΕΙΔ
+  letter_regions:
+  - - 0.0375
+    - 0.05172
+    - 0.3625
+    - 0.94828
+  - - 0.3625
+    - 0.05172
+    - 0.5125
+    - 0.94828
+  - - 0.5125
+    - 0.05172
+    - 0.9625
+    - 0.94828
+  difficulty: medium
+  hint: The narrow Iota lies between Epsilon and the angular Delta.
+  explain: The published edition reads ΕΙΔ at column 15, line 4 of PHerc. 1667. This is an unchanged crop of
+    a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-c15-l4-17-18
+  source_key: pherc1667-readable-surface
+  column: 15
+  line: 4
+  edition: των. καθ᾿ οἷον γὰρ εἶδοϲ
+  line_truth: ΤΩΝΚΑΘΟΙΟΝΓΑΡΕΙΔΟϹ
+  indices:
+  - 16
+  - 18
+  rect:
+  - 6695
+  - 1045
+  - 6995
+  - 1405
+  truth: ΟϹ
+  letter_regions:
+  - - 0.05
+    - 0.04167
+    - 0.38333
+    - 0.95833
+  - - 0.38333
+    - 0.04167
+    - 0.95
+    - 0.95833
+  difficulty: hard
+  hint: Compare the closed Omicron with the open lunate Sigma.
+  explain: The published edition reads ΟϹ at column 15, line 4 of PHerc. 1667. This is an unchanged crop of
+    a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-c15-l5-3-5
+  source_key: pherc1667-readable-surface
+  column: 15
+  line: 5
+  edition: α̣ἱ ὁρμαὶ πεφύκαϲιν
+  line_truth: ΑΙΟΡΜΑΙΠΕΦΥΚΑϹΙΝ
+  indices:
+  - 2
+  - 5
+  rect:
+  - 4165
+  - 1405
+  - 4755
+  - 1675
+  truth: ΟΡΜ
+  letter_regions:
+  - - 0.02542
+    - 0.05556
+    - 0.29661
+    - 0.94444
+  - - 0.29661
+    - 0.05556
+    - 0.5678
+    - 0.94444
+  - - 0.5678
+    - 0.05556
+    - 0.97458
+    - 0.94444
+  difficulty: medium
+  hint: Omicron, Rho and Mu vary in width; use the whole outline.
+  explain: The published edition reads ΟΡΜ at column 15, line 5 of PHerc. 1667. This is an unchanged crop of
+    a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-c15-l5-6-7
+  source_key: pherc1667-readable-surface
+  column: 15
+  line: 5
+  edition: α̣ἱ ὁρμαὶ πεφύκαϲιν
+  line_truth: ΑΙΟΡΜΑΙΠΕΦΥΚΑϹΙΝ
+  indices:
+  - 5
+  - 7
+  rect:
+  - 4725
+  - 1395
+  - 5065
+  - 1655
+  truth: ΑΙ
+  letter_regions:
+  - - 0.04412
+    - 0.05769
+    - 0.66176
+    - 0.94231
+  - - 0.66176
+    - 0.05769
+    - 0.95588
+    - 0.94231
+  difficulty: medium
+  hint: Alpha is broad; Iota is the short, narrow stroke beside it.
+  explain: The published edition reads ΑΙ at column 15, line 5 of PHerc. 1667. This is an unchanged crop of
+    a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-c15-l5-8-11
+  source_key: pherc1667-readable-surface
+  column: 15
+  line: 5
+  edition: α̣ἱ ὁρμαὶ πεφύκαϲιν
+  line_truth: ΑΙΟΡΜΑΙΠΕΦΥΚΑϹΙΝ
+  indices:
+  - 7
+  - 11
+  rect:
+  - 5035
+  - 1395
+  - 5855
+  - 1715
+  truth: ΠΕΦΥ
+  letter_regions:
+  - - 0.01829
+    - 0.04688
+    - 0.2622
+    - 0.95312
+  - - 0.2622
+    - 0.04688
+    - 0.4939
+    - 0.95312
+  - - 0.4939
+    - 0.04688
+    - 0.7622
+    - 0.95312
+  - - 0.7622
+    - 0.04688
+    - 0.98171
+    - 0.95312
+  difficulty: medium
+  hint: 'Pi, Epsilon, Phi and Upsilon: four different combinations of bars and curves.'
+  explain: The published edition reads ΠΕΦΥ at column 15, line 5 of PHerc. 1667. This is an unchanged crop
+    of a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-c15-l6-1-4
+  source_key: pherc1667-readable-surface
+  column: 15
+  line: 6
+  edition: γίνεϲθαι, κ̣α̣τὰ τοῦ-
+  line_truth: ΓΙΝΕϹΘΑΙΚΑΤΑΤΟΥ
+  indices:
+  - 0
+  - 4
+  rect:
+  - 3725
+  - 1785
+  - 4595
+  - 2125
+  truth: ΓΙΝΕ
+  letter_regions:
+  - - 0.01724
+    - 0.04412
+    - 0.31609
+    - 0.95588
+  - - 0.31609
+    - 0.04412
+    - 0.51149
+    - 0.95588
+  - - 0.51149
+    - 0.04412
+    - 0.79885
+    - 0.95588
+  - - 0.79885
+    - 0.04412
+    - 0.98276
+    - 0.95588
+  difficulty: medium
+  hint: This Gamma–Iota–Nu–Epsilon group comes from a different papyrus and hand.
+  explain: The published edition reads ΓΙΝΕ at column 15, line 6 of PHerc. 1667. This is an unchanged crop
+    of a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-c15-l6-5-8
+  source_key: pherc1667-readable-surface
+  column: 15
+  line: 6
+  edition: γίνεϲθαι, κ̣α̣τὰ τοῦ-
+  line_truth: ΓΙΝΕϹΘΑΙΚΑΤΑΤΟΥ
+  indices:
+  - 4
+  - 8
+  rect:
+  - 4565
+  - 1785
+  - 5335
+  - 2135
+  truth: ϹΘΑΙ
+  letter_regions:
+  - - 0.01948
+    - 0.04286
+    - 0.25325
+    - 0.95714
+  - - 0.25325
+    - 0.04286
+    - 0.43506
+    - 0.95714
+  - - 0.43506
+    - 0.04286
+    - 0.74675
+    - 0.95714
+  - - 0.74675
+    - 0.04286
+    - 0.98052
+    - 0.95714
+  difficulty: hard
+  hint: The middle strokes are interrupted in the original rendering; compare all four letter areas.
+  explain: The published edition reads ϹΘΑΙ at column 15, line 6 of PHerc. 1667. This is an unchanged crop
+    of a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-c15-l7-8-11
+  source_key: pherc1667-readable-surface
+  column: 15
+  line: 7
+  edition: τό ἐϲτι̣ν τὸ ἀνελλι-
+  line_truth: ΤΟΕϹΤΙΝΤΟΑΝΕΛΛΙ
+  indices:
+  - 7
+  - 11
+  rect:
+  - 5165
+  - 2095
+  - 5955
+  - 2375
+  truth: ΤΟΑΝ
+  letter_regions:
+  - - 0.01899
+    - 0.05357
+    - 0.24684
+    - 0.94643
+  - - 0.24684
+    - 0.05357
+    - 0.43671
+    - 0.94643
+  - - 0.43671
+    - 0.05357
+    - 0.72785
+    - 0.94643
+  - - 0.72785
+    - 0.05357
+    - 0.98101
+    - 0.94643
+  difficulty: medium
+  hint: Tau and Omicron are followed by Alpha and Nu.
+  explain: The published edition reads ΤΟΑΝ at column 15, line 7 of PHerc. 1667. This is an unchanged crop
+    of a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-c15-l9-7-9
+  source_key: pherc1667-readable-surface
+  column: 15
+  line: 9
+  edition: ζητεῖν ἔτι, ἀλλὰ ἀ-
+  line_truth: ΖΗΤΕΙΝΕΤΙΑΛΛΑΑ
+  indices:
+  - 6
+  - 9
+  rect:
+  - 5005
+  - 2795
+  - 5605
+  - 3145
+  truth: ΕΤΙ
+  letter_regions:
+  - - 0.025
+    - 0.04286
+    - 0.30833
+    - 0.95714
+  - - 0.30833
+    - 0.04286
+    - 0.70833
+    - 0.95714
+  - - 0.70833
+    - 0.04286
+    - 0.975
+    - 0.95714
+  difficulty: medium
+  hint: Epsilon has an open side, Tau a long top bar, and Iota a single upright.
+  explain: The published edition reads ΕΤΙ at column 15, line 9 of PHerc. 1667. This is an unchanged crop of
+    a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-c16-l3-1-3
+  source_key: pherc1667-readable-surface
+  column: 16
+  line: 3
+  edition: ϲυντελείαϲ. ἀ[π]ὸ̣ τού-
+  line_truth: ϹΥΝΤΕΛΕΙΑϹΑΠΟΤΟΥ
+  indices:
+  - 0
+  - 3
+  rect:
+  - 7585
+  - 785
+  - 8205
+  - 1105
+  truth: ϹΥΝ
+  letter_regions:
+  - - 0.02419
+    - 0.04688
+    - 0.31452
+    - 0.95312
+  - - 0.31452
+    - 0.04688
+    - 0.58871
+    - 0.95312
+  - - 0.58871
+    - 0.04688
+    - 0.97581
+    - 0.95312
+  difficulty: medium
+  hint: The Sigma is angular here; Upsilon and Nu follow it.
+  explain: The published edition reads ϹΥΝ at column 16, line 3 of PHerc. 1667. This is an unchanged crop of
+    a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-c16-l3-4-6
+  source_key: pherc1667-readable-surface
+  column: 16
+  line: 3
+  edition: ϲυντελείαϲ. ἀ[π]ὸ̣ τού-
+  line_truth: ϹΥΝΤΕΛΕΙΑϹΑΠΟΤΟΥ
+  indices:
+  - 3
+  - 6
+  rect:
+  - 8175
+  - 785
+  - 8925
+  - 1095
+  truth: ΤΕΛ
+  letter_regions:
+  - - 0.02
+    - 0.04839
+    - 0.28667
+    - 0.95161
+  - - 0.28667
+    - 0.04839
+    - 0.58
+    - 0.95161
+  - - 0.58
+    - 0.04839
+    - 0.98
+    - 0.95161
+  difficulty: medium
+  hint: Tau is wide across the top. Epsilon opens right; Lambda makes an angle.
+  explain: The published edition reads ΤΕΛ at column 16, line 3 of PHerc. 1667. This is an unchanged crop of
+    a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-c16-l3-7-10
+  source_key: pherc1667-readable-surface
+  column: 16
+  line: 3
+  edition: ϲυντελείαϲ. ἀ[π]ὸ̣ τού-
+  line_truth: ϹΥΝΤΕΛΕΙΑϹΑΠΟΤΟΥ
+  indices:
+  - 6
+  - 10
+  rect:
+  - 8895
+  - 785
+  - 9565
+  - 1125
+  truth: ΕΙΑϹ
+  letter_regions:
+  - - 0.02239
+    - 0.04412
+    - 0.27612
+    - 0.95588
+  - - 0.27612
+    - 0.04412
+    - 0.39552
+    - 0.95588
+  - - 0.39552
+    - 0.04412
+    - 0.70896
+    - 0.95588
+  - - 0.70896
+    - 0.04412
+    - 0.97761
+    - 0.95588
+  difficulty: hard
+  hint: The narrow Iota and low Alpha sit between Epsilon and Sigma.
+  explain: The published edition reads ΕΙΑϹ at column 16, line 3 of PHerc. 1667. This is an unchanged crop
+    of a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-c16-l6-11-13
+  source_key: pherc1667-readable-surface
+  column: 16
+  line: 6
+  edition: τὰ μὲν καθ᾿ αὑτὴν
+  line_truth: ΤΑΜΕΝΚΑΘΑΥΤΗΝ
+  indices:
+  - 10
+  - 13
+  rect:
+  - 9965
+  - 1925
+  - 10705
+  - 2245
+  truth: ΤΗΝ
+  letter_regions:
+  - - 0.02027
+    - 0.04688
+    - 0.33108
+    - 0.95312
+  - - 0.33108
+    - 0.04688
+    - 0.62838
+    - 0.95312
+  - - 0.62838
+    - 0.04688
+    - 0.97973
+    - 0.95312
+  difficulty: medium
+  hint: 'Tau, Eta and Nu: compare the top bar with the middle bar and diagonal.'
+  explain: The published edition reads ΤΗΝ at column 16, line 6 of PHerc. 1667. This is an unchanged crop of
+    a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-c16-l7-1-2
+  source_key: pherc1667-readable-surface
+  column: 16
+  line: 7
+  edition: ἐν ἡμῖν ϲυντετέλε-
+  line_truth: ΕΝΗΜΙΝϹΥΝΤΕΤΕΛΕ
+  indices:
+  - 0
+  - 2
+  rect:
+  - 7425
+  - 2255
+  - 7995
+  - 2565
+  truth: ΕΝ
+  letter_regions:
+  - - 0.02632
+    - 0.04839
+    - 0.62281
+    - 0.95161
+  - - 0.62281
+    - 0.04839
+    - 0.97368
+    - 0.95161
+  difficulty: hard
+  hint: These two letters are less complete than the following group in the same line.
+  explain: The published edition reads ΕΝ at column 16, line 7 of PHerc. 1667. This is an unchanged crop of
+    a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-c16-l7-3-6
+  source_key: pherc1667-readable-surface
+  column: 16
+  line: 7
+  edition: ἐν ἡμῖν ϲυντετέλε-
+  line_truth: ΕΝΗΜΙΝϹΥΝΤΕΤΕΛΕ
+  indices:
+  - 2
+  - 6
+  rect:
+  - 7965
+  - 2255
+  - 8795
+  - 2565
+  truth: ΗΜΙΝ
+  letter_regions:
+  - - 0.01807
+    - 0.04839
+    - 0.28313
+    - 0.95161
+  - - 0.28313
+    - 0.04839
+    - 0.54819
+    - 0.95161
+  - - 0.54819
+    - 0.04839
+    - 0.68072
+    - 0.95161
+  - - 0.68072
+    - 0.04839
+    - 0.98193
+    - 0.95161
+  difficulty: medium
+  hint: PHerc. 1667, a different hand. Notice how flat the joins in Eta, Mu and Nu look here.
+  explain: The published edition reads ΗΜΙΝ at column 16, line 7 of PHerc. 1667. This is an unchanged crop
+    of a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+  task: study
+- id: corpus-pherc1667-c16-l7-8-10
+  source_key: pherc1667-readable-surface
+  column: 16
+  line: 7
+  edition: ἐν ἡμῖν ϲυντετέλε-
+  line_truth: ΕΝΗΜΙΝϹΥΝΤΕΤΕΛΕ
+  indices:
+  - 7
+  - 10
+  rect:
+  - 8905
+  - 2275
+  - 9595
+  - 2585
+  truth: ΥΝΤ
+  letter_regions:
+  - - 0.02174
+    - 0.04839
+    - 0.25362
+    - 0.95161
+  - - 0.25362
+    - 0.04839
+    - 0.63043
+    - 0.95161
+  - - 0.63043
+    - 0.04839
+    - 0.97826
+    - 0.95161
+  difficulty: medium
+  hint: Upsilon forks; Nu links two sides diagonally; Tau finishes with a top bar.
+  explain: The published edition reads ΥΝΤ at column 16, line 7 of PHerc. 1667. This is an unchanged crop of
+    a CT-derived ink-detection rendering, not a photograph or an organizer letter mask.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-gap-01
+  source_key: pherc1667-readable-surface
+  column: between 15 and 16
+  line: null
+  reading: gap between columns 15 and 16
+  rect:
+  - 7090
+  - 1100
+  - 7430
+  - 1325
+  truth: none
+  blank: true
+  task: read
+  letter_regions: []
+  difficulty: medium
+  hint: Look for a sequence of letter shapes, rather than isolated bright specks.
+  explain: This unaltered area lies in the gap between columns 15 and 16. No readable letters are visible here.
+    This is a reading judgment about the published rendering, not a claim that an ink mask proves the surface
+    blank.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-gap-02
+  source_key: pherc1667-readable-surface
+  column: between 15 and 16
+  line: null
+  reading: gap between columns 15 and 16
+  rect:
+  - 7090
+  - 1430
+  - 7430
+  - 1655
+  truth: none
+  blank: true
+  task: read
+  letter_regions: []
+  difficulty: medium
+  hint: Look for a sequence of letter shapes, rather than isolated bright specks.
+  explain: This unaltered area lies in the gap between columns 15 and 16. No readable letters are visible here.
+    This is a reading judgment about the published rendering, not a claim that an ink mask proves the surface
+    blank.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-gap-03
+  source_key: pherc1667-readable-surface
+  column: between 15 and 16
+  line: null
+  reading: gap between columns 15 and 16
+  rect:
+  - 7090
+  - 2110
+  - 7430
+  - 2335
+  truth: none
+  blank: true
+  task: read
+  letter_regions: []
+  difficulty: medium
+  hint: Look for a sequence of letter shapes, rather than isolated bright specks.
+  explain: This unaltered area lies in the gap between columns 15 and 16. No readable letters are visible here.
+    This is a reading judgment about the published rendering, not a claim that an ink mask proves the surface
+    blank.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-gap-04
+  source_key: pherc1667-readable-surface
+  column: between 15 and 16
+  line: null
+  reading: gap between columns 15 and 16
+  rect:
+  - 7090
+  - 2450
+  - 7430
+  - 2675
+  truth: none
+  blank: true
+  task: read
+  letter_regions: []
+  difficulty: medium
+  hint: Look for a sequence of letter shapes, rather than isolated bright specks.
+  explain: This unaltered area lies in the gap between columns 15 and 16. No readable letters are visible here.
+    This is a reading judgment about the published rendering, not a claim that an ink mask proves the surface
+    blank.
+  checked: '2026-10-31'
+- id: corpus-pherc1667-gap-05
+  source_key: pherc1667-readable-surface
+  column: between 15 and 16
+  line: null
+  reading: gap between columns 15 and 16
+  rect:
+  - 7090
+  - 2990
+  - 7430
+  - 3215
+  truth: none
+  blank: true
+  task: read
+  letter_regions: []
+  difficulty: medium
+  hint: Look for a sequence of letter shapes, rather than isolated bright specks.
+  explain: This unaltered area lies in the gap between columns 15 and 16. No readable letters are visible here.
+    This is a reading judgment about the published rendering, not a claim that an ink mask proves the surface
+    blank.
+  checked: '2026-10-31'

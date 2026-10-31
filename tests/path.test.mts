@@ -7,8 +7,11 @@ import type { AnswerRecord, QuizItem, QuizSet } from "../src/types.ts";
 import type { State } from "../src/store.ts";
 
 const data = parse(readFileSync(new URL("../data/items.yaml", import.meta.url), "utf8")) as { sets: QuizSet[]; items: QuizItem[] };
-const realSets = data.sets.filter(set => !set.practice_only && data.items.some(item => item.set === set.id && !item.practice_only));
-const metadata = `data:text/javascript,${encodeURIComponent(`export const LEVELS = []; export const playSets = ${JSON.stringify(realSets)};`)}`;
+const realSets = data.sets.filter(set => set.level <= 2 && !set.retired && !set.practice_only
+  && data.items.some(item => item.set === set.id && !item.practice_only && !item.retired && item.truth !== "*" && item.task !== "detect"));
+const levels = Array.from({ length: 12 }, (_, index) => ({ level: index + 1, title: `Level ${index + 1}` }));
+const allSets = [...realSets, ...levels.slice(2).map(level => ({ id: `original-level-${level.level}`, ...level }))];
+const metadata = `data:text/javascript,${encodeURIComponent(`export const LEVELS = ${JSON.stringify(levels)}; export const playSets = ${JSON.stringify(allSets)};`)}`;
 const hooks = registerHooks({
   resolve(specifier, context, nextResolve) {
     if (context.parentURL?.endsWith("/src/rules.ts")) {
@@ -18,7 +21,7 @@ const hooks = registerHooks({
     return nextResolve(specifier, context);
   },
 });
-const { canStartFirstLine, levelAvailable } = await import("../src/rules.ts");
+const { canStartFirstLine, levelAvailable, levelDone } = await import("../src/rules.ts");
 hooks.deregister();
 
 const firstThree = data.items.filter(item => item.set === "first-letters-500p2" && !item.practice_only && item.task === "identify");
@@ -27,6 +30,17 @@ const response = (item: QuizItem): AnswerRecord => ({
   said_text: "unsure", letters: "?", confidence: null, ms: 1000,
   answered_at: "2026-10-31T12:00:00Z", truth: item.truth, text_correct: false,
   letters_correct: false, verdict: "unsure", reading_points: 0, honesty_points: 0,
+});
+
+test("Automatic access requires all earlier levels, and retired completions do not finish new lessons", () => {
+  const done = Object.fromEntries(allSets.filter(set => set.level < 10).map(set => [set.id, 1]));
+  assert.equal(levelAvailable({ ...state(), setsDone: done }, 10), true);
+  assert.equal(levelAvailable({ ...state(), setsDone: { ...done, "original-level-4": 0 } }, 10), false);
+  assert.equal(levelAvailable({ ...state(), levelOverride: 10 }, 10), true);
+  assert.equal(levelAvailable({ ...state(), levelOverride: 10 }, 11), false);
+  assert.equal(levelAvailable({ ...state(), levelOverride: 99 }, 99), false);
+  assert.equal(levelDone({ ...state(), setsDone: { "harder-images": 1 } }, 3), false);
+  assert.equal(levelAvailable({ ...state(), setsDone: { "original-level-9": 1 } }, 10), false);
 });
 const state = (answers: AnswerRecord[] = []): State => ({ answers, setsDone: {}, badges: {}, ranks: {} });
 

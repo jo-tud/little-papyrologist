@@ -4,8 +4,10 @@ import sourceData from "../data/sources.yaml";
 import itemData from "../data/items.yaml";
 import badgeData from "../data/badges.yaml";
 import rankData from "../data/ranks.yaml";
-import type { BadgeDef, Drill, Fact, Glyph, Group, Hero, PlaySet, QuizItem, QuizSet, RankDef, Source } from "./types";
+import levelData from "../data/levels.yaml";
+import type { BadgeDef, Drill, Fact, Glyph, Group, Hero, Level, PlaySet, QuizItem, QuizSet, RankDef, Source } from "./types";
 import { applyLetterRegions } from "./letter-regions";
+import { isActiveItem } from "./curriculum";
 
 export const glyphs = (glyphData as { letters: Glyph[] }).letters;
 export const glyphByChar = new Map(glyphs.map((g) => [g.char, g]));
@@ -23,6 +25,10 @@ export const sourceById = new Map(sources.map((s) => [s.id, s]));
 const itemFile = itemData as { sets?: QuizSet[]; items?: QuizItem[] };
 export const quizItems = (itemFile.items ?? []).map(applyLetterRegions);
 export const quizSets = itemFile.sets ?? [];
+export const activeQuizItems = quizItems.filter(item => isActiveItem(item)
+  && !quizSets.find(set => set.id === item.set)?.retired);
+export const activeQuizSets = quizSets.filter(set => !set.retired && set.id !== "harder-images"
+  && activeQuizItems.some(item => item.set === set.id));
 
 /** Short fingerprint of the exercise set, stored with exported results. */
 export function itemSetVersion(): string {
@@ -35,11 +41,11 @@ export function itemSetVersion(): string {
   return (h >>> 0).toString(16).padStart(8, "0");
 }
 
-export const LEVELS = [
-  { level: 1, title: "First real letters", text: "Start with clearer shapes and a letter pair, then explore unfamiliar handwriting with named examples." },
-  { level: 2, title: "Your first lines", text: "Build a line a few letters at a time, find ink, and try reading with less help." },
-  { level: 3, title: "When the image gets harder", text: "Try controlled blur, noise and missing detail. Compare with the original and learn when to stop guessing." },
-] as const;
+export const LEVELS = (levelData as { levels: Level[] }).levels
+  .filter(level => activeQuizSets.some(set => set.level === level.level && !set.practice_only))
+  .sort((a, b) => a.level - b.level);
+
+export const availableLevelNumbers = [0, ...LEVELS.map(level => level.level)];
 
 export const badgeDefs = (badgeData as { badges: BadgeDef[] }).badges;
 export const rankDefs = (rankData as { ranks: RankDef[] }).ranks;
@@ -51,7 +57,9 @@ export const rankDefs = (rankData as { ranks: RankDef[] }).ranks;
  */
 export const playSets: PlaySet[] = [
   ...groups.map((g) => ({ id: g.id, level: 0, title: g.title, href: `#/drill/${g.id}` })),
-  ...quizSets
-    .filter((s) => !s.practice_only && quizItems.some((i) => i.set === s.id && !i.practice_only))
+  ...activeQuizSets
+    .filter((s) => !s.practice_only && LEVELS.some(level => level.level === s.level)
+      && activeQuizItems.some((i) => i.set === s.id && !i.practice_only))
+    .sort((a, b) => a.level - b.level)
     .map((s) => ({ id: s.id, level: s.level, title: s.title, href: `#/quiz/${s.id}` })),
 ];

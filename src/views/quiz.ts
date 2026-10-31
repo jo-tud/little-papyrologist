@@ -1,5 +1,7 @@
-import { glyphs, itemSetVersion, playSets, quizItems, quizSets, sourceById } from "../data";
-import { glyphSvg } from "../glyphs/render";
+import { activeQuizItems, activeQuizSets, glyphs, itemSetVersion, LEVELS, playSets, quizItems, quizSets, sourceById } from "../data";
+import { isPracticeItem } from "../curriculum";
+import { learningAction } from "../learning-action";
+import { letterFormLabel } from "../letter-forms";
 import { progressAfterAnswer, rankUpBanner } from "../progress-ui";
 import { align, readingStats, score, type Score } from "../scoring";
 import { addAnswer, clearRound, markSetDone, saveRound, state } from "../store";
@@ -45,13 +47,12 @@ function readingSource(item: QuizItem): string {
 
 /** The drawing and type are references, never presented as a tracing of this photograph. */
 function letterReference(reading: string): string {
-  return `<span class="reference-drawing" aria-hidden="true">${Array.from(reading).map((char) => glyphSvg(char, "")).join("")}</span>
-    <span class="greek" lang="grc">${esc(reading)}</span>
-    <span class="letter-name">${Array.from(reading).map(letterName).map(esc).join(" · ")}</span>`;
+  return Array.from(reading).map(letterFormLabel).join("");
 }
 
 /** The reading, one letter per box, coloured by how the player did. Uncertain letters get a dot below. */
 function readingBoxes(item: QuizItem, s?: Score): string {
+  if (item.truth === "none" || item.truth === "*") return "";
   const unc = new Set(item.uncertain ?? []);
   return `<div class="reading" tabindex="0" role="region" aria-label="The reading, letter by letter; scroll sideways if needed">${Array.from(item.truth)
     .map((ch, i) => {
@@ -65,6 +66,9 @@ function readingBoxes(item: QuizItem, s?: Score): string {
 }
 
 function headline(item: QuizItem, p: Pick, s: Score, word: string): string {
+  if (item.truth === "none") return p.said === "no" ? "Well spotted — no letters here"
+    : p.said === "unsure" ? "A fair place to pause — no letters here"
+    : "A convincing shape — the reference shows no letters here";
   if (item.simulated && (p.said === "unsure" || s.verdict === "careful")) return "A fair place to be unsure — compare the original";
   if (item.simulated && s.verdict !== "right") return item.truth === "none" ? "The source reference has no visible writing here" : "Let's compare with the source reference";
   if (item.task === "identify") {
@@ -100,10 +104,18 @@ function points(s: Score): string {
 }
 
 export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: string): () => void {
-  const practiceLevel = /^practice-[1-3]$/.test(setId) ? Number(setId.slice(-1)) : undefined;
+  const practiceMatch = setId.match(/^practice-([1-9]\d*)$/);
+  const practiceLevel = practiceMatch ? Number(practiceMatch[1]) : undefined;
   const practice = practiceLevel !== undefined;
-  const set: QuizSet | undefined = practice ? { id: setId, level: practiceLevel!, title: `Level ${practiceLevel} · ${practiceGroup ? "focused reading" : "practice round"}` } : quizSets.find((s) => s.id === setId);
-  const items = practice ? quizItems.filter((i) => i.level === practiceLevel && i.task !== "study" && (!practiceGroup || i.practice_group === practiceGroup)) : quizItems.filter((i) => i.set === setId && !i.practice_only);
+  const set: QuizSet | undefined = practice
+    ? LEVELS.some(level => level.level === practiceLevel) ? { id: setId, level: practiceLevel!, title: `Level ${practiceLevel} · ${practiceGroup ? "focused reading" : "practice round"}` } : undefined
+    : activeQuizSets.find((s) => s.id === setId);
+  const items = practice ? activeQuizItems.filter(i => isPracticeItem(i, practiceLevel!, practiceGroup)) : activeQuizItems.filter((i) => i.set === setId && !i.practice_only);
+  if (!practice && !set && (setId === "harder-images" || quizSets.some(candidate => candidate.id === setId))) {
+    const destination = learningAction(state());
+    main.innerHTML = `<h1>Continue with original images</h1><p>This older exercise has been replaced by short readings from original images. Your saved answers and points are still in My results.</p><a class="button primary" href="${destination.href}">${esc(destination.label)} →</a><p><a href="#/">See the learning path</a></p>`;
+    return () => {};
+  }
   if (set && !(set.id === "first-line" ? canStartFirstLine(state()) : levelAvailable(state(), set.level))) {
     main.innerHTML = `<h1>This level is next on your path</h1><p>Finish the preceding level, or open this level yourself in <a href="#/results">My results</a>.</p><a class="button" href="#/">Back to the path</a>`;
     return () => {};
@@ -113,7 +125,7 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
     return () => {};
   }
   const guided = items.every((item) => item.task === "identify" || item.task === "study");
-  const makeOrder = () => practice ? planPractice(quizItems, state().answers, practiceLevel!, { group: practiceGroup, size: practiceGroup ? 6 : 12 }) : guided || set.ordered ? [...items] : shuffle(items);
+  const makeOrder = () => practice ? planPractice(activeQuizItems, state().answers, practiceLevel!, { group: practiceGroup, size: practiceGroup ? 6 : 12 }) : guided || set.ordered ? [...items] : shuffle(items);
   let order = makeOrder();
   const choices = new Map(items.map((item) => [item.id, shuffle(item.choices ?? [])]));
   const sessionId = practiceGroup ? `${setId}/${practiceGroup}` : setId;
@@ -131,10 +143,16 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
   let zoom = false;
   let helpUsed = resumed?.help_used ?? false;
   let elapsed = resumed?.elapsed_ms ?? 0;
+  let clearReadingContext = () => {};
   if (resumed?.checked) {
     const item = order[index];
+    const stored = [...results].reverse().find(answer => answer.item_id === item.id);
     checked = score({ text: item.truth, uncertain: item.uncertain, simulated: item.simulated },
-      { said: pick.said!, letters: pick.letters.join(""), confidence: pick.confidence!, presenceAsked: !(item.task === "identify" && pick.confidence === null) });
+      { said: pick.said!, letters: pick.letters.join(""), confidence: pick.confidence!, presenceAsked: stored?.presence_asked ?? !(item.task === "identify" && pick.confidence === null) });
+    if (stored) {
+      checked.reading = stored.reading_points;
+      checked.honesty = stored.honesty_points;
+    }
   }
   function persistRound(): void {
     if (index >= order.length) return;
@@ -145,6 +163,40 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
   }
   function typedOutput(): string {
     return `<output class="typed greek" id="typed" aria-live="polite" aria-label="Your reading">${pick.letters.length ? pick.letters.map(esc).join("") : `<span class="muted small">Type or tap letters. Use ? for a letter you cannot read.</span>`}</output>`;
+  }
+
+  /** Keep the original available while the mobile keyboard is in view. */
+  function attachReadingContext(item: QuizItem): void {
+    if (item.task !== "read" || checked) return;
+    const source = main.querySelector<HTMLElement>(".viewer-images")!;
+    const keyboard = main.querySelector<HTMLElement>(".keyboard")!;
+    const context = document.createElement("button");
+    context.type = "button";
+    context.id = "reading-context";
+    context.className = "reading-context";
+    context.hidden = true;
+    context.setAttribute("aria-label", "Return to the full original image");
+    context.innerHTML = `<img src="${imgSrc(esc(item.image))}" alt=""><span class="reading-context-caption">Original · tap to return<span class="reading-context-reading greek" aria-hidden="true">${esc(pick.letters.join(""))}</span></span>`;
+    main.querySelector(".learning-task")!.append(context);
+    const mobile = window.matchMedia("(max-width: 700px)");
+    const update = () => {
+      const keys = keyboard.getBoundingClientRect();
+      context.hidden = !mobile.matches || checked !== null || source.getBoundingClientRect().bottom > 120
+        || keys.bottom <= 120 || keys.top >= window.innerHeight - 72;
+    };
+    const sourceObserver = new IntersectionObserver(update, { rootMargin: "-120px 0px 0px 0px" });
+    const keyboardObserver = new IntersectionObserver(update, { rootMargin: "-120px 0px -72px 0px" });
+    sourceObserver.observe(source);
+    keyboardObserver.observe(keyboard);
+    window.addEventListener("resize", update);
+    update();
+    clearReadingContext = () => {
+      sourceObserver.disconnect();
+      keyboardObserver.disconnect();
+      window.removeEventListener("resize", update);
+      context.remove();
+      clearReadingContext = () => {};
+    };
   }
 
   const detectWord = () => order[index]?.source.includes("pherc0500p2-ir") ? "ink" : "writing";
@@ -163,10 +215,10 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
     const optional = item.task === "detect";
     const disabled = pick.said === "no" || checked !== null;
     return `<fieldset class="question" id="letters-question" ${disabled ? "disabled" : ""}>
-      <legend>${optional ? `Which letters do you see? <span class="muted small">(saved, not scored)</span>` : item.truth.length === 1 ? "Name this letter" : "Read the letters, left to right"}</legend>
+      <legend>${optional ? `Which letters do you see? <span class="muted small">(saved, not scored)</span>` : "Read the letters, if any"}</legend>
       ${typedOutput()}
       <div class="keyboard" role="group" aria-label="Greek letters">
-        ${LETTERS.map((l) => `<button type="button" class="key named-letter" data-key="${l}" title="Key: ${esc(glyphs.find((g) => g.char === l)!.latin)}">${letterLabel(l)}</button>`).join("")}
+        ${LETTERS.map((l) => `<button type="button" class="key named-letter" data-key="${l}" title="Key: ${esc(glyphs.find((g) => g.char === l)!.latin)}">${letterFormLabel(l)}</button>`).join("")}
         <button type="button" class="key" data-key="?" aria-label="A letter I cannot read">?</button>
         <button type="button" class="key key-wide" data-key="back" aria-label="Delete last letter">⌫</button>
       </div>
@@ -174,6 +226,7 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
   }
 
   function shortHint(item: QuizItem): string {
+    if (item.truth === "none") return item.hint ?? "Fibres and specks can suggest letters. This source area has no visible writing to read.";
     if (item.task === "study" && item.truth.length > 4) return "Bright strokes show a CT-derived ink map. We will read this line a few letters at a time.";
     if (item.task === "detect") return item.truth === "none"
       ? "Fibres and specks can suggest a letter. The reference shows no visible ink here."
@@ -218,16 +271,18 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
         <div class="row" role="group" aria-label="How sure are you?">${[[1,"Guessing"],[2,"Fairly sure"],[3,"Sure"]].map(([n,label]) => `<button type="button" class="choice" data-conf="${n}" aria-pressed="${pick.confidence === n}">${label}</button>`).join("")}<button type="button" class="choice" data-conf="none" aria-pressed="${pick.confidence == null}">No rating</button></div>
         <p class="small muted">Optional. Only a rating you choose is saved.</p></details>` : ""}
       <details><summary>Round options & keyboard</summary>
+        <p class="small">Button drawings are simplified form guides, not tracings or a complete catalogue of Greek handwriting.</p>
         <p class="small">Your place is saved automatically. Restarting keeps previous answers.</p>
         <button type="button" id="restart">Start this round again</button>
         ${levelAvailable(state(), 2) ? `<p><a href="#/quiz/long-lines">Try a whole line · optional challenge</a></p>` : ""}
-        <p class="small">Tab moves between controls. Enter or Space activates the focused button. ${quickChoice() ? "? answers ‘not sure yet’." : "Type Greek letters or their keyboard equivalents; ? leaves a letter open. Enter away from buttons checks your reading."}</p>
+        <p class="small">Tab moves between controls. Enter or Space activates the focused button. ${quickChoice() ? "? answers ‘not sure yet’." : "Type Greek letters or their keyboard equivalents; ? leaves a letter open. Enter away from buttons checks your reading."} The minus key answers ‘No letters’.</p>
         ${practice ? `<p class="small">Some views repeat or overlap. Repetition builds recognition; it does not add independent handwriting samples.</p>` : ""}
       </details>
     </div>`;
   }
 
   function renderRound(): void {
+    clearReadingContext();
     const item = order[index];
     const wide = (item.task === "read" || item.task === "study") && item.truth.length > 4;
     const comparison = item.compare_with ? quizItems.find(other => other.id === item.compare_with) : undefined;
@@ -236,7 +291,7 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
       <h1 tabindex="-1">${esc(set!.title)}</h1>
       ${saved && !resumed && index === 0 && !checked ? `<p class="small">New exercises are available. Your previous answers remain in My results.</p>` : ""}
       <div class="progress" aria-hidden="true">${order.map((_, i) => `<span class="${i < index ? "past" : i === index ? "now" : ""}"></span>`).join("")}</div>
-      <p class="task-context small muted">${item.simulated ? `Altered practice image · ${item.degradation}/5` : item.task === "study" ? "Guided example · no score" : item.source.includes("profilometer") ? "Original photograph" : item.source.includes("pherc0500p2-ir") ? "Infrared photograph · ink detection" : "CT-derived ink map · published reading"}</p>
+      <p class="task-context small muted">${item.task === "study" ? "Guided example · no score" : item.source.includes("profilometer") ? "Original photograph" : "Original CT-derived ink map"}</p>
       <div class="task-workspace${wide ? " task-wide" : ""}" data-item="${esc(item.id)}" data-task="${item.task}">
         <div class="task-image${comparison ? " hand-comparison" : ""}">${taskViewer(item, !!checked || item.task === "study")}
           ${comparison ? `<figure class="other-hand"><img src="${imgSrc(comparison.image)}" alt="A different photograph identified as ${esc(namedLetter(comparison.truth))}"><figcaption>Another ${esc(namedLetter(comparison.truth))}<br><span class="viewer-credit">${esc(comparison.credit)} · ${esc(comparison.license)}</span></figcaption></figure>` : ""}
@@ -247,6 +302,7 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
     </section>`;
     if (checked) highlightFeedback(item, checked);
     else if (item.task === "study") showLetterRegion(main, item, 0);
+    else attachReadingContext(item);
   }
 
   function study(item: QuizItem): string {
@@ -260,18 +316,13 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
   }
 
   function questions(item: QuizItem): string {
-    const c = (name: string, value: string, label: string, pressed: boolean) =>
-      `<button type="button" class="choice" data-${name}="${value}" aria-pressed="${pressed}">${label}</button>`;
     return `<div class="task-body">${item.task === "identify" ? `<fieldset class="question"><legend>${esc(item.question ?? "Name the handwritten letter")}</legend>
       <div class="match-options">${choices.get(item.id)!.map(reading => `<button type="button" class="choice named-letter" data-reading="${reading}">${letterReference(reading)}</button>`).join("")}</div>
       </fieldset>`
-      : item.task === "read" && !item.simulated ? letterPanel(item) : `<fieldset class="question"><legend>${item.simulated ? "Can you make out writing?" : `Is there ${detectWord()} here?`}</legend>
-        <div class="row">${c("said","yes","Yes",pick.said === "yes")}${c("said","no",`No ${detectWord()}`,pick.said === "no")}${c("said","unsure","Not sure",pick.said === "unsure")}</div></fieldset>
-        ${item.task === "detect" ? "" : letterPanel(item)}`}
-      </div>${quickChoice() ? `<div class="task-actions"><button type="button" data-reading="?">Not sure yet</button></div><p class="small muted reference-caption">Drawings and printed letters are guides.</p>` : `<div class="task-actions"><button type="button" class="primary" id="check" aria-describedby="check-hint" ${canCheck() ? "" : "disabled"}>Check answer</button></div>
+      : letterPanel(item)}
+      </div>${quickChoice() ? `<div class="task-actions"><button type="button" data-reading="?">Not sure yet</button><button type="button" data-said="no">No letters</button></div><p class="small muted reference-caption">Simplified form guides, not tracings.</p>` : `<div class="task-actions"><button type="button" class="primary" id="check" aria-describedby="check-hint" ${canCheck() ? "" : "disabled"}>Check answer</button><button type="button" data-said="no">No letters</button></div>
         <p class="small muted check-hint" id="check-hint">${checkHint()}</p>`}
-      ${!practice && item.optional_challenge ? `<button type="button" class="linkish" id="skip-challenge">Skip this optional challenge →</button>` : ""}
-      ${item.task === "detect" ? `<details class="optional-letters"><summary>Suggest letters <span class="muted">(not scored)</span></summary>${letterPanel(item)}</details>` : ""}`;
+      ${!practice && item.optional_challenge ? `<button type="button" class="linkish" id="skip-challenge">Skip this optional challenge →</button>` : ""}`;
   }
 
   function checkHint(): string {
@@ -290,6 +341,8 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
     if (lettersQuestion) lettersQuestion.disabled = pick.said === "no";
     const typed = main.querySelector<HTMLElement>("#typed");
     if (typed) typed.innerHTML = pick.letters.length ? pick.letters.map(esc).join("") : `<span class="muted small">Type or tap letters. Use ? for a letter you cannot read.</span>`;
+    const contextReading = main.querySelector<HTMLElement>(".reading-context-reading");
+    if (contextReading) contextReading.textContent = pick.letters.join("");
     const optional = main.querySelector<HTMLDetailsElement>(".optional-letters");
     if (optional && pick.letters.length) optional.open = true;
     const checkButton = main.querySelector<HTMLButtonElement>("#check");
@@ -302,7 +355,7 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
   }
 
   function readingReview(item: QuizItem, s: Score): string {
-    if (item.task !== "read") return "";
+    if (item.task !== "read" || item.truth === "none" || item.truth === "*") return "";
     const { pairs } = align(Array.from(item.truth), pick.letters);
     const positions = Array.from(item.truth).map((letter, i) => ({ letter, i, typed: pairs[i] }))
       .filter(({ i }) => item.truth.length <= 4 || s.marks[i] !== "ok");
@@ -316,7 +369,9 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
   }
 
   function feedback(item: QuizItem, s: Score): string {
-    const reading = item.task === "identify" || item.task === "read"
+    const reading = item.truth === "none"
+      ? `<p>Reference: no letters.</p><p class="small">Your answer: ${pick.said === "no" ? "no letters" : pick.said === "unsure" || !pick.letters.some(letter => letter !== "?") ? "not sure" : esc(pick.letters.join(""))}.</p>`
+      : item.task === "identify" || item.task === "read"
       ? `${readingBoxes(item, s)}<p class="small">Your answer: <span class="greek">${pick.said === "unsure" && !pick.letters.some(l => l !== "?") ? "not sure" : pick.said === "no" ? "no writing" : pick.letters.map(esc).join("") || "left open"}</span>${item.uncertain?.length ? " · dotted marks are uncertain in the edition" : ""}.</p>`
       : `<p>Your answer: ${pick.said === "no" ? `no ${detectWord()}` : pick.said === "unsure" ? "not sure" : detectWord()}. Reference: ${item.truth === "none" ? "no visible " : ""}${detectWord()}.</p>`;
     return `<div class="task-feedback v-${s.verdict}"><div class="task-body"><h2 id="verdict" tabindex="-1">${esc(headline(item, pick, s, detectWord()))}</h2>
@@ -343,8 +398,9 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
     if (item.task === "study") return;
     if (quickChoice()) pick.confidence = null;
     else pick.confidence ??= null;
+    if (pick.said === "yes" && pick.letters.length && pick.letters.every(letter => letter === "?")) pick.said = "unsure";
     const letters = pick.said === "no" ? "" : pick.letters.join("");
-    const s = score({ text: item.truth, uncertain: item.uncertain, simulated: item.simulated }, { said: pick.said!, letters, confidence: pick.confidence!, presenceAsked: !quickChoice() });
+    const s = score({ text: item.truth, uncertain: item.uncertain, simulated: item.simulated }, { said: pick.said!, letters, confidence: pick.confidence!, presenceAsked: false });
     const rec: AnswerRecord = {
       item_id: item.id,
       task: item.task,
@@ -352,6 +408,7 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
       help_used: helpUsed || item.task === "identify" || item.assisted === true,
       base_item: item.base_item ?? item.id,
       simulated: item.simulated ?? false,
+      presence_asked: false,
       level: item.level,
       degradation: item.degradation,
       said_text: pick.said!,
@@ -371,6 +428,7 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
     results.push(rec);
     elapsed += performance.now() - shownAt;
     checked = s;
+    clearReadingContext();
     persistRound();
     const news = progressAfterAnswer();
     newRank = news.rank?.id;
@@ -429,16 +487,17 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
   }
 
   function renderSummary(): void {
+    clearReadingContext();
     const count = (v: string) => results.filter((r) => r.verdict === v).length;
     const empty = results.filter((r) => r.truth === "none").length;
     const readings = results.filter(r => r.task === "read").map(readingStats).filter(r => r !== null);
     const lettersOk = readings.reduce((n, r) => n + r.correct, 0);
     const lettersAll = readings.reduce((n, r) => n + r.total, 0);
-    const pathIndex = playSets.findIndex((p) => p.id === set!.id);
-    const nextSet = pathIndex >= 0 ? playSets.slice(pathIndex + 1).find((p) => levelAvailable(state(), p.level)) : undefined;
+    const nextSet = nextLesson();
+    const practiceSource = practiceGroup ? playSets.find(lesson => items.some(item => item.set === lesson.id)) : undefined;
     main.innerHTML = `
       <h1 tabindex="-1">${practice ? "Practice round complete" : `${esc(set!.title)}: done`}</h1>
-      ${set!.level === 3 && !nextSet && !practice && [1, 2, 3].every(level => levelDone(state(), level)) ? `<p>You have finished levels 1–3. Keep practising: recognition grows through repeated comparisons, and difficult images can still deserve “not sure”.</p>` : ""}
+      ${!nextSet && !practice && LEVELS.every(entry => levelDone(state(), entry.level)) ? `<p>You have finished all ${LEVELS.length} levels. Keep practising with short rounds of original images.</p>` : ""}
       ${ranksThisSet.length ? rankUpBanner(ranksThisSet[ranksThisSet.length - 1]) : ""}
       <div class="tally">
         ${guided ? `<div><strong>${count("right")}/${results.length}</strong><span class="muted">examples matched</span></div>` : `<div><strong>${results.filter((r) => r.truth !== "none" && r.said_text === "yes").length}</strong><span class="muted">tiles with ${detectWord()} spotted</span></div>
@@ -450,7 +509,7 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
         The guided examples taught less familiar forms; they added no answers or points to your results.</p>` : ""}
       ${tip(practice ? "Come back for another short round. The mix uses your past answers, so difficult material will return alongside unfamiliar images." : guided ? "You have met real handwriting. Next, build a line a few letters at a time." : count("false-alarm") === 0 ? "Keep comparing the strokes with the reference, and leave room for uncertainty." : "Some empty tiles suggested writing. Comparing them with the reference is part of learning what to look for.")}
       <div class="row">
-        ${practiceGroup ? `<a class="button" href="#/quiz/first-line">Return to the lesson</a>` : ""}
+        ${practiceSource ? `<a class="button" href="${practiceSource.href}">Return to the lesson</a>` : ""}
         ${nextSet && !practice ? `<a class="button primary" href="${nextSet.href}">Next: ${esc(nextSet.title)} →</a>` : ""}
         ${!practice && set!.id === "first-line" && !levelDone(state(), 1) ? `<a class="button primary" href="#/quiz/first-letters-500p2">Return to guided handwriting →</a>` : ""}
         ${!practice && levelAvailable(state(), set!.level) ? `<a class="button" href="#/practice/${set!.level}">More practice at this level</a>` : ""}
@@ -485,6 +544,12 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
     if ((e.target as HTMLElement).closest("#reading-guide > summary, #shape-hint > summary") && !checked) { helpUsed = true; persistRound(); }
     const b = (e.target as HTMLElement).closest("button");
     if (!b || b.disabled) return;
+    if (b.id === "reading-context") {
+      const source = main.querySelector<HTMLElement>(".viewer-images")!;
+      source.querySelector<HTMLElement>(".viewer-viewport")?.focus({ preventScroll: true });
+      window.scrollTo({ top: Math.max(0, window.scrollY + source.getBoundingClientRect().top - 12), behavior: "instant" });
+      return;
+    }
     if (b.dataset.letterIndex !== undefined && (checked || order[index].task === "study")) {
       showLetterRegion(main, order[index], Number(b.dataset.letterIndex), true);
       keepImageVisible();
@@ -535,7 +600,7 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
       if (quickChoice()) return check();
     } else if (b.dataset.said) {
       pick.said = b.dataset.said as SaidText;
-      if (pick.said === "no") pick.letters = [];
+      if (pick.said === "no") { pick.letters = []; return check(); }
     } else if (b.dataset.conf) pick.confidence = b.dataset.conf === "none" ? null : Number(b.dataset.conf) as 1 | 2 | 3;
     else if (b.dataset.key === "back") pick.letters.pop();
     else if (b.dataset.key) addLetter(b.dataset.key);
@@ -556,6 +621,12 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
       return;
     }
     if (checked || order[index].task === "study") return;
+    if (k === "-") {
+      e.preventDefault();
+      pick.said = "no";
+      pick.letters = [];
+      return check();
+    }
     if (order[index].task === "identify") {
       if (k === "?") {
         pick.said = "unsure";
@@ -568,10 +639,7 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
       return;
     }
     let changed = true;
-    if (k === "-" && (order[index].task === "detect" || order[index].simulated)) {
-      pick.said = "no";
-      pick.letters = [];
-    } else if (k === "?") addLetter("?");
+    if (k === "?") addLetter("?");
     else if (k === "Backspace") pick.letters.pop();
     else if (k === "1" || k === "2" || k === "3") pick.confidence = Number(k) as 1 | 2 | 3;
     else if (keyToLetter.has(k)) addLetter(keyToLetter.get(k)!);
@@ -596,6 +664,7 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
   renderRound();
   window.addEventListener("pagehide", persistRound);
   return () => {
+    clearReadingContext();
     persistRound();
     window.removeEventListener("pagehide", persistRound);
     main.removeEventListener("scroll", syncComparisonScroll, true);

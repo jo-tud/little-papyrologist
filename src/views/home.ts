@@ -1,5 +1,5 @@
 import { BADGES, currentStreak, rankStatus } from "../badges";
-import { drills, groups, hero, itemSetVersion, LEVELS, playSets, quizItems } from "../data";
+import { activeQuizItems, drills, groups, hero, itemSetVersion, LEVELS, playSets, quizItems } from "../data";
 import { learningAction, savedRoundLabel } from "../learning-action";
 import { summarizePractice } from "../practice";
 import { canStartFirstLine, levelAvailable, totalPoints } from "../rules";
@@ -11,9 +11,7 @@ import "../orientation.css";
 const lessonNotes: Record<string, string> = {
   "first-letters-500p2": "Recognise clear letters, then compare different handwritten forms.",
   "first-line": "Read a short group, one letter at a time. A whole line is optional.",
-  "ir-500p2": "Distinguish ink from papyrus in infrared photographs.",
   "paris4-col-8": "Read two to four letters at a time, and locate each one in the image.",
-  "harder-images": "Explore blur and missing detail. Practise when to say “not sure”.",
 };
 
 export function renderHome(main: HTMLElement): void {
@@ -28,22 +26,37 @@ export function renderHome(main: HTMLElement): void {
   const rank = rankStatus(s);
   const version = itemSetVersion();
   const resumeLabel = (id: string) => savedRoundLabel(s, id, version);
-  const levelTitles = { 1: "Photographs", 2: "Ink and short readings", 3: "Harder images" };
-
-  const levelStops = LEVELS.map(l => `<li class="path-level">
-    <h3><span class="level-number">${l.level}</span>${levelTitles[l.level]}</h3>
+  const currentLevel = playSets.find(set => set.id === next.setId)?.level
+    ?? [...LEVELS].reverse().find(level => levelAvailable(s, level.level))?.level ?? 1;
+  const currentIndex = Math.max(0, LEVELS.findIndex(level => level.level === currentLevel));
+  const firstVisible = Math.max(0, Math.min(currentIndex - 1, LEVELS.length - 3));
+  const visibleLevels = LEVELS.slice(firstVisible, firstVisible + 3);
+  const otherLevels = LEVELS.filter(level => !visibleLevels.includes(level));
+  const levelStops = (levels: typeof LEVELS) => levels.map(l => `<li class="path-level" data-level="${l.level}">
+    <h3><span class="level-number">${l.level}</span>${esc(l.title)}</h3>
     <ol class="lesson-list">${playSets.filter(p => p.level === l.level).map(p => {
       const open = levelAvailable(s, l.level) || (p.id === "first-line" && firstLineOpen);
       const done = (s.setsDone[p.id] ?? 0) > 0;
       const label = resumeLabel(p.id) ?? (done ? "Again" : "Start");
       return `<li class="lesson-stop ${done ? "done" : ""} ${next.setId === p.id ? "up-next" : ""} ${open ? "" : "locked"}">
         <div><h4>${esc(p.title)}${done ? `<span class="lesson-done"> · Finished</span>` : ""}</h4>
-        <p class="small muted">${esc(lessonNotes[p.id] ?? "Explore this lesson at your own pace.")}</p></div>
+        <p class="small muted">${esc(lessonNotes[p.id] ?? `${activeQuizItems.filter(item => item.set === p.id && !item.practice_only).length} short steps with original images.`)}</p></div>
         ${open ? `<a class="button" href="${p.href}" aria-label="${esc(label)}: ${esc(p.title)}">${esc(label)}</a>`
-          : `<span class="small muted">${s.levelOverride !== undefined ? `<a href="#/results">Choose your level</a>` : p.id === "first-line" ? "Try three real examples first" : `Finish level ${l.level - 1} first`}</span>`}
+          : `<span class="small muted">${s.levelOverride !== undefined ? `<a href="#/results">Choose your level</a>` : p.id === "first-line" ? "Try three real examples first" : "Finish the earlier levels first"}</span>`}
       </li>`;
     }).join("")}</ol>
   </li>`).join("");
+  const practiceLevels = LEVELS.filter(level => levelAvailable(s, level.level)
+    && summarizePractice(activeQuizItems, s.answers, level.level).available > 0);
+  const nearbyPractice = practiceLevels.filter(level => level.level === currentLevel || level.level === practiceLevels.at(-1)?.level);
+  const otherPractice = practiceLevels.filter(level => !nearbyPractice.includes(level));
+  const practiceLinks = (levels: typeof LEVELS) => levels.map(l => {
+    const counts = summarizePractice(activeQuizItems, s.answers, l.level);
+    const focused = Object.keys(s.rounds ?? {}).filter(id => id.startsWith(`practice-${l.level}/`) && resumeLabel(id));
+    return `<div><a class="button" href="#/practice/${l.level}">${resumeLabel(`practice-${l.level}`) ?? `Practise level ${l.level}`}</a>
+      ${focused.map(id => `<p class="small"><a href="#/practice/${l.level}/group/${id.split("/")[1]}">${resumeLabel(id)} · focused reading</a></p>`).join("")}
+      <span class="small muted">${counts.originals} source regions</span></div>`;
+  }).join("");
 
   main.innerHTML = `
   <div class="orientation-page home-page">
@@ -80,21 +93,17 @@ export function renderHome(main: HTMLElement): void {
   <section class="learning-path" aria-labelledby="path-title">
     <div class="section-heading"><h2 id="path-title">Your path</h2><span class="small muted">${setsDone}/${realSets.length} lessons finished</span></div>
     ${s.levelOverride !== undefined ? `<p class="small">Open through level ${s.levelOverride}. <a href="#/results">Change this</a>.</p>` : ""}
-    <ol class="level-path">${levelStops}</ol>
+    <ol class="level-path">${levelStops(visibleLevels)}</ol>
+    ${otherLevels.length ? `<details class="orientation-detail other-levels"><summary>All ${LEVELS.length} levels · ${otherLevels.length} more to explore</summary><ol class="level-path">${levelStops(otherLevels)}</ol></details>` : ""}
   </section>
 
   <section class="practice-library" aria-labelledby="practice-title">
     <div class="section-heading"><h2 id="practice-title">Another short round</h2><span class="small muted">Up to 12 tiles</span></div>
-    <div class="practice-options">${LEVELS.filter(l => levelAvailable(s, l.level)).map(l => {
-      const counts = summarizePractice(quizItems, s.answers, l.level);
-      const focused = Object.keys(s.rounds ?? {}).filter(id => id.startsWith(`practice-${l.level}/`) && resumeLabel(id));
-      return `<div><a class="button" href="#/practice/${l.level}">${resumeLabel(`practice-${l.level}`) ?? `Practise level ${l.level}`}</a>
-        ${focused.map(id => `<p class="small"><a href="#/practice/${l.level}/group/${id.split("/")[1]}">${resumeLabel(id)} · focused reading</a></p>`).join("")}
-        <span class="small muted">${counts.originals} source regions</span></div>`;
-    }).join("") || `<a href="#/results">Choose a practice level</a>`}</div>
+    <div class="practice-options">${practiceLinks(nearbyPractice) || `<a href="#/results">Choose a practice level</a>`}</div>
+    ${otherPractice.length ? `<details class="orientation-detail"><summary>Practice at other levels</summary><div class="practice-options">${practiceLinks(otherPractice)}</div></details>` : ""}
     <details class="orientation-detail"><summary>How practice works</summary>
       <p class="small">Short rounds revisit familiar shapes and earlier difficulties. Some source regions overlap;
-      altered versions are counted under their original region. Practice records answers without completing lessons.</p>
+      repeated views are counted under their original region. Practice records answers without completing lessons.</p>
     </details>
   </section>
 

@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { planPractice, summarizePractice } from "../src/practice.ts";
+import { browserModuleHooks } from "./browser-module-hooks.mjs";
 import type { AnswerRecord, QuizItem } from "../src/types.ts";
+const hooks = browserModuleHooks();
+const { planPractice, summarizePractice } = await import("../src/practice.ts");
+hooks.deregister();
 
 type Item = QuizItem & { base_item?: string };
 function item(id: string, extra: Partial<Item> = {}): Item {
@@ -87,7 +90,7 @@ test("Practice rounds are varied, adaptive, balanced and reproducible without ch
   assert.ok(recoveredRate > 0.8, `use the latest answer instead of a lifetime error label: ${recoveredRate}`);
 
   const withEmpties = Array.from({ length: 30 }, (_, i) => item(`mixed-${i}`, {
-    level: 2, task: "detect", truth: i < 6 ? "none" : "*",
+    level: 2, task: "read", truth: i < 6 ? "none" : "ΕΙ",
   }));
   const layouts = new Set<string>();
   for (let seed = 1; seed <= 100; seed++) {
@@ -103,6 +106,23 @@ test("Practice rounds are varied, adaptive, balanced and reproducible without ch
   assert.equal(balancedShortRound.length, 5, "shorten a round to retain a fifth empty tiles without duplicates");
   assert.equal(balancedShortRound.filter((tile) => tile.truth === "none").length, 1);
 
+});
+
+test("Historical altered and ink-only items never enter current rounds", () => {
+  const candidates = [
+    item("real", { level: 10, task: "read", truth: "ΚΑΙ" }),
+    item("empty", { level: 10, task: "read", truth: "none" }),
+    item("simulated", { level: 10, simulated: true }),
+    item("blurred", { level: 10, degradation: 2 }),
+    item("retired", { level: 10, retired: true }),
+    item("old-set", { level: 10, set: "harder-images" }),
+    item("ink-only", { level: 10, truth: "*", task: "detect" }),
+    item("whole-line", { level: 10, truth: "ΚΑΙΤΩΝ", task: "read" }),
+  ];
+  const before = JSON.stringify(candidates);
+  assert.deepEqual(new Set(planPractice(candidates, [], 10).map(entry => entry.id)), new Set(["real", "empty"]));
+  assert.equal(summarizePractice(candidates, [answer("simulated")], 10).available, 2);
+  assert.equal(JSON.stringify(candidates), before);
 });
 
 test("Focused rounds use related short readings and do not repeat the same crop or force a whole line", () => {

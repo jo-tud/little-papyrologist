@@ -23,7 +23,7 @@ const { items } = parse(readFileSync(new URL("../data/items.yaml", import.meta.u
 
 test("Alphabet originals use existing checked readings and retain group context", () => {
   const examples = resolveAlphabetExamples(items);
-  assert.deepEqual([...examples.keys()].sort(), [..."ΑΓΔΕΗΘΙΚΛΜΝΟΠΡϹΤΥΦΩ"].sort());
+  for (const char of "ΑΓΔΕΗΘΙΚΛΜΝΟΠΡϹΤΥΦΩ") assert.ok(examples.has(char));
   assert.equal(examples.get("Α")![0].item.truth, "ΚΑΙ");
   assert.equal(examples.get("Ω")![0].item.truth, "ΤΩΝ");
   assert.equal(examples.get("Λ")![0].item.truth, "ΠΛΗ");
@@ -46,6 +46,17 @@ test("Alphabet originals use existing checked readings and retain group context"
     assert.ok(item.answer_image, "partial photographed examples retain the organizer's tracing");
     assert.ok(!items.some(quiz => quiz.id === item.id), "partial alphabet photographs do not become scored questions");
   }
+});
+
+test("Reviewed corpus originals expand missing letters and include different witnesses", () => {
+  const make = (id: string, source: string[]): QuizItem => ({ ...items.find(item => item.id === "photo-248-epsilon")!,
+    id, image: `${id}.webp`, task: "read", truth: "ΒΩ", source, retired: false,
+    letter_regions: [[0, 0, .5, 1], [.5, 0, 1, 1]] });
+  const examples = resolveAlphabetExamples([...items, make("corpus-beta-paris", ["grandprize", "cerc54"]),
+    make("corpus-beta-second", ["firstscroll", "preprint1667"])]);
+  assert.ok(examples.get("Β")?.some(example => example.item.id === "corpus-beta-paris"));
+  assert.ok(examples.get("Β")?.some(example => example.item.id === "corpus-beta-second"));
+  assert.ok(examples.get("Ω")?.some(example => example.item.id === "corpus-beta-second"));
 });
 
 test("Alphabet reference rejects altered, uncertain, mismatched or uncredited originals", () => {

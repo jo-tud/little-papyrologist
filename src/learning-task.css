@@ -43,12 +43,14 @@
 .task-answer .keyboard { max-width: none; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: .25rem; }
 .task-answer .key { min-height: 3rem; padding: .2rem 0; font-size: 1.2rem; }
 .task-answer .key .letter-name { font-size: .58rem; }
-.task-answer .typed { margin: 0 0 .5rem; }
+.task-answer .typed { margin: 0 0 .5rem; line-height: 1.4; }
+.task-answer .typed > .small { display: block; line-height: 1.4; }
 .hand-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
 .other-hand { margin: 0; min-width: 0; }
 .other-hand img { display: block; width: 100%; height: 20rem; object-fit: contain; background: #161819; border-radius: .5rem; }
 .other-hand figcaption { margin-top: .5rem; font-size: .85rem; }
 .hand-comparison .viewer-toolbar { flex-wrap: wrap; }
+.reading-context { display: none; }
 @media (max-width: 700px) {
   .learning-task { padding-bottom: 4.5rem; }
   .task-workspace { grid-template-columns: minmax(0, 1fr); gap: .9rem; }
@@ -57,6 +59,8 @@
   .task-details { margin-top: 1rem; }
   .task-answer .learning-hint { font-size: .95rem; }
   .task-answer .key { min-height: 2.9rem; }
+  .task-answer .keyboard { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .task-answer .key .letter-name { font-size: .65rem; }
   .learning-task .task-workspace .task-body { min-height: 0; }
   .task-answer .task-actions {
     position: fixed; z-index: 10; bottom: 0; left: 0; right: 0;
@@ -64,10 +68,21 @@
     min-height: 4rem; background: var(--sheet); border-top: 1px solid var(--rule);
     flex-wrap: nowrap;
   }
-  .task-answer .task-actions > button { flex: 1; min-height: 2.75rem; }
+  .task-answer .task-actions > button { flex: 1; min-height: 2.75rem; font-size: .9rem; white-space: nowrap; }
   .task-answer .task-actions > .linkish { font-size: .8rem; }
   html:has(.learning-task) { scroll-padding-bottom: 5rem; }
   .learning-task button { scroll-margin-bottom: 5rem; }
+  .reading-context:not([hidden]) {
+    display: block; position: fixed; z-index: 9; inset: 0 0 auto;
+    width: 100%; margin: 0; padding: .35rem 1rem;
+    background: var(--sheet); color: var(--basalt); border: 0;
+    border-bottom: 1px solid var(--rule); border-radius: 0;
+  }
+  .reading-context img { display: block; width: 100%; height: 5rem; object-fit: contain; background: #161819; border-radius: .3rem; }
+  .reading-context-caption { display: flex; justify-content: space-between; align-items: center; gap: .5rem; min-height: 1.4rem; font-size: .7rem; font-weight: 400; }
+  .reading-context-reading { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 55%; font-size: 1.1rem; }
+  html:has(.reading-context:not([hidden])) { scroll-padding-top: 8rem; }
+  .learning-task .keyboard button { scroll-margin-top: 8rem; }
   .other-hand img { height: 14rem; }
 }
 @media (max-width: 700px) and (max-height: 760px) {

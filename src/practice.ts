@@ -1,4 +1,5 @@
 import type { AnswerRecord, QuizItem } from "./types";
+import { isPracticeItem } from "./curriculum";
 
 type PracticeItem = QuizItem & { base_item?: string };
 type PracticeAnswer = AnswerRecord & { help_used?: boolean | null };
@@ -21,8 +22,7 @@ export interface PracticeSummary {
 function pool(items: readonly PracticeItem[], level: number): PracticeItem[] {
   const unique = new Map<string, PracticeItem>();
   for (const item of items)
-    if (item.level === level && item.task !== "study"
-      && (item.task !== "read" || item.truth.length <= 4) && !unique.has(item.id)) unique.set(item.id, item);
+    if (isPracticeItem(item, level) && !unique.has(item.id)) unique.set(item.id, item);
   return [...unique.values()];
 }
 
@@ -69,7 +69,7 @@ export function summarizePractice(
  * Choose a short round without changing answers, points or completed lessons.
  * New originals and previous difficulties receive more practice. Variants of
  * the same original are spaced apart; they never count as new source material.
- * In levels 2–3, at least a fifth of a round is empty when empty tiles exist.
+ * From level 2, at least a fifth of a round is empty when empty tiles exist.
  * A small pool returns a shorter round, rather than repeating an identical tile.
  */
 export function planPractice(

@@ -68,6 +68,8 @@ export function renderAlphabet(main: HTMLElement): void {
       ${selected ? (() => {
         const { item, description, partial, study } = selected;
         const photographed = item.source.includes("profilometer");
+        const reading = item.reading ?? "";
+        const sourceReading = photographed || /^PHerc\./.test(reading) ? reading : `PHerc. Paris 4, ${reading}`;
         return `<div class="alphabet-example-heading">
           <span>${photographed ? "Photograph" : "CT ink map"}${partial ? " · Partial letter" : study ? " · Study the handwriting" : ""}</span>
           <div class="alphabet-example-nav" aria-label="Browse examples">
@@ -94,7 +96,7 @@ export function renderAlphabet(main: HTMLElement): void {
           <p class="alphabet-description">${esc(description)}</p>
           <p class="alphabet-credit cite">${esc(item.credit)} · ${esc(item.license)}</p>
           <details class="alphabet-source"><summary>Reading and source</summary>
-            <p>${photographed ? esc(item.reading ?? "") : `PHerc. Paris 4, ${esc(item.reading ?? "")}`}.
+            <p>${esc(sourceReading)}.
               ${photographed ? "Named by the organizers in the published dataset." : "Letter identities come from the papyrologists’ edition; bright marks are a CT ink-detection model’s output."}</p>
             <p><strong class="greek" lang="grc">${esc(item.truth)}</strong>: ${Array.from(item.truth).map(char => esc(letterName(char))).join(" · ")}.</p>
             ${item.letter_regions ? "<p>Frames show approximate letter locations, not ink tracings. A frame can include touching strokes from a neighbour.</p>" : ""}

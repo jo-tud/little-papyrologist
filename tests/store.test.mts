@@ -8,12 +8,14 @@ import type { RoundSession } from "../src/round-session.ts";
 // The browser bundler resolves extensionless imports; give Node the same dependency.
 const hooks = registerHooks({
   resolve(specifier, context, nextResolve) {
+    if (specifier === "./data" && context.parentURL?.endsWith("/src/store.ts"))
+      return { url: `data:text/javascript,export const availableLevelNumbers = ${JSON.stringify(Array.from({ length: 13 }, (_, level) => level))};`, shortCircuit: true };
     if (specifier === "./round-session" && context.parentURL?.endsWith("/src/store.ts"))
       return nextResolve("./round-session.ts", context);
     return nextResolve(specifier, context);
   },
 });
-const { addAnswer, clearAll, exportPayload, importText, load, saveRound, state } = await import("../src/store.ts");
+const { addAnswer, clearAll, exportPayload, importText, load, saveRound, setLevelOverride, state } = await import("../src/store.ts");
 hooks.deregister();
 
 const storage = new Map<string, string>();
@@ -58,5 +60,28 @@ test("Import accepts historical ratings and explicit null, but rejects missing o
   const result = importText(JSON.stringify({ app: "little-papyrologist", answers }));
   assert.deepEqual(result, { added: 4, duplicates: 0, skipped: 4 });
   assert.deepEqual(state().answers.map(a => a.confidence), [null, 1, 2, 3]);
+  clearAll();
+});
+
+test("Multi-digit manual levels survive backup while old altered-image history stays unchanged", () => {
+  clearAll();
+  const historical = { ...answer, item_id: "harder-d3-line", level: 3, degradation: 3, simulated: true, reading_points: 7 };
+  const modern = { ...answer, item_id: "original-level-10", level: 10, presence_asked: false, reading_points: 2 };
+  importText(JSON.stringify({ app: "little-papyrologist", answers: [historical, modern],
+    progress: { level_override: 10, sets_done: { "harder-images": 1 } } }));
+  assert.equal(state().levelOverride, 10);
+  assert.equal(state().setsDone["harder-images"], 1);
+  assert.deepEqual(state().answers, [historical, modern]);
+  const backup = JSON.stringify(exportPayload("test", "test-items"));
+  clearAll();
+  importText(backup);
+  assert.equal(state().levelOverride, 10);
+  assert.deepEqual(state().answers, [historical, modern]);
+  setLevelOverride(12);
+  assert.equal(load().levelOverride, 12);
+  setLevelOverride(999);
+  assert.equal(state().levelOverride, 12, "unknown levels must not become selectable");
+  setLevelOverride();
+  assert.equal(state().levelOverride, undefined);
   clearAll();
 });

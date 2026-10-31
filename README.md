@@ -2,7 +2,7 @@
 
 A small, unofficial trainer for reading Greek letters on the Herculaneum scrolls, and for noticing when there are none.
 
-Start with real photographs and tap a letter name to see the published reading. Later exercises ask you to read groups of two to four letters and judge whether ink is visible. Confidence ratings, background and sources are available on request. Tap a letter in a short published reading to locate its approximate area in the image. Original and reference images can be compared side by side or switched in the same position with A/B view; checking an answer keeps the image, zoom and pan in place.
+Start with real photographs and tap a letter name to see the published reading. Later exercises ask you to read groups of two to four letters, with a “No letters” answer in the same task. Buttons show simplified handwritten forms beside the printed letter and its name. Confidence ratings, background and sources are available on request. Tap a letter in a short published reading to locate its approximate area in the image. Original and reference images can be compared side by side or switched in the same position with A/B view; checking an answer keeps the image, zoom and pan in place.
 
 Points are given for honest answers as well as for correct ones. A correct "no letter" on an empty tile, or "can't tell" where the deciding stroke is lost, both earn points.
 
@@ -12,12 +12,13 @@ Points are given for honest answers as well as for correct ones. A correct "no l
 
 ## Status
 
-- **The alphabet** introduces all 24 letter names, with checked originals for 19 letters in 30 distinct image views. Some groups overlap or show several letters; these are not 30 independent handwriting samples. A compact letter index, variants and position markers make them easy to compare. Missing examples and partial or faint forms are labelled openly. Simplified drawings are optional references. **Level 0** offers five optional sets of look-alikes (Ε/Ϲ/Ο/Θ, Α/Λ/Δ, Η/Ν/Π, Ι/Τ/Γ, Μ/Ν), with empty and damaged tiles and short, sourced reading breaks.
+- **12 levels** include 109 newly curated original regions: 86 short letter groups and 23 spaces between columns. They add 79 distinct letter sequences from two scrolls, with 279 reviewed letter positions. One group introduces the second hand without a score. These are regions from two text witnesses, not 86 independent hands.
+- **The alphabet** introduces all 24 letter names, with checked originals for 21 letters in 109 image views, from named photographs and edition-backed groups in two scrolls. Beta, Xi and Psi still lack an admitted original example. Several letters can share a group; image counts are not counts of independent hands. A compact letter index, variants and position markers make them easy to compare. Missing examples and partial or faint forms are labelled openly. Simplified drawings are optional references. **Level 0** offers five optional sets of look-alikes (Ε/Ϲ/Ο/Θ, Α/Λ/Δ, Η/Ν/Π, Ι/Τ/Γ, Μ/Ν), with empty and damaged tiles and short, sourced reading breaks.
 - **Ranks and badges** follow your path through the levels. Both are defined in `data/ranks.yaml` and `data/badges.yaml`. New material counts towards them automatically.
 - **Level 1** is open from the start: a clear, rounded Epsilon, then an uneven Omicron and the pair Iota–Tau. Letter choices show feedback immediately, without a separate confidence question. Clues and reference drawings help connect handwriting with printed letter names. You can then explore three unscored examples of Nu and Eta, or try the first short reading lesson and return later. All six photographs come from named samples of PHerc. 248, 250 and 500P2 in the organizers' profilometry dataset. No answers come from model predictions.
-- **Level 2** starts with short groups, compares the same letters in different places, and explains connected handwriting without scoring it. Reading guides can be opened when needed. Further rounds distinguish ink from papyrus in infrared photos, then explore groups of two to four letters from PHerc. Paris 4, columns −8 and −12, interspersed with small ink/empty windows. Whole lines are a separate optional challenge. Answers come from the organizers' tracing or the published edition, according to the task. Letter-position frames are approximate teaching aids, distinct from the organizers' ink tracings.
-- **Level 3** introduces five controlled changes: blur, noise, low contrast, coarser sampling and partial covering. Each altered image keeps its unchanged source for comparison. These are teaching variants, not simulations of a stated scanner resolution. A source reading does not prove that a stroke remains visible after alteration.
-- **Repeat practice** offers short rounds at each level, favouring unfamiliar source images and previous difficulties. Crops and altered versions are counted under their original source; they are not presented as independent handwriting samples. Practice records answers without completing lessons. The library includes a later guided Rho example and extra edition-backed fragments. “Practise this group” opens a focused round of related short readings after feedback.
+- **Level 2** starts with short groups, compares the same letters in different places, and explains connected handwriting without scoring it. Reading guides can be opened when needed. Groups from PHerc. Paris 4 are mixed with real spaces between columns. Whole lines are a separate optional challenge. Letter-position frames are approximate teaching aids, distinct from the organizers' ink tracings.
+- **Levels 3–12** add new combinations from multiple columns of PHerc. Paris 4 and a second hand in PHerc. 1667. Later rounds use naturally harder originals, without added blur, noise or covering. Each short group has its published reading and individually reviewed approximate letter positions. Restored and underdotted edition letters are excluded from scored targets.
+- **Repeat practice** offers short rounds at each level, favouring unfamiliar source images and previous difficulties. Practice records answers without completing lessons. Historical altered images and ink-only questions remain in the data for old results but cannot enter a new round.
 - The Vesuvius Challenge has confirmed that the images may be used, with credit (see [LICENSES.md](LICENSES.md)).
 
 ## Run it
@@ -31,7 +32,7 @@ npm run build    # checks the data, builds one self-contained dist/index.html
 
 `dist/index.html` also works when opened straight from the folder, together with `dist/images/`.
 
-To rebuild the image tiles from `data/crops.yaml` (downloads the public source images once):
+To rebuild the image tiles from the crop and corpus manifests (downloads the public source images once):
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r tools/requirements.txt
@@ -47,12 +48,16 @@ Every push to `main` builds the site and publishes it on GitHub Pages (`.github/
 |---|---|
 | `data/glyphs.yaml` | the letter drawings, one named path per stroke |
 | `data/stage0.yaml` | facts with sources, look-alike sets and drawn tiles |
-| `data/crops.yaml` | which crops to cut for levels 1–3, and where their answers come from |
+| `data/crops.yaml` | early lessons, alphabet references and retained historical crops |
+| `data/corpus-*.yaml` | reviewed original crops, source hashes, editions, positions and lesson order |
+| `data/levels.yaml` | level names and descriptions |
+| `data/letter-forms.yaml` | additional simplified handwritten forms, tied to checked examples |
 | `data/items.yaml` | the resulting quiz items (generated: image, reading, source, license, credit, date) |
 | `data/alphabet-items.yaml` | additional source-checked alphabet references, including forms unsuitable for early quizzes |
 | `data/letter-regions.yaml` | reviewed approximate letter positions, matched to a source image and reading |
 | `tools/make_items.py` | builds the tiles from verified sources and edition text |
-| `tools/lesson_items.py`, `tools/short_reading_items.py`, `tools/degrade_items.py` | source-aligned short readings, optional whole lines and reproducible altered-image practice |
+| `tools/lesson_items.py`, `tools/short_reading_items.py`, `tools/corpus_items.py` | source-aligned short readings, optional whole lines and the expanded original corpus |
+| `tools/degrade_items.py` | reproduction of retired historical images only |
 | `tools/alphabet_items.py` | checks source image hashes and edition ranges for additional alphabet examples |
 | `src/practice.ts` | selects varied repeat rounds and focused short-group practice |
 | `src/round-session.ts` | validates saved round order, draft input and answered steps |
@@ -62,7 +67,7 @@ Every push to `main` builds the site and publishes it on GitHub Pages (`.github/
 | `tools/validate-data.mjs` | refuses items without a reliable answer, a source, a license or a check date |
 | `tools/check-public.mjs` | stops local paths and private terms from reaching the repo or the site |
 
-Crop selections and source readings are specified in `data/crops.yaml`. Additional teaching fragments retain their source coordinates and character ranges for checking against the edition.
+Crop selections and source readings are specified in the crop and corpus manifests. New corpus crops use lossless WebP, preserving the decoded pixels of the published source image. Additional teaching fragments retain their source coordinates and character ranges for checking against the edition.
 
 ## Your data
 
