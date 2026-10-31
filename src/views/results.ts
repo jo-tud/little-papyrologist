@@ -3,7 +3,9 @@ import { clearAll, exportPayload, importText, isPersistent, setLevelOverride, st
 import { progressAfterAnswer, syncRankChip } from "../progress-ui";
 import { align, answerOutcome, readingStats } from "../scoring";
 import type { AnswerRecord } from "../types";
-import { tip } from "../ui";
+import { learningAction } from "../learning-action";
+import { levelAvailable } from "../rules";
+import "../orientation.css";
 import { esc, pct } from "../util";
 
 const APP_VERSION = "0.1.0";
@@ -107,8 +109,12 @@ function download(): void {
 }
 
 export function renderResults(main: HTMLElement, openBackup = false): void {
-  const answers = state().answers;
-  const confidenceUnasked = answers.filter((a) => a.confidence === null).length;
+  const current = state();
+  const answers = current.answers;
+  const next = learningAction(current);
+  const finishedLessons = playSets.filter(p => p.level > 0 && current.setsDone[p.id]).length;
+  const practiceLevel = [...answers].reverse().find(a => a.level > 0 && levelAvailable(current, a.level))?.level;
+  const confidenceMissing = answers.filter((a) => a.confidence === null).length;
   const hasProgress = hasSavedProgress();
   const rows = summarise(answers);
   const conf = confusions(answers);
@@ -127,16 +133,17 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
   ];
 
   main.innerHTML = `
+  <div class="orientation-page results-page">
   <h1>My results</h1>
-  ${
-    isPersistent()
-      ? `<p>Your answers are saved in this browser only. Nothing is sent anywhere.</p>`
-      : `<p><strong>This browser does not allow saving.</strong> Your answers are kept only until you close the page.</p>`
-  }
-  ${
-    answers.length === 0
-      ? tip(`Your first discoveries will appear here. <a href="#/quiz/first-letters-500p2">Start with real letters</a>.`)
-      : `
+  <section class="results-overview" aria-label="Your progress and next step">
+    ${answers.length ? `<div class="result-counts"><p><strong>${answers.length}</strong> answers</p>
+      <p><strong>${finishedLessons}</strong> lessons finished</p></div>` : `<p>Your first discoveries will appear here.</p>`}
+    <a class="button primary learning-continue" id="learning-continue" href="${next.href}">${esc(next.label)} →</a>
+    ${practiceLevel && next.href !== `#/practice/${practiceLevel}` ? `<p class="small" id="results-practice-link"><a href="#/practice/${practiceLevel}">Try another short round at level ${practiceLevel}</a></p>` : ""}
+    <p class="small muted">${isPersistent() ? "Saved in this browser only." : "This browser cannot save progress. Back up before closing the page."}</p>
+  </section>
+  ${answers.length ? `<details class="orientation-detail result-details" id="result-details">
+  <summary>Detailed results · accuracy, mix-ups and confidence</summary>
   <h2>By level</h2>
   <div class="table-wrap" tabindex="0" role="region" aria-label="Results by level, scroll to see all columns"><table>
     <thead><tr>
@@ -171,38 +178,37 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
   <p>${realAnswers.length} answers on photographed or scan-derived material, from ${originals} source regions.
   ${realAnswers.filter((a) => a.practice).length} answers came from extra practice rounds.
   Altered versions count under their original region; some regions overlap. Returning to one image is repetition, not a new sample.</p>
-  <div class="table-wrap"><table><thead><tr><th>Reading mode</th><th class="num">Answers</th><th class="num">Fully matched</th></tr></thead><tbody>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Reading modes, scroll to see all columns"><table><thead><tr><th>Reading mode</th><th class="num">Answers</th><th class="num">Fully matched</th></tr></thead><tbody>
     ${modes.map(({ title, list }) => `<tr><td>${title}</td><td class="num">${list.length}</td><td class="num">${pct(list.filter((a) => readingStats(a)?.complete).length, list.length)}</td></tr>`).join("")}
   </tbody></table></div>
   <p class="small muted">Older saved answers may not record help use and are left out of the last two rows.
   “Without clues or a guide” describes that attempt; a familiar image may have appeared before.
   Displayed matches are derived from your saved response and reference. Your original points and saved answers stay unchanged.</p>
-  ${answers.some((a) => a.simulated) ? `<h3>Altered-image practice</h3><div class="table-wrap"><table><thead><tr><th>Difficulty</th><th class="num">Answers</th><th class="num">Not sure</th></tr></thead><tbody>
+  ${answers.some((a) => a.simulated) ? `<h3>Altered-image practice</h3><div class="table-wrap" tabindex="0" role="region" aria-label="Altered-image practice, scroll to see all columns"><table><thead><tr><th>Difficulty</th><th class="num">Answers</th><th class="num">Not sure</th></tr></thead><tbody>
     ${[1, 2, 3, 4, 5].map((degree) => { const list = answers.filter((a) => a.simulated && a.degradation === degree); return `<tr><td>${degree}/5</td><td class="num">${list.length}</td><td class="num">${list.filter((a) => a.said_text === "unsure" || a.letters.includes("?")).length}</td></tr>`; }).join("")}
     </tbody></table></div><p class="small muted">These are controlled image changes, not scanner resolutions. Their source readings do not establish what remains visible after alteration.</p>` : ""}
 
   <h2>Most frequent mix-ups</h2>
   ${
     conf.length
-      ? `<div class="table-wrap"><table><thead><tr><th>Answer → you said</th><th class="num">Times</th></tr></thead><tbody>
+      ? `<div class="table-wrap" tabindex="0" role="region" aria-label="Most frequent mix-ups, scroll to see all columns"><table><thead><tr><th>Answer → you said</th><th class="num">Times</th></tr></thead><tbody>
         ${conf.map(([k, n]) => `<tr><td class="greek">${esc(k)}</td><td class="num">${n}</td></tr>`).join("")}
         </tbody></table></div>`
       : `<p>No mix-ups so far.</p>`
   }
 
   <h2>How sure were you?</h2>
-  <div class="table-wrap"><table><thead><tr><th>You said</th><th class="num">Answers</th><th class="num">Matched reference</th><th class="num">Left open</th><th class="num">Incorrect</th></tr></thead>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Confidence results, scroll to see all columns"><table><thead><tr><th>You said</th><th class="num">Answers</th><th class="num">Matched reference</th><th class="num">Left open</th><th class="num">Incorrect</th></tr></thead>
   <tbody>${confidenceRows(answers)}</tbody></table></div>
-  ${confidenceUnasked ? `<p class="small muted">Confidence was not asked for ${confidenceUnasked} ${confidenceUnasked === 1 ? "answer" : "answers"}. These attempts count in your results above and are left out of this confidence table.</p>` : ""}
+  ${confidenceMissing ? `<p class="small muted">No confidence rating was recorded for ${confidenceMissing} ${confidenceMissing === 1 ? "answer" : "answers"}. These attempts count in your results above and are left out of this confidence table.</p>` : ""}
   <p class="small muted">A full match means a complete reading or a correct writing/no-writing decision.
   Leaving something open is recorded separately, including caution that earned honesty points.
-  These counts mix choices, clues, free reading and repeated images; they describe your practice, not a test of independent reading ability or confidence calibration.</p>`
-  }
+  These counts mix choices, clues, free reading and repeated images; they describe your practice, not a test of independent reading ability or confidence calibration.</p>
+  </details>` : ""}
 
-  <section class="practice-settings" aria-labelledby="practice-settings-title">
-    <h2 id="practice-settings-title">Your practice level</h2>
-    <p class="small">Want to jump ahead or revisit the basics? Choose which levels to open.
-    This changes access only; your answers, completed sets, points and ranks stay as they are.</p>
+  <details class="orientation-detail practice-settings" id="practice-settings">
+    <summary id="practice-settings-title">Choose your level</summary>
+    <p class="small">Jump ahead or revisit the basics. This changes access; your completed work stays saved.</p>
     <label for="practice-level">Open exercises through</label>
     <div class="row">
       <select id="practice-level">
@@ -214,13 +220,11 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
     </div>
     <p class="small muted" id="level-note" role="status">${state().levelOverride !== undefined ? `Manually opened through level ${state().levelOverride}.` : "Start with real letters in level 1, then unlock later levels through practice. The drawing exercises are optional."}</p>
     <a class="button" href="#/">Back to the path →</a>
-  </section>
+  </details>
 
-  <details class="backup" id="backup">
+  <details class="orientation-detail backup" id="backup">
     <summary>Back up or move your progress</summary>
-    <p class="small">Your progress lives only in this browser. To keep a copy or move to another
-    browser, save it as a file and load it there. Loading adds to what is already here; nothing is
-    overwritten.</p>
+    <p class="small">Save a copy to keep or load in another browser. Loading merges saved answers; a valid saved round can replace an older local round.</p>
     <div class="row">
       <button type="button" id="export" ${hasProgress ? "" : "disabled"}>Save as file</button>
       <button type="button" id="copy" ${hasProgress ? "" : "disabled"}>Copy as text</button>
@@ -239,8 +243,8 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
     badges, ranks and practice settings.</p>
   </details>
 
-  <section class="reset-progress" aria-labelledby="reset-title">
-    <h2 id="reset-title">Start fresh</h2>
+  <details class="orientation-detail reset-progress" id="reset-progress">
+    <summary id="reset-title">Reset all progress</summary>
     <p class="small muted">Reset your answers, points, badges, ranks and practice settings in this browser.
     You can save a backup above first.</p>
     <button type="button" id="clear" ${hasProgress ? "" : "disabled"}>Reset all progress…</button>
@@ -251,11 +255,18 @@ export function renderResults(main: HTMLElement, openBackup = false): void {
         <button type="button" class="primary" id="clear-no">Keep my progress</button>
       </div>
     </div>
-  </section>`;
+  </details>
+  </div>`;
 
   const $ = <T extends HTMLElement>(sel: string) => main.querySelector<T>(sel)!;
   const applyLevel = (value: string) => {
     setLevelOverride(value === "auto" ? undefined : Number(value));
+    const updated = learningAction(state());
+    const continueLink = $<HTMLAnchorElement>("#learning-continue");
+    continueLink.href = updated.href;
+    continueLink.textContent = `${updated.label} →`;
+    const practiceLink = main.querySelector<HTMLElement>("#results-practice-link");
+    if (practiceLink && practiceLevel) practiceLink.hidden = !levelAvailable(state(), practiceLevel) || updated.href === `#/practice/${practiceLevel}`;
     $<HTMLSelectElement>("#practice-level").value = value;
     $<HTMLButtonElement>("#reset-level").disabled = value === "auto";
     $("#level-note").textContent = value === "auto" ? "Automatic progress restored. Your completed work is unchanged." : `Practice is open through level ${value}. Your completed work is unchanged.`;

@@ -1,0 +1,967 @@
+# Letter locations for the trainer, matched to the named sample or edition order.
+# Normalized [left, top, right, bottom] rectangles in the unaltered image.
+# These approximate orientation frames are not ink tracings or character masks.
+# Overlap is deliberate where neighbouring handwritten strokes meet.
+# A crop change requires a new visual check; keep source_crop in sync.
+items:
+- id: photo-248-epsilon
+  truth: Ε
+  image: photo-248-epsilon.webp
+  regions: &id002
+  - - 0.01
+    - 0.01
+    - 0.87
+    - 0.96
+  source: &id001
+  - profilometer
+  - topography2026
+  checked: '2026-10-31'
+- id: photo-250-omicron
+  truth: Ο
+  image: photo-250-omicron.webp
+  regions: &id003
+  - - 0.04
+    - 0.015
+    - 0.9
+    - 0.94
+  source: *id001
+  checked: '2026-10-31'
+- id: photo-500p2-iota-tau
+  truth: ΙΤ
+  image: photo-500p2-iota-tau.webp
+  regions: &id004
+  - - 0.065
+    - 0.2
+    - 0.29
+    - 0.76
+  - - 0.32
+    - 0.1
+    - 0.91
+    - 1
+  source: *id001
+  checked: '2026-10-31'
+- id: photo-500p2-nu2
+  truth: Ν
+  image: photo-500p2-nu2.webp
+  regions: &id005
+  - - 0.09
+    - 0.29
+    - 0.99
+    - 1
+  source: *id001
+  checked: '2026-10-31'
+- id: photo-500p2-nu
+  truth: Ν
+  image: photo-500p2-nu.webp
+  regions: &id006
+  - - 0.01
+    - 0.03
+    - 0.99
+    - 0.89
+  source: *id001
+  checked: '2026-10-31'
+- id: photo-500p2-eta
+  truth: Η
+  image: photo-500p2-eta.webp
+  regions: &id007
+  - - 0.045
+    - 0.075
+    - 0.88
+    - 1
+  source: *id001
+  checked: '2026-10-31'
+- id: photo-250-rho
+  truth: Ρ
+  image: photo-250-rho.webp
+  regions:
+  - - 0.17
+    - 0.11
+    - 0.83
+    - 0.88
+  source: *id001
+  checked: '2026-10-31'
+- id: first-line-epsilon
+  truth: Ε
+  image: first-line-epsilon.webp
+  source_crop:
+  - 8294
+  - 453
+  - 8355
+  - 552
+  regions:
+  - - 0.016393
+    - 0.121212
+    - 0.983607
+    - 0.777778
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-gamma-epsilon
+  truth: ΓΕ
+  image: first-line-gamma-epsilon.webp
+  source_crop:
+  - 8238
+  - 453
+  - 8355
+  - 552
+  regions:
+  - - 0.059829
+    - 0.131313
+    - 0.478632
+    - 0.878788
+  - - 0.487179
+    - 0.131313
+    - 0.991453
+    - 0.777778
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-gamma-epsilon-iota
+  truth: ΓΕΙ
+  image: first-line-gamma-epsilon-iota.webp
+  source_crop:
+  - 8238
+  - 453
+  - 8382
+  - 552
+  regions:
+  - - 0.048611
+    - 0.131313
+    - 0.388889
+    - 0.878788
+  - - 0.395833
+    - 0.131313
+    - 0.805556
+    - 0.777778
+  - - 0.819444
+    - 0.161616
+    - 1.0
+    - 0.747475
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-gamma-epsilon-iota-nu
+  truth: ΓΕΙΝ
+  image: first-line-gamma-epsilon-iota-nu.webp
+  source_crop: &id012
+  - 8238
+  - 453
+  - 8454
+  - 552
+  regions:
+  - - 0.032407
+    - 0.131313
+    - 0.259259
+    - 0.878788
+  - - 0.263889
+    - 0.131313
+    - 0.537037
+    - 0.777778
+  - - 0.546296
+    - 0.161616
+    - 0.671296
+    - 0.747475
+  - - 0.671296
+    - 0.121212
+    - 0.99537
+    - 0.79798
+  source: &id013
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-iota-eta-l12
+  truth: ΙΗ
+  image: first-line-iota-eta-l12.webp
+  source_crop:
+  - 8750
+  - 1135
+  - 8870
+  - 1235
+  regions:
+  - - 0.041667
+    - 0.3
+    - 0.358333
+    - 0.8
+  - - 0.358333
+    - 0.08
+    - 0.991667
+    - 0.77
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-iota-eta-l16
+  truth: ΙΗ
+  image: first-line-iota-eta-l16.webp
+  source_crop:
+  - 8406
+  - 1550
+  - 8506
+  - 1635
+  regions:
+  - - 0.01
+    - 0.117647
+    - 0.38
+    - 0.917647
+  - - 0.38
+    - 0.094118
+    - 0.99
+    - 0.905882
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-pi-lambda-eta
+  truth: ΠΛΗ
+  image: first-line-pi-lambda-eta.webp
+  source_crop:
+  - 8914
+  - 452
+  - 9103
+  - 530
+  regions:
+  - - 0.0
+    - 0.141026
+    - 0.439153
+    - 0.858974
+  - - 0.343915
+    - 0.153846
+    - 0.730159
+    - 0.910256
+  - - 0.661376
+    - 0.038462
+    - 0.994709
+    - 0.833333
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-epsilon-recall
+  truth: Ε
+  image: first-line-epsilon.webp
+  source_crop:
+  - 8294
+  - 453
+  - 8355
+  - 552
+  regions:
+  - - 0.016393
+    - 0.121212
+    - 0.983607
+    - 0.777778
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-gamma-epsilon-recall
+  truth: ΓΕ
+  image: first-line-gamma-epsilon.webp
+  source_crop:
+  - 8238
+  - 453
+  - 8355
+  - 552
+  regions:
+  - - 0.059829
+    - 0.131313
+    - 0.478632
+    - 0.878788
+  - - 0.487179
+    - 0.131313
+    - 0.991453
+    - 0.777778
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-gamma-epsilon-iota-recall
+  truth: ΓΕΙ
+  image: first-line-gamma-epsilon-iota.webp
+  source_crop:
+  - 8238
+  - 453
+  - 8382
+  - 552
+  regions:
+  - - 0.048611
+    - 0.131313
+    - 0.388889
+    - 0.878788
+  - - 0.395833
+    - 0.131313
+    - 0.805556
+    - 0.777778
+  - - 0.819444
+    - 0.161616
+    - 1.0
+    - 0.747475
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-gamma-epsilon-iota-nu-recall
+  truth: ΓΕΙΝ
+  image: first-line-gamma-epsilon-iota-nu.webp
+  source_crop:
+  - 8238
+  - 453
+  - 8454
+  - 552
+  regions:
+  - - 0.032407
+    - 0.131313
+    - 0.259259
+    - 0.878788
+  - - 0.263889
+    - 0.131313
+    - 0.537037
+    - 0.777778
+  - - 0.546296
+    - 0.161616
+    - 0.671296
+    - 0.747475
+  - - 0.671296
+    - 0.121212
+    - 0.99537
+    - 0.79798
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-iota-eta-l12-recall
+  truth: ΙΗ
+  image: first-line-iota-eta-l12.webp
+  source_crop:
+  - 8750
+  - 1135
+  - 8870
+  - 1235
+  regions:
+  - - 0.041667
+    - 0.3
+    - 0.358333
+    - 0.8
+  - - 0.358333
+    - 0.08
+    - 0.991667
+    - 0.77
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-iota-eta-l16-recall
+  truth: ΙΗ
+  image: first-line-iota-eta-l16.webp
+  source_crop:
+  - 8406
+  - 1550
+  - 8506
+  - 1635
+  regions:
+  - - 0.01
+    - 0.117647
+    - 0.38
+    - 0.917647
+  - - 0.38
+    - 0.094118
+    - 0.99
+    - 0.905882
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-pi-lambda-eta-recall
+  truth: ΠΛΗ
+  image: first-line-pi-lambda-eta.webp
+  source_crop:
+  - 8914
+  - 452
+  - 9103
+  - 530
+  regions:
+  - - 0.0
+    - 0.141026
+    - 0.439153
+    - 0.858974
+  - - 0.343915
+    - 0.153846
+    - 0.730159
+    - 0.910256
+  - - 0.661376
+    - 0.038462
+    - 0.994709
+    - 0.833333
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-extra-l05-iota
+  truth: Ι
+  image: first-line-extra-l05-iota.webp
+  source_crop:
+  - 8357
+  - 453
+  - 8383
+  - 552
+  regions:
+  - - 0.076923
+    - 0.151515
+    - 0.961538
+    - 0.767677
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-extra-l05-nu
+  truth: Ν
+  image: first-line-extra-l05-nu.webp
+  source_crop:
+  - 8384
+  - 453
+  - 8454
+  - 552
+  regions:
+  - - 0.0
+    - 0.10101
+    - 0.985714
+    - 0.79798
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-extra-l08-iota
+  truth: Ι
+  image: first-line-extra-l08-iota.webp
+  source_crop:
+  - 9055
+  - 744
+  - 9100
+  - 826
+  regions:
+  - - 0.244444
+    - 0.04878
+    - 0.666667
+    - 0.756098
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-extra-l12-eta
+  truth: Η
+  image: first-line-extra-l12-eta.webp
+  source_crop:
+  - 8793
+  - 1135
+  - 8870
+  - 1235
+  regions:
+  - - 0.0
+    - 0.08
+    - 0.987013
+    - 0.77
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-extra-l16-eta
+  truth: Η
+  image: first-line-extra-l16-eta.webp
+  source_crop:
+  - 8444
+  - 1550
+  - 8506
+  - 1635
+  regions:
+  - - 0.0
+    - 0.094118
+    - 0.983871
+    - 0.905882
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-extra-l12-iota
+  truth: Ι
+  image: first-line-extra-l12-iota.webp
+  source_crop:
+  - 8750
+  - 1135
+  - 8793
+  - 1235
+  regions:
+  - - 0.116279
+    - 0.3
+    - 0.976744
+    - 0.8
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-extra-l16-iota
+  truth: Ι
+  image: first-line-extra-l16-iota.webp
+  source_crop:
+  - 8406
+  - 1550
+  - 8444
+  - 1635
+  regions:
+  - - 0.026316
+    - 0.117647
+    - 0.973684
+    - 0.917647
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-extra-l12-iota-eta
+  truth: ΙΗ
+  image: first-line-extra-l12-iota-eta.webp
+  source_crop: &id008
+  - 8750
+  - 1135
+  - 8870
+  - 1235
+  regions:
+  - - 0.041667
+    - 0.3
+    - 0.358333
+    - 0.8
+  - - 0.358333
+    - 0.08
+    - 0.991667
+    - 0.77
+  source: &id009
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: first-line-extra-l16-iota-eta
+  truth: ΙΗ
+  image: first-line-extra-l16-iota-eta.webp
+  source_crop: &id010
+  - 8406
+  - 1550
+  - 8506
+  - 1635
+  regions:
+  - - 0.01
+    - 0.117647
+    - 0.38
+    - 0.917647
+  - - 0.38
+    - 0.094118
+    - 0.99
+    - 0.905882
+  source: &id011
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: photo-248-epsilon-recall
+  truth: Ε
+  image: photo-248-epsilon.webp
+  regions: *id002
+  source: *id001
+  checked: '2026-10-31'
+- id: photo-250-omicron-recall
+  truth: Ο
+  image: photo-250-omicron.webp
+  regions: *id003
+  source: *id001
+  checked: '2026-10-31'
+- id: photo-500p2-iota-tau-recall
+  truth: ΙΤ
+  image: photo-500p2-iota-tau.webp
+  regions: *id004
+  source: *id001
+  checked: '2026-10-31'
+- id: photo-500p2-nu2-recall
+  truth: Ν
+  image: photo-500p2-nu2.webp
+  regions: *id005
+  source: *id001
+  checked: '2026-10-31'
+- id: photo-500p2-nu-recall
+  truth: Ν
+  image: photo-500p2-nu.webp
+  regions: *id006
+  source: *id001
+  checked: '2026-10-31'
+- id: photo-500p2-eta-recall
+  truth: Η
+  image: photo-500p2-eta.webp
+  regions: *id007
+  source: *id001
+  checked: '2026-10-31'
+- id: short-reading-01
+  truth: ΙΗ
+  image: first-line-extra-l12-iota-eta.webp
+  source_crop: *id008
+  regions:
+  - - 0.041667
+    - 0.3
+    - 0.358333
+    - 0.8
+  - - 0.358333
+    - 0.08
+    - 0.991667
+    - 0.77
+  source: *id009
+  checked: '2026-10-31'
+- id: short-reading-02
+  truth: ΙΗ
+  image: first-line-extra-l16-iota-eta.webp
+  source_crop: *id010
+  regions:
+  - - 0.01
+    - 0.117647
+    - 0.38
+    - 0.917647
+  - - 0.38
+    - 0.094118
+    - 0.99
+    - 0.905882
+  source: *id011
+  checked: '2026-10-31'
+- id: short-reading-03
+  truth: ΓΕΙΝ
+  image: first-line-gamma-epsilon-iota-nu.webp
+  source_crop: *id012
+  regions:
+  - - 0.032407
+    - 0.131313
+    - 0.259259
+    - 0.878788
+  - - 0.263889
+    - 0.131313
+    - 0.537037
+    - 0.777778
+  - - 0.546296
+    - 0.161616
+    - 0.671296
+    - 0.747475
+  - - 0.671296
+    - 0.121212
+    - 0.99537
+    - 0.79798
+  source: *id013
+  checked: '2026-10-31'
+- id: short-reading-04
+  truth: ΚΑΙ
+  image: alphabet-paris4-12-kai.webp
+  source_crop:
+  - 4320
+  - 433
+  - 4495
+  - 519
+  regions:
+  - - 0.0
+    - 0.104651
+    - 0.354286
+    - 0.895349
+  - - 0.308571
+    - 0.093023
+    - 0.737143
+    - 0.895349
+  - - 0.674286
+    - 0.255814
+    - 0.897143
+    - 0.802326
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: short-reading-05
+  truth: ΤΩΝ
+  image: alphabet-paris4-12-ton.webp
+  source_crop:
+  - 3600
+  - 537
+  - 3857
+  - 625
+  regions:
+  - - 0.054475
+    - 0.136364
+    - 0.36965
+    - 0.965909
+  - - 0.392996
+    - 0.147727
+    - 0.719844
+    - 0.795455
+  - - 0.747082
+    - 0.113636
+    - 0.996109
+    - 0.840909
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: short-reading-06
+  truth: ΗΜΙΝ
+  image: alphabet-paris4-12-eta-mu-iota-nu.webp
+  source_crop:
+  - 4210
+  - 343
+  - 4448
+  - 414
+  regions:
+  - - 0.029412
+    - 0.056338
+    - 0.273109
+    - 0.943662
+  - - 0.294118
+    - 0.056338
+    - 0.613445
+    - 0.901408
+  - - 0.621849
+    - 0.098592
+    - 0.718487
+    - 0.915493
+  - - 0.701681
+    - 0.098592
+    - 0.987395
+    - 0.901408
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: short-reading-07
+  truth: ΦΥΡ
+  image: alphabet-paris4-12-phi-upsilon-rho.webp
+  source_crop:
+  - 4048
+  - 414
+  - 4219
+  - 536
+  regions:
+  - - 0.017544
+    - 0.245902
+    - 0.345029
+    - 0.983607
+  - - 0.339181
+    - 0.270492
+    - 0.701754
+    - 0.811475
+  - - 0.71345
+    - 0.262295
+    - 0.994152
+    - 0.967213
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: alphabet-paris4-12-kai
+  truth: ΚΑΙ
+  image: alphabet-paris4-12-kai.webp
+  source_crop:
+  - 4320
+  - 433
+  - 4495
+  - 519
+  regions:
+  - - 0.0
+    - 0.104651
+    - 0.354286
+    - 0.895349
+  - - 0.308571
+    - 0.093023
+    - 0.737143
+    - 0.895349
+  - - 0.674286
+    - 0.255814
+    - 0.897143
+    - 0.802326
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: alphabet-paris4-12-ton
+  truth: ΤΩΝ
+  image: alphabet-paris4-12-ton.webp
+  source_crop:
+  - 3600
+  - 537
+  - 3857
+  - 625
+  regions:
+  - - 0.054475
+    - 0.136364
+    - 0.36965
+    - 0.965909
+  - - 0.392996
+    - 0.147727
+    - 0.719844
+    - 0.795455
+  - - 0.747082
+    - 0.113636
+    - 0.996109
+    - 0.840909
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: alphabet-paris4-12-phi-upsilon-rho
+  truth: ΦΥΡ
+  image: alphabet-paris4-12-phi-upsilon-rho.webp
+  source_crop:
+  - 4048
+  - 414
+  - 4219
+  - 536
+  regions:
+  - - 0.017544
+    - 0.245902
+    - 0.345029
+    - 0.983607
+  - - 0.339181
+    - 0.270492
+    - 0.701754
+    - 0.811475
+  - - 0.71345
+    - 0.262295
+    - 0.994152
+    - 0.967213
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: alphabet-paris4-12-eta-mu-iota-nu
+  truth: ΗΜΙΝ
+  image: alphabet-paris4-12-eta-mu-iota-nu.webp
+  source_crop:
+  - 4210
+  - 343
+  - 4448
+  - 414
+  regions:
+  - - 0.029412
+    - 0.056338
+    - 0.273109
+    - 0.943662
+  - - 0.294118
+    - 0.056338
+    - 0.613445
+    - 0.901408
+  - - 0.621849
+    - 0.098592
+    - 0.718487
+    - 0.915493
+  - - 0.701681
+    - 0.098592
+    - 0.987395
+    - 0.901408
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: alphabet-paris4-8-nu-to-iota
+  truth: ΝΕϹΘΑΙ
+  image: alphabet-paris4-8-nu-to-iota.webp
+  source_crop:
+  - 8384
+  - 452
+  - 8680
+  - 552
+  regions:
+  - - 0.006757
+    - 0.15
+    - 0.219595
+    - 0.71
+  - - 0.236486
+    - 0.13
+    - 0.422297
+    - 0.71
+  - - 0.408784
+    - 0.15
+    - 0.537162
+    - 0.73
+  - - 0.523649
+    - 0.12
+    - 0.699324
+    - 0.73
+  - - 0.695946
+    - 0.04
+    - 0.89527
+    - 0.76
+  - - 0.912162
+    - 0.05
+    - 0.996622
+    - 0.63
+  source:
+  - cerc54
+  - grandprize
+  checked: '2026-10-31'
+- id: photo-248-phi
+  truth: Φ
+  image: photo-248-phi.webp
+  regions:
+  - - 0
+    - 0
+    - 1
+    - 0.98
+  source: &id014
+  - profilometer
+  - topography2026
+  checked: '2026-10-31'
+- id: photo-248-lambda
+  truth: Λ
+  image: photo-248-lambda.webp
+  regions:
+  - - 0.03
+    - 0.05
+    - 0.98
+    - 1
+  source: *id014
+  checked: '2026-10-31'
+- id: photo-248-nu
+  truth: Ν
+  image: photo-248-nu.webp
+  regions:
+  - - 0.1
+    - 0.1
+    - 0.81
+    - 0.94
+  source: *id014
+  checked: '2026-10-31'
+- id: photo-248-pi
+  truth: Π
+  image: photo-248-pi.webp
+  regions:
+  - - 0
+    - 0.04
+    - 1
+    - 1
+  source: *id014
+  checked: '2026-10-31'
+- id: photo-250-sigma
+  truth: Ϲ
+  image: photo-250-sigma.webp
+  regions:
+  - - 0
+    - 0.025
+    - 0.99
+    - 0.99
+  source: *id014
+  checked: '2026-10-31'
+- id: photo-250-delta
+  truth: Δ
+  image: photo-250-delta.webp
+  regions:
+  - - 0
+    - 0
+    - 1
+    - 0.96
+  source: *id014
+  checked: '2026-10-31'
+- id: photo-250-kappa
+  truth: Κ
+  image: photo-250-kappa.webp
+  regions:
+  - - 0.095
+    - 0
+    - 1
+    - 0.99
+  source: *id014
+  checked: '2026-10-31'

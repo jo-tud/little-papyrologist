@@ -1,0 +1,75 @@
+.learning-task { --task-gap: 1.4rem; }
+.learning-task .task-topline { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.learning-task h1 { margin: .45rem 0 .7rem; font-size: clamp(1.35rem, 2.5vw, 1.7rem); }
+.learning-task .progress { max-width: none; margin: 0; height: .35rem; }
+.task-context { margin: .6rem 0 .8rem; }
+.task-workspace { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: var(--task-gap); align-items: start; }
+.task-workspace > * { min-width: 0; }
+.task-workspace.task-wide { grid-template-columns: minmax(0, 1fr); gap: .8rem; }
+.task-wide .task-answer { max-width: none; }
+.task-answer h2 { margin: 0 0 .55rem; font-size: 1.25rem; }
+.task-answer .question { margin: 0 0 .6rem; padding: 0; }
+.task-answer .question legend { margin-bottom: .65rem; font-weight: 700; font-size: 1rem; }
+.task-answer .match-options { display: flex; gap: .5rem; flex-wrap: wrap; }
+.task-answer .match-options .choice { flex: 1; min-width: 4.3rem; padding: .5rem .35rem; }
+.task-answer .reference-drawing { background: #e6d4a4; border-radius: .35rem; padding: .15rem .3rem; }
+.task-answer .reference-drawing .glyph .ink path { stroke: #211c14; }
+.task-answer .reference-drawing .glyph { width: 2.1rem; height: 2.4rem; }
+.task-answer .reference-caption { font-size: .75rem; margin: .4rem 0 0; }
+.task-answer .study-reference { display: inline-flex; margin-bottom: .5rem; }
+.task-answer .study-line { font-size: clamp(1.2rem, 4vw, 1.65rem); overflow-wrap: anywhere; margin: .35rem 0; }
+.task-answer .reading { margin: 0 0 .5rem; }
+.task-answer .reading .rl { min-width: 2.6rem; }
+.task-answer .reading button.rl { cursor: pointer; }
+.task-answer .reading button.rl[aria-pressed="true"] { outline: 2px solid var(--ochre); outline-offset: 2px; }
+.task-answer .reading .rl-study { background: var(--teal-soft); }
+.task-answer .learning-hint { margin: .5rem 0 .8rem; line-height: 1.5; }
+.task-answer .check-hint { margin: .35rem 0; font-size: .8rem; }
+.task-answer .task-actions { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: center; margin: .8rem 0 .4rem; }
+.task-actions .primary { min-width: 9rem; }
+.task-answer .points { margin: .65rem 0; }
+.task-body { min-height: 12rem; }
+.task-workspace[data-task="identify"] .task-body { min-height: 13rem; }
+.task-workspace[data-task="read"] .task-body { min-height: 18rem; }
+.task-feedback h2 { color: var(--teal); }
+.task-feedback.v-wrong h2, .task-feedback.v-false-alarm h2, .task-feedback.v-missed h2 { color: var(--ochre); }
+.task-details { border-top: 1px solid var(--rule); display: flex; flex-wrap: wrap; align-items: start; gap: .55rem 1.4rem; margin-top: 1.4rem; padding-top: .75rem; font-size: .9rem; }
+.task-details details { min-width: 0; max-width: 100%; }
+.task-details details[open] { flex-basis: 100%; }
+.task-details details p { max-width: 65ch; }
+.task-details summary { cursor: pointer; color: var(--teal); }
+.task-details .reading-guide { padding: 0; margin: 0; border: 0; }
+.task-details .reading-guide p { overflow-wrap: anywhere; }
+.task-answer .keyboard { max-width: none; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: .25rem; }
+.task-answer .key { min-height: 3rem; padding: .2rem 0; font-size: 1.2rem; }
+.task-answer .key .letter-name { font-size: .58rem; }
+.task-answer .typed { margin: 0 0 .5rem; }
+.hand-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
+.other-hand { margin: 0; min-width: 0; }
+.other-hand img { display: block; width: 100%; height: 20rem; object-fit: contain; background: #161819; border-radius: .5rem; }
+.other-hand figcaption { margin-top: .5rem; font-size: .85rem; }
+.hand-comparison .viewer-toolbar { flex-wrap: wrap; }
+@media (max-width: 700px) {
+  .learning-task { padding-bottom: 4.5rem; }
+  .task-workspace { grid-template-columns: minmax(0, 1fr); gap: .9rem; }
+  .learning-task h1 { margin-top: .3rem; }
+  .task-context { font-size: .75rem; margin: .45rem 0 .6rem; }
+  .task-details { margin-top: 1rem; }
+  .task-answer .learning-hint { font-size: .95rem; }
+  .task-answer .key { min-height: 2.9rem; }
+  .learning-task .task-workspace .task-body { min-height: 0; }
+  .task-answer .task-actions {
+    position: fixed; z-index: 10; bottom: 0; left: 0; right: 0;
+    margin: 0; padding: .6rem 1rem calc(.6rem + env(safe-area-inset-bottom));
+    min-height: 4rem; background: var(--sheet); border-top: 1px solid var(--rule);
+    flex-wrap: nowrap;
+  }
+  .task-answer .task-actions > button { flex: 1; min-height: 2.75rem; }
+  .task-answer .task-actions > .linkish { font-size: .8rem; }
+  html:has(.learning-task) { scroll-padding-bottom: 5rem; }
+  .learning-task button { scroll-margin-bottom: 5rem; }
+  .other-hand img { height: 14rem; }
+}
+@media (max-width: 700px) and (max-height: 760px) {
+  .other-hand img { height: 10rem; }
+}

@@ -37,7 +37,7 @@ sets:
     level: 2
     title: Your first line
     ordered: true
-    intro: Start with familiar shapes, read short groups and compare handwriting in different lines. Trying the whole line at the end is optional. A reading guide is available whenever you need it.
+    intro: Start with familiar shapes, read short groups and compare handwriting in different lines. Whole lines are available as an optional challenge. A reading guide is available whenever you need it.
   - id: ir-500p2
     level: 2
     title: Look closer — ink or papyrus?
@@ -253,6 +253,104 @@ lesson:
   set: first-line
   level: 2
 
+# Alphabet references are labelled examples, separate from the quiz inventory.
+# A difficult or cut-off form can be studied here without becoming a first test.
+alphabet_references:
+  source: paris4-banner
+  source_size: [16000, 1932]
+  source_sha256: 8c3c4a54332806baf74e518d0623f67c3698e22e4f19179802479fed7f8d0760
+  groups:
+    - id: alphabet-paris4-12-kai
+      column: −12
+      line: 4
+      edition: πί τε πορφύραϲ καὶ
+      line_truth: ΠΙΤΕΠΟΡΦΥΡΑϹΚΑΙ
+      indices: [12, 15]
+      rect: [4320, 433, 4495, 519]
+      explain: Kappa–Alpha–Iota, the word καί. Alpha is in the middle; the broad foot on the right belongs to Iota.
+    - id: alphabet-paris4-12-ton
+      column: −12
+      line: 5
+      edition: τῶν ὁμοίων ὅτι κρά-
+      line_truth: ΤΩΝΟΜΟΙΩΝΟΤΙΚΡΑ
+      indices: [0, 3]
+      rect: [3600, 537, 3857, 625]
+      explain: Tau–Omega–Nu, the word τῶν. Omega is the open, rounded shape in the middle.
+    - id: alphabet-paris4-12-phi-upsilon-rho
+      column: −12
+      line: 4
+      edition: πί τε πορφύραϲ καὶ
+      line_truth: ΠΙΤΕΠΟΡΦΥΡΑϹΚΑΙ
+      indices: [7, 10]
+      rect: [4048, 414, 4219, 536]
+      explain: Phi–Upsilon–Rho, inside the word πορφύραϲ. The middle Upsilon has a broad, shallow top; handwritten proportions can differ from printed Υ.
+    - id: alphabet-paris4-12-eta-mu-iota-nu
+      column: −12
+      line: 3
+      edition: δεικνύονταϲ ἡμῖν ἐ-
+      line_truth: ΔΕΙΚΝΥΟΝΤΑϹΗΜΙΝΕ
+      indices: [11, 15]
+      rect: [4210, 343, 4448, 414]
+      explain: Eta–Mu–Iota–Nu, the word ἡμῖν. Mu is the second letter. The neighbouring strokes stay visible to preserve the group.
+    - id: alphabet-paris4-8-nu-to-iota
+      column: −8
+      line: 5
+      edition: γείνεϲθαι, παραπλη-
+      line_truth: ΓΕΙΝΕϹΘΑΙΠΑΡΑΠΛΗ
+      indices: [3, 9]
+      rect: [8384, 452, 8680, 552]
+      explain: Nu–Epsilon–Sigma–Theta–Alpha–Iota, inside γείνεϲθαι. The middle strokes are faint; their identities come from the edition, not from filling in missing detail.
+  photographs:
+    - id: photo-248-phi
+      papyrus_dir: pherc0248
+      sample: φ
+      task: study
+      stage: A source-labelled Phi
+      preparation: Compare the named photograph with the organizers' ink tracing.
+      explain: The source identifies Phi. The loop and upright are visible, but the photograph cuts off part of the letter at its edges.
+    - id: photo-248-lambda
+      papyrus_dir: pherc0248
+      sample: λ
+      task: study
+      stage: A source-labelled Lambda
+      preparation: Compare this unfamiliar form with the published ink tracing.
+      explain: The source identifies Lambda. Its proportions differ from printed Λ, and the long left stroke reaches the edge of the photograph.
+    - id: photo-248-nu
+      papyrus_dir: pherc0248
+      sample: ν
+      task: study
+      stage: Another source-labelled Nu
+      preparation: Study the visible marks without filling in missing connections.
+      explain: The source identifies Nu. Compare the sloping central strokes with the tracing; this photograph does not show a neat, uninterrupted printed Ν.
+    - id: photo-248-pi
+      papyrus_dir: pherc0248
+      sample: π
+      task: study
+      stage: A source-labelled Pi
+      preparation: The photograph shows only part of the letter's full outline.
+      explain: The source identifies Pi. Several strokes reach the photograph's edges, so this is a partial example, not a complete model of Π.
+    - id: photo-250-sigma
+      papyrus_dir: pherc0250
+      sample: ϲ
+      task: study
+      stage: A source-labelled Sigma
+      preparation: Compare the rounded open form with printed Σ.
+      explain: The source identifies Sigma. Its rounded form is written Ϲ in the trainer; the left edge of this photograph cuts into the curve.
+    - id: photo-250-delta
+      papyrus_dir: pherc0250
+      sample: δ
+      task: study
+      stage: A source-labelled Delta
+      preparation: Compare the visible parts of the triangular outline.
+      explain: The source identifies Delta. The triangular opening is visible, but the photograph cuts off the top and the ends of the lower stroke.
+    - id: photo-250-kappa
+      papyrus_dir: pherc0250
+      sample: κ
+      task: study
+      stage: A source-labelled Kappa
+      preparation: Compare the upright and the strokes branching from it.
+      explain: The source identifies Kappa. The photograph cuts off some stroke ends; use the whole visible form and the published tracing together.
+
 # The source reading remains unchanged while its view becomes harder to inspect.
 degradations:
   set: harder-images
@@ -264,6 +362,7 @@ degradations:
     - {id: harder-d2-blank, base: ir-500p2-x2, degradation: 2}
     - {id: harder-d2-ink, base: ir-500p2-b, degradation: 2}
     - {id: harder-d3-line, base: paris4-col-8-l05, degradation: 3}
+    - {id: harder-d3-short, base: first-line-gamma-epsilon-iota-nu, degradation: 3}
     - {id: harder-d3-ink, base: ir-500p2-c, degradation: 3}
     - {id: harder-d3-blank, base: ir-500p2-x3, degradation: 3}
     - {id: harder-d4-blank, base: ir-500p2-x4, degradation: 4}

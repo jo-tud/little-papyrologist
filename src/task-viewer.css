@@ -1,0 +1,31 @@
+.task-viewer { min-width: 0; }
+.viewer-images { display: grid; grid-template-columns: minmax(0, 1fr); gap: .5rem; }
+.viewer-images figure { min-width: 0; margin: 0; }
+.viewer-images [hidden], .viewer-comparison[hidden], .viewer-key[hidden] { display: none; }
+.task-viewer[data-mode="split"] .viewer-images { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.viewer-viewport { height: 20rem; overflow: auto; background: #161819; border-radius: .5rem; }
+.viewer-viewport img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.viewer-canvas { position: relative; width: 100%; height: 100%; }
+.letter-overlay { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.letter-overlay rect { fill: #f7c45c22; stroke: #f7c45c; stroke-width: 2px; }
+.letter-location { margin: .3rem 0 0; min-height: 1.05rem; color: var(--slate); font-size: .75rem; }
+.task-viewer .letter-location[hidden] { display: block; visibility: hidden; }
+.viewer-wide .viewer-viewport { height: clamp(5rem, 12vw, 9rem); }
+.task-viewer.enlarged .viewer-canvas { width: 200%; height: 200%; }
+.task-viewer.viewer-wide.enlarged .viewer-canvas { width: 300%; height: 300%; }
+.viewer-toolbar { min-height: 3.2rem; display: flex; align-items: center; justify-content: space-between; gap: .4rem; }
+.viewer-toolbar button { font-size: .85rem; padding: .4rem .55rem; min-height: 2.5rem; white-space: nowrap; }
+.viewer-comparison { display: flex; flex-wrap: wrap; gap: .25rem; }
+.viewer-comparison [aria-pressed="true"] { background: var(--teal-soft); border-color: var(--teal); }
+.viewer-credit { font-size: .75rem; line-height: 1.35; color: var(--slate); margin: .1rem 0; }
+.viewer-key { margin: .5rem 0 0; }
+@media (max-width: 700px) {
+  .viewer-viewport { height: 14rem; }
+  .viewer-wide .viewer-viewport { height: 5.5rem; }
+  .viewer-toolbar { min-height: 3rem; }
+  .viewer-toolbar button { padding: .35rem .45rem; font-size: .78rem; }
+}
+@media (max-width: 700px) and (max-height: 760px) {
+  .viewer-viewport { height: 10rem; }
+  .viewer-wide .viewer-viewport { height: 5.5rem; }
+}

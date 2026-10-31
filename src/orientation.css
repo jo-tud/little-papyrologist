@@ -1,0 +1,237 @@
+/* Path and results keep the next learning action ahead of optional detail. */
+.orientation-page {
+  --orientation-gap: 1.4rem;
+}
+.orientation-page .hero {
+  padding: .6rem 0 1.5rem;
+  gap: 2rem;
+}
+.orientation-page .hero h1 {
+  font-size: clamp(2.15rem, 4vw, 3.3rem);
+}
+.orientation-page .hero-copy p {
+  margin: .7rem 0;
+}
+.orientation-page .hero-example {
+  padding: 1rem;
+}
+.orientation-page .hero-photo {
+  margin: .65rem 0;
+}
+.orientation-page .hero-photo img {
+  max-height: 13rem;
+  object-fit: contain;
+  background: #151515;
+}
+.orientation-page .hero-sources {
+  margin-top: .6rem;
+  font-size: var(--step--1);
+}
+.orientation-page summary {
+  cursor: pointer;
+}
+.orientation-page .learning-continue {
+  max-width: 100%;
+  white-space: normal;
+  text-align: left;
+}
+.orientation-page .section-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .4rem 1rem;
+  margin: 1.6rem 0 .7rem;
+}
+.orientation-page .section-heading h2 {
+  margin: 0;
+}
+.level-path,
+.lesson-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.level-path {
+  display: grid;
+  gap: 1.3rem;
+}
+.path-level > h3 {
+  display: flex;
+  gap: .55rem;
+  align-items: center;
+  font-size: var(--step-0);
+  margin: 0 0 .45rem;
+}
+.level-number {
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  width: 1.7rem;
+  height: 1.7rem;
+  background: var(--teal-soft);
+  color: var(--basalt);
+  font-family: var(--sans);
+  flex: 0 0 auto;
+}
+.lesson-list {
+  display: grid;
+  gap: .45rem;
+}
+.lesson-stop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .6rem 1rem;
+  padding: .75rem 1rem;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+.lesson-stop > div {
+  min-width: 0;
+}
+.lesson-stop h4 {
+  font-family: var(--sans);
+  font-size: var(--step-0);
+  line-height: 1.3;
+  margin: 0;
+}
+.lesson-stop p {
+  margin: .25rem 0 0;
+}
+.lesson-stop > .button {
+  flex: 0 0 auto;
+}
+.lesson-stop.up-next {
+  border-color: var(--teal);
+  box-shadow: inset 3px 0 var(--teal);
+}
+.lesson-done {
+  font-size: var(--step--1);
+  font-weight: 400;
+  color: var(--slate);
+  white-space: nowrap;
+}
+.lesson-stop.locked > .small {
+  max-width: 11rem;
+  flex: 0 0 auto;
+}
+.orientation-page .practice-library {
+  margin-top: 1.5rem;
+  margin-bottom: 1.4rem;
+  padding-top: 0;
+  border-top: 0;
+}
+.practice-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem 1.5rem;
+}
+.practice-options > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .3rem;
+}
+.practice-options p {
+  margin: 0;
+}
+.orientation-page .orientation-detail {
+  border-top: 1px solid var(--rule);
+  margin: 0;
+  padding: .4rem 0;
+  max-width: none;
+  font-size: var(--step-0);
+}
+.orientation-detail > summary {
+  display: list-item;
+  padding: .65rem .15rem;
+  color: var(--basalt);
+  font-size: var(--step-0);
+}
+.orientation-detail[open] > summary {
+  margin-bottom: .4rem;
+}
+.home-page > .orientation-detail:first-of-type {
+  margin-top: 1.4rem;
+}
+.home-page .practice-library .orientation-detail {
+  border: 0;
+  margin-top: .5rem;
+}
+.home-page .practice-library .orientation-detail > summary {
+  font-size: var(--step--1);
+  color: var(--slate);
+}
+.results-page {
+  max-width: 52rem;
+  margin-inline: auto;
+}
+.results-overview {
+  margin-bottom: 1.4rem;
+}
+.result-counts {
+  display: flex;
+  gap: .3rem 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.result-counts p {
+  margin: 0;
+  color: var(--slate);
+}
+.result-counts strong {
+  font-size: var(--step-1);
+  color: var(--basalt);
+}
+.results-page .result-details > h2 {
+  font-size: var(--step-1);
+  margin-top: 1.3rem;
+}
+.results-page .table-wrap {
+  max-width: 100%;
+  overflow: auto;
+}
+.results-page select {
+  max-width: 100%;
+}
+.results-page .practice-settings,
+.results-page .reset-progress {
+  background: none;
+  border-radius: 0;
+}
+.results-page .backup button,
+.results-page .backup .button {
+  min-height: 44px;
+}
+@media (max-width: 650px) {
+  .orientation-page .hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    padding-top: 0;
+  }
+  .orientation-page .hero h1 {
+    max-width: 16ch;
+  }
+  .orientation-page .hero-photo img {
+    max-height: 9rem;
+  }
+  .orientation-page .hero-example {
+    padding: .85rem;
+  }
+  .lesson-stop {
+    flex-wrap: wrap;
+    padding: .75rem;
+  }
+  .lesson-stop > div {
+    flex: 1 1 13rem;
+  }
+  .lesson-stop > .button {
+    margin-left: auto;
+  }
+  .lesson-stop.locked > .small {
+    max-width: 100%;
+    flex-basis: 100%;
+  }
+}

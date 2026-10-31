@@ -1,13 +1,69 @@
-.round.drawing-round-review {
-  display: block;
+/* Drawing exercises use the same picture position before and after an answer. */
+.drawing-task .back-link {
+  margin-bottom: 0.6rem;
 }
 
-.drill-review {
-  margin: 1rem 0;
+.drawing-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: start;
+  scroll-margin-top: 1rem;
+}
+
+.drawing-task .drill-review {
+  min-width: 0;
+}
+
+.drill-review-panels {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  gap: 0.75rem;
+  height: 22rem;
+}
+
+.drill-review[data-mode="side"] .drill-review-panels {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.drill-review .tile-frame {
+  min-width: 0;
+  min-height: 0;
+  max-width: none;
+  height: 100%;
+}
+
+.drill-review .tile {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  box-shadow: none;
+}
+
+.drill-review .tile-frame[hidden] {
+  display: none;
+}
+
+.drill-review-solution.has-reading .tile .ink path {
+  stroke: #a3261d;
 }
 
 .drill-review-controls {
-  margin-bottom: 0.75rem;
+  min-height: 2.8rem;
+  margin-top: 0.45rem;
+}
+
+.drill-review-controls > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.drill-review-controls button {
+  min-height: 2.6rem;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.85rem;
 }
 
 .drill-review-controls [aria-pressed="true"] {
@@ -15,39 +71,178 @@
   background: var(--teal-soft);
 }
 
-.drill-review-panels {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  align-items: start;
-  max-width: 40rem;
+.drill-drawing-credit {
+  min-height: 2.4em;
+  margin: 0.25rem 0 0;
+  color: var(--slate);
+  font-size: var(--step--1);
+  line-height: 1.3;
 }
 
-.drill-review .tile-frame {
+.drawing-answer {
   min-width: 0;
-  max-width: none;
 }
 
-.drill-review .tile {
+.drawing-response {
+  min-height: 19rem;
+}
+
+.drawing-response .question {
+  margin: 0;
+}
+
+.drawing-response .question legend {
+  margin-bottom: 0.8rem;
+}
+
+.drawing-choices {
+  display: grid;
+  grid-template-columns: repeat(var(--drawing-choice-count), minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.drawing-choices .choice.letter.named-letter {
+  min-width: 0;
+  min-height: 4.3rem;
+  padding: 0.45rem 0.15rem;
+}
+
+.drawing-open-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.65rem;
+}
+
+.drawing-open-choices > button {
+  flex: 1;
+  min-height: 2.75rem;
+}
+
+.drawing-action {
+  display: flex;
+  min-height: 3rem;
+  align-items: center;
+}
+
+.drawing-action .primary {
+  min-height: 3rem;
   width: 100%;
-  aspect-ratio: 120 / 142;
 }
 
-.drill-review .tile-frame[hidden] {
-  display: none;
+.drawing-verdict {
+  border-top: 3px solid var(--teal);
+  padding-top: 0.7rem;
 }
 
-.drill-review:not([data-mode="side"]) .drill-review-panels {
-  grid-template-columns: minmax(0, 1fr);
-  max-width: 20rem;
+.drawing-verdict.v-honest,
+.drawing-verdict.v-careful {
+  border-color: var(--ochre);
 }
 
-.drill-review-solution.has-reading .tile .ink path {
-  stroke: #a3261d;
+.drawing-verdict.v-wrong,
+.drawing-verdict.v-false-alarm,
+.drawing-verdict.v-missed,
+.drawing-verdict.v-guessed {
+  border-color: var(--wrong);
+}
+
+.drawing-verdict h2 {
+  font-size: var(--step-1);
+  margin: 0 0 0.4rem;
+}
+
+.drawing-verdict p {
+  margin: 0.45rem 0;
+}
+
+.drawing-candidates {
+  font-size: var(--step--1);
+}
+
+.drawing-clue {
+  max-width: 38em;
+}
+
+.drawing-details {
+  margin-top: 1rem;
+  border-top: 1px solid var(--rule);
+  padding-top: 0.45rem;
+}
+
+.drawing-details details,
+.drawing-summary details {
+  margin: 0.2rem 0;
+  max-width: 48rem;
+}
+
+.drawing-details summary,
+.drawing-summary summary {
+  cursor: pointer;
+  padding: 0.5rem 0;
+  color: var(--teal);
+}
+
+.drawing-details details p {
+  font-size: var(--step--1);
+  margin: 0.4rem 0 0.7rem;
+}
+
+.drawing-real-link {
+  font-size: var(--step--1);
+  color: var(--slate);
+  margin: 0.8rem 0;
+}
+
+.drawing-summary details {
+  margin-top: 1.4rem;
 }
 
 @media (max-width: 40rem) {
+  .drawing-workspace {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+
+  .drawing-task .drill-head h1 {
+    font-size: var(--step-1);
+  }
+
+  .drawing-task .progress {
+    margin: 0.6rem 0 0.8rem;
+  }
+
   .drill-review-panels {
-    gap: 0.65rem;
+    height: 11.5rem;
+  }
+
+  .drill-review-controls {
+    min-height: 2.7rem;
+    margin-top: 0.3rem;
+  }
+
+  .drill-review-controls button {
+    min-height: 2.7rem;
+  }
+
+  .drill-drawing-credit {
+    min-height: 1.3em;
+    font-size: 0.78rem;
+  }
+
+  .drawing-response {
+    min-height: 13.5rem;
+  }
+
+  .drawing-verdict {
+    padding-top: 0.45rem;
+  }
+
+  .drawing-verdict h2 {
+    font-size: 1.1rem;
+  }
+
+  .drawing-clue {
+    font-size: 0.95rem;
   }
 }

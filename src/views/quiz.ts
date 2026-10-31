@@ -4,12 +4,14 @@ import { progressAfterAnswer, rankUpBanner } from "../progress-ui";
 import { align, readingStats, score, type Score } from "../scoring";
 import { addAnswer, clearRound, markSetDone, saveRound, state } from "../store";
 import type { AnswerRecord, QuizItem, QuizSet, SaidText } from "../types";
-import { letterLabel, letterName, namedLetter, sourceLinks, tip } from "../ui";
+import { letterLabel, letterName, namedLetter, tip } from "../ui";
 import { planPractice } from "../practice";
 import { canStartFirstLine, levelAvailable, levelDone } from "../rules";
 import { handleComparisonClick, imageComparison, syncComparisonScroll } from "../image-comparison";
 import { answerKey, canResume } from "../round-session";
 import { esc, shuffle } from "../util";
+import { handleViewerClick, revealTaskViewer, showLetterRegion, syncViewerScroll, taskViewer } from "../task-viewer";
+import "../learning-task.css";
 
 const LETTERS = glyphs.map((g) => g.char);
 const keyToLetter = new Map<string, string>(glyphs.map((g) => [g.latin, g.char]));
@@ -49,13 +51,15 @@ function letterReference(reading: string): string {
 }
 
 /** The reading, one letter per box, coloured by how the player did. Uncertain letters get a dot below. */
-function readingBoxes(item: QuizItem, s: Score): string {
+function readingBoxes(item: QuizItem, s?: Score): string {
   const unc = new Set(item.uncertain ?? []);
   return `<div class="reading" tabindex="0" role="region" aria-label="The reading, letter by letter; scroll sideways if needed">${Array.from(item.truth)
     .map((ch, i) => {
-      const m = s.marks[i] ?? "missing";
-      const label = { ok: "read", honest: "marked as unreadable", wrong: "misread", missing: "not given" }[m];
-      return `<span class="rl named-letter rl-${m}${unc.has(i) ? " rl-unc" : ""}" role="img" aria-label="${esc(namedLetter(ch))}: ${label}${unc.has(i) ? ", uncertain in the edition" : ""}" title="${label}${unc.has(i) ? ", uncertain in the edition" : ""}">${letterLabel(ch)}</span>`;
+      const m = s ? s.marks[i] ?? "missing" : "study";
+      const label = { ok: "read", honest: "marked as unreadable", wrong: "misread", missing: "not given", study: "published reading" }[m];
+      const mapped = !!item.letter_regions?.[i];
+      const tag = mapped ? "button" : "span";
+      return `<${tag} class="rl named-letter rl-${m}${unc.has(i) ? " rl-unc" : ""}" ${mapped ? `type="button" data-letter-index="${i}" aria-pressed="false"` : 'role="img"'} aria-label="${esc(namedLetter(ch))}: ${label}${unc.has(i) ? ", uncertain in the edition" : ""}${mapped ? "; locate in the image" : ""}" title="${label}${unc.has(i) ? ", uncertain in the edition" : ""}">${letterLabel(ch)}</${tag}>`;
     })
     .join("")}</div>`;
 }
@@ -127,13 +131,6 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
   let zoom = false;
   let helpUsed = resumed?.help_used ?? false;
   let elapsed = resumed?.elapsed_ms ?? 0;
-  let imageObserver: ResizeObserver | undefined;
-  function fitReadingImage(): void {
-    const photo = main.querySelector<HTMLElement>(".reading-round .photo");
-    // With large text or a short viewport, keep every control reachable instead
-    // of allowing a tall sticky image panel to cover the keyboard.
-    if (photo) photo.classList.toggle("unpinned", photo.getBoundingClientRect().height > window.innerHeight * 0.4);
-  }
   if (resumed?.checked) {
     const item = order[index];
     checked = score({ text: item.truth, uncertain: item.uncertain, simulated: item.simulated },
@@ -152,12 +149,12 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
 
   const detectWord = () => order[index]?.source.includes("pherc0500p2-ir") ? "ink" : "writing";
 
-  const quickChoice = () => !practice && order[index]?.level === 1 && order[index]?.task === "identify";
+  const quickChoice = () => order[index]?.task === "identify";
 
   function canCheck(): boolean {
     const item = order[index];
     if (item.task === "study") return false;
-    if (!pick.said || (!quickChoice() && !pick.confidence)) return false;
+    if (!pick.said) return false;
     if (item.task !== "detect" && pick.said === "yes" && pick.letters.length === 0) return false;
     return true;
   }
@@ -167,7 +164,7 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
     const disabled = pick.said === "no" || checked !== null;
     return `<fieldset class="question" id="letters-question" ${disabled ? "disabled" : ""}>
       <legend>${optional ? `Which letters do you see? <span class="muted small">(saved, not scored)</span>` : item.truth.length === 1 ? "Name this letter" : "Read the letters, left to right"}</legend>
-      ${item.task === "read" ? "" : typedOutput()}
+      ${typedOutput()}
       <div class="keyboard" role="group" aria-label="Greek letters">
         ${LETTERS.map((l) => `<button type="button" class="key named-letter" data-key="${l}" title="Key: ${esc(glyphs.find((g) => g.char === l)!.latin)}">${letterLabel(l)}</button>`).join("")}
         <button type="button" class="key" data-key="?" aria-label="A letter I cannot read">?</button>
@@ -176,132 +173,117 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
     </fieldset>`;
   }
 
+  function shortHint(item: QuizItem): string {
+    if (item.task === "study" && item.truth.length > 4) return "Bright strokes show a CT-derived ink map. We will read this line a few letters at a time.";
+    if (item.task === "detect") return item.truth === "none"
+      ? "Fibres and specks can suggest a letter. The reference shows no visible ink here."
+      : item.source.includes("pherc0500p2-ir") ? "The tracing confirms ink here. Letter suggestions are saved, but not graded."
+      : "The published source confirms writing here. Compare the connected strokes.";
+    return item.hint ?? (item.explain.match(/[^.!?]+[.!?]+(?:\s+[^.!?]+[.!?]+)?/)?.[0] ?? item.explain);
+  }
+
+  function nextLesson(afterCompletion = false) {
+    if (practice) return undefined;
+    const st = afterCompletion ? { ...state(), setsDone: { ...state().setsDone, [set!.id]: 1 } } : state();
+    if (set!.id === "first-line" && !levelDone(st, 1)) return playSets.find(p => p.id === "first-letters-500p2");
+    const pathIndex = playSets.findIndex(p => p.id === set!.id);
+    return playSets.slice(pathIndex + 1).find(p => p.level > 0 && !st.setsDone[p.id] && levelAvailable(st, p.level));
+  }
+
+  function nextAction(study = false): string {
+    const last = index + 1 === order.length;
+    // The next level may unlock only when this lesson is completed.
+    const upcoming = nextLesson(true);
+    return `<div class="task-actions"><button type="button" class="primary" id="${study ? "study-next" : "next"}">${last ? upcoming ? "Next lesson →" : "Finish round →" : "Next →"}</button>
+      ${last ? `<button type="button" class="linkish" id="finish-summary">Finish & see summary</button>` : ""}</div>`;
+  }
+
+  function taskDetails(item: QuizItem): string {
+    const revealed = checked !== null || item.task === "study";
+    return `<div class="task-details">
+      ${!revealed && item.hint ? `<details class="reading-guide" id="shape-hint"><summary>Need a clue?</summary><p>${esc(item.hint)}</p></details>` : ""}
+      ${!revealed && item.guide ? `<details class="reading-guide" id="reading-guide"><summary>Reading guide</summary><p class="greek" lang="grc">${esc(item.guide)}</p><p class="small">${Array.from(item.guide).map(namedLetter).map(esc).join(" · ")}</p><p class="small muted">Saved as assisted practice.</p></details>` : ""}
+      <details><summary>${revealed ? "Explanation & sources" : "About this image & sources"}</summary>
+        ${index === 0 && set!.intro ? `<p>${esc(set!.intro)}</p>` : ""}
+        ${item.preparation ? `<p>${esc(item.preparation)}</p>` : ""}
+        ${revealed ? `<p>${esc(item.explain)}</p>${item.sample_id ? readingSource(item) : ""}
+          ${item.edition ? `<p class="greek" lang="grc">${esc(item.edition)}</p><p class="small">${esc(item.reading ?? "")}. Dots below letters mark uncertainty in the edition.</p>` : ""}
+          ${checked ? readingReview(item, checked) : ""}` : ""}
+        <p class="cite">${sourceLine(item)}</p>
+      </details>
+      ${revealed && item.reference_answer_image ? `<details><summary>Source ink tracing</summary>${imageComparison(
+        { file: item.reference_image!, label: "Unchanged source", alt: "Unchanged source" },
+        { file: item.reference_answer_image, label: "Ink tracing", alt: "Organizers' ink tracing on the unchanged source" })}</details>` : ""}
+      ${!revealed && !quickChoice() ? `<details class="confidence-options" ${pick.confidence != null ? "open" : ""}><summary>Record confidence <span class="muted">(optional)</span></summary>
+        <div class="row" role="group" aria-label="How sure are you?">${[[1,"Guessing"],[2,"Fairly sure"],[3,"Sure"]].map(([n,label]) => `<button type="button" class="choice" data-conf="${n}" aria-pressed="${pick.confidence === n}">${label}</button>`).join("")}<button type="button" class="choice" data-conf="none" aria-pressed="${pick.confidence == null}">No rating</button></div>
+        <p class="small muted">Optional. Only a rating you choose is saved.</p></details>` : ""}
+      <details><summary>Round options & keyboard</summary>
+        <p class="small">Your place is saved automatically. Restarting keeps previous answers.</p>
+        <button type="button" id="restart">Start this round again</button>
+        ${levelAvailable(state(), 2) ? `<p><a href="#/quiz/long-lines">Try a whole line · optional challenge</a></p>` : ""}
+        <p class="small">Tab moves between controls. Enter or Space activates the focused button. ${quickChoice() ? "? answers ‘not sure yet’." : "Type Greek letters or their keyboard equivalents; ? leaves a letter open. Enter away from buttons checks your reading."}</p>
+        ${practice ? `<p class="small">Some views repeat or overlap. Repetition builds recognition; it does not add independent handwriting samples.</p>` : ""}
+      </details>
+    </div>`;
+  }
+
   function renderRound(): void {
-    imageObserver?.disconnect();
     const item = order[index];
     const wide = (item.task === "read" || item.task === "study") && item.truth.length > 4;
-    main.innerHTML = `
-    <a class="back-link" href="#/">← Back to the path</a>
-    ${saved && !resumed && index === 0 && !checked ? `<p class="small">The exercises have changed since your saved round. This is a new round; your previous answers are still in My results.</p>` : ""}
-    <div class="drill-head">
+    const comparison = item.compare_with ? quizItems.find(other => other.id === item.compare_with) : undefined;
+    main.innerHTML = `<section class="learning-task">
+      <div class="task-topline"><a href="#/">← Path</a><span class="small muted">${index + 1} / ${order.length}</span></div>
       <h1 tabindex="-1">${esc(set!.title)}</h1>
-      <span class="muted">${guided || set!.ordered ? "Step" : "Tile"} ${index + 1} of ${order.length}</span>
-    </div>
-    ${set!.id === "first-letters-500p2" && index === 0 && !checked ? `<div class="round-intro"><p><strong>Meet your first real letters.</strong> No Greek needed.
-      Printed capitals and our drawings are guides: ancient handwriting varies in shape and proportion.
-      Start with clearer shapes and a letter pair, then study unfamiliar forms without a score.</p>
-      <p class="cite">About handwritten forms: ${sourceLinks(["greek-bookhands"])}</p></div>` : ""}
-    ${item.stage ? `<p class="eyebrow lesson-stage">${esc(item.stage ?? "")}</p>` : ""}
-    ${index === 0 && !checked && set!.intro ? `<div class="round-intro"><p>${esc(set!.intro)}</p></div>` : ""}
-    ${practiceGroup && index === 0 && !checked ? `<p class="small muted">Short readings of related forms. Some views overlap or repeat a lesson image. This round practises letters; it has no empty-tile questions.</p>` : ""}
-    ${practice && !practiceGroup && index === 0 && !checked ? `<p class="small muted">A short mix that favours unfamiliar images and previous difficulties. Repeated images help you practise; they are not new handwriting samples.</p>` : ""}
-    ${!practice && item.optional_challenge && !checked ? `<p class="challenge-note"><strong>Optional challenge.</strong> You can finish this lesson with the short groups.<br><button type="button" class="linkish" id="skip-challenge">Skip this challenge and finish the lesson →</button></p>` : ""}
-    ${item.simulated ? `<p class="small simulation-note">Image exercise · difficulty ${item.degradation}/5. This image has been altered for practice. “Not sure” is useful; the unchanged source appears after your answer.</p>` : ""}
-    <details class="round-options"><summary>Round options</summary><p class="small">Your place and current answer are saved in this browser. Starting again keeps all answers already recorded.</p><button type="button" id="restart">Start this round again</button></details>
-    <div class="progress" aria-hidden="true">${order.map((_, i) => `<span class="${i < index ? "past" : i === index ? "now" : ""}"></span>`).join("")}</div>
-    <div class="round ${checked || item.task === "study" ? "solution-round" : `${wide ? "round-wide" : ""} ${item.task === "read" ? "reading-round" : ""}`}" data-item="${esc(item.id)}">
-      ${checked || item.task === "study" ? "" : sourcePhoto(item, wide)}
-      <div class="answer">
-        ${item.task === "study" ? study(item) : checked ? feedback(item, checked) : questions(item)}
+      ${saved && !resumed && index === 0 && !checked ? `<p class="small">New exercises are available. Your previous answers remain in My results.</p>` : ""}
+      <div class="progress" aria-hidden="true">${order.map((_, i) => `<span class="${i < index ? "past" : i === index ? "now" : ""}"></span>`).join("")}</div>
+      <p class="task-context small muted">${item.simulated ? `Altered practice image · ${item.degradation}/5` : item.task === "study" ? "Guided example · no score" : item.source.includes("profilometer") ? "Original photograph" : item.source.includes("pherc0500p2-ir") ? "Infrared photograph · ink detection" : "CT-derived ink map · published reading"}</p>
+      <div class="task-workspace${wide ? " task-wide" : ""}" data-item="${esc(item.id)}" data-task="${item.task}">
+        <div class="task-image${comparison ? " hand-comparison" : ""}">${taskViewer(item, !!checked || item.task === "study")}
+          ${comparison ? `<figure class="other-hand"><img src="${imgSrc(comparison.image)}" alt="A different photograph identified as ${esc(namedLetter(comparison.truth))}"><figcaption>Another ${esc(namedLetter(comparison.truth))}<br><span class="viewer-credit">${esc(comparison.credit)} · ${esc(comparison.license)}</span></figcaption></figure>` : ""}
+        </div>
+        <div class="task-answer" aria-live="polite">${item.task === "study" ? study(item) : checked ? feedback(item, checked) : questions(item)}</div>
       </div>
-    </div>`;
-    const photo = main.querySelector<HTMLElement>(".reading-round .photo");
-    if (photo) {
-      fitReadingImage();
-      imageObserver = new ResizeObserver(fitReadingImage);
-      imageObserver.observe(photo);
-    }
-  }
-
-  function sourcePhoto(item: QuizItem, wide = false, label?: string): string {
-    return `<figure class="tile-frame photo ${wide ? "photo-wide" : ""} ${zoom ? "zoomed" : ""}">
-      ${label ? `<p class="solution-label">${esc(label)}</p>` : ""}
-      <div class="zoom-box" tabindex="0" role="region" aria-label="Papyrus image; scroll to explore when enlarged"><img src="${imgSrc(item.image)}" alt="${esc(item.alt)}" class="tile-img"></div>
-      <figcaption><button type="button" class="linkish" id="zoom" aria-pressed="${zoom}">${zoom ? "Zoom out" : "Zoom in"}</button>
-        <span class="small muted">${esc(item.credit)}, ${esc(item.license)}</span></figcaption>
-      ${wide ? `<p class="image-hint small muted">Scroll sideways to explore the line.</p>` : ""}
-      ${item.task === "read" && !checked ? typedOutput() : ""}
-    </figure>`;
-  }
-
-  function comparisonImages(item: QuizItem): string {
-    const reference = item.reference_image ?? item.answer_image;
-    if (!reference) return "";
-    return imageComparison(
-      { file: item.image, label: item.simulated ? "Practice image" : "Original image", alt: item.alt },
-      { file: reference, label: item.reference_image ? "Unchanged source" : "Ink tracing", alt: item.reference_image ? "The unchanged source for this practice image" : "The same image with the organizers' ink tracing in red" },
-    ) + `<p class="small muted">${item.reference_image ? "The answer describes the unchanged source; some strokes may no longer be visible in the practice image." : "Red: ink traced by the organizers. A/B view shows both images at the same position."}</p>`;
+      <div id="task-detail-area">${taskDetails(item)}</div>
+    </section>`;
+    if (checked) highlightFeedback(item, checked);
+    else if (item.task === "study") showLetterRegion(main, item, 0);
   }
 
   function study(item: QuizItem): string {
-    const comparison = item.compare_with ? quizItems.find((other) => other.id === item.compare_with) : undefined;
-    const reading = item.truth.length > 4
-      ? `<p class="greek edition-line" lang="grc">${esc(item.truth)}</p><p class="small">${Array.from(item.truth).map(letterName).map(esc).join(" · ")}</p><p class="small">The published reading, recorded in capitals. We will start with a few letters at the left edge.</p><details><summary>The edition's text</summary><p class="greek" lang="grc">${esc(item.edition ?? item.truth)}</p></details>`
-      : `<div class="study-reference named-letter">${letterReference(item.truth)}</div><p class="small muted">Simplified practice drawing and printed letters; neither is a tracing of this source image.</p>`;
-    return `<section class="study-card" aria-labelledby="study-title">
-      <p class="eyebrow">Guided example · no score</p>
-      <h2 id="study-title">${esc(item.truth.length > 4 ? "A line from a closed scroll" : Array.from(item.truth).map(namedLetter).join(" · "))}</h2>
-      ${item.answer_image ? `${comparisonImages(item)}${reading}` : `<div class="solution-pair">${sourcePhoto(item, item.truth.length > 4, "Original image")}<div><h3>${item.task === "detect" ? "Reference answer" : "Published reading"}</h3>${reading}</div></div>`}
-      <p class="preparation">${esc(item.preparation ?? "")}</p>
-      <p>${esc(item.explain)}</p>
-      ${comparison ? `<figure class="answer-figure comparison-photo"><img src="${imgSrc(comparison.image)}" alt="A different photograph, also identified as Nu by the source">
-        <figcaption class="small">A different ${esc(Array.from(comparison.truth).map(letterName).join(" · "))}, for comparison.
-          ${esc(comparison.credit)}, ${esc(comparison.license)}.</figcaption></figure>` : ""}
-      ${item.sample_id ? readingSource(item) : ""}
-      <p class="cite">${sourceLine(item)}</p>
-      <button type="button" class="primary" id="study-next">${index + 1 < order.length ? "Continue →" : "Finish this lesson →"}</button>
-    </section>`;
+    const long = item.truth.length > 4;
+    return `<div class="task-study"><h2 id="study-title" tabindex="-1">${long ? "A line from a closed scroll" : esc(Array.from(item.truth).map(namedLetter).join(" · "))}</h2>
+      ${long ? `<p class="greek study-line" lang="grc">${esc(item.truth)}</p><p class="small">Published reading. Start with the first few letters.</p>` : `${readingBoxes(item)}<p class="small muted">Tap a letter to locate it in the image.</p>`}
+      <p class="learning-hint">${esc(shortHint(item))}</p>
+      ${nextAction(true)}
+      ${long ? `<details><summary>Letter names</summary><p class="small">${Array.from(item.truth).map(letterName).map(esc).join(" · ")}</p></details>` : ""}
+    </div>`;
   }
 
   function questions(item: QuizItem): string {
     const c = (name: string, value: string, label: string, pressed: boolean) =>
       `<button type="button" class="choice" data-${name}="${value}" aria-pressed="${pressed}">${label}</button>`;
-    return `
-      ${item.task === "identify" ? `<p class="preparation">${esc(item.preparation ?? "")}</p>
-        <fieldset class="question"><legend>${esc(item.question ?? "Name the handwritten letter")}</legend>
-        <p class="small muted">${esc(item.hint ?? "")}</p>
-        <p class="small reference-caption">Each choice shows a simplified practice drawing, then its printed letter and name.</p>
-        <div class="match-options">${choices.get(item.id)!.map((reading) => `<button type="button" class="choice named-letter" data-reading="${reading}" aria-pressed="${pick.letters.join("") === reading}">${letterReference(reading)}</button>`).join("")}
-        <button type="button" class="choice" data-reading="?" aria-pressed="${pick.said === "unsure"}">Not sure yet</button></div></fieldset>` : item.task === "read" && !item.simulated ? letterPanel(item) : `
-      <fieldset class="question">
-        <legend>${item.simulated ? `Can you make out ${detectWord()} in this altered image?` : `Is there ${detectWord()} on this tile?`}</legend>
-        <div class="row">
-          ${c("said", "yes", "Yes", pick.said === "yes")}
-          ${c("said", "no", `No ${detectWord()}`, pick.said === "no")}
-          ${c("said", "unsure", "Not sure", pick.said === "unsure")}
-        </div>
-      </fieldset>
-      ${item.task === "detect" ? `<details class="optional-letters"><summary>Try naming letters <span class="muted">(optional, not scored)</span></summary>${letterPanel(item)}</details>` : letterPanel(item)}`}
-      ${quickChoice() ? `<p class="small muted">Tap a choice to see the reading. “Not sure yet” is welcome.</p>` : `<fieldset class="question">
-        <legend>How sure are you?</legend>
-        <div class="row">
-          ${c("conf", "1", "Guessing", pick.confidence === 1)}
-          ${c("conf", "2", "Fairly sure", pick.confidence === 2)}
-          ${c("conf", "3", "Sure", pick.confidence === 3)}
-        </div>
-      </fieldset>
-      <button type="button" class="primary" id="check" aria-describedby="check-hint" ${canCheck() ? "" : "disabled"}>Check answer</button>
-      <p class="small muted check-hint" id="check-hint">${checkHint()}</p>`}
-      <div class="task-help">
-      ${item.task !== "identify" && item.preparation ? `<details><summary>About this image</summary><p class="preparation">${esc(item.preparation)}</p></details>` : ""}
-      ${item.task === "read" && item.hint ? `<details class="reading-guide" id="shape-hint"><summary>Show a shape clue</summary><p>${esc(item.hint)}</p><p class="small muted">Using a clue is saved as assisted practice.</p></details>` : ""}
-      ${item.task !== "identify" && item.guide ? `<details class="reading-guide" id="reading-guide"><summary>Show a reading guide</summary><p class="greek" lang="grc">${esc(item.guide)}</p><p class="small">${Array.from(item.guide).map(namedLetter).map(esc).join(" · ")}</p><p class="small muted">Using this guide is saved as assisted practice. Try a few letters yourself first; use ? where you cannot tell.</p></details>` : ""}
-      </div>
-      <p class="keys">${item.task === "identify" ? quickChoice() ? `<kbd>Tab</kbd> move between choices, <kbd>Enter</kbd> or <kbd>Space</kbd> answer, <kbd>?</kbd> not sure yet.` : `<kbd>Tab</kbd> move between choices, <kbd>Space</kbd> select, <kbd>?</kbd> not sure yet, <kbd>1</kbd>–<kbd>3</kbd> how sure, <kbd>Enter</kbd> check.` : `Keyboard shortcuts: <kbd>e</kbd> Ε, <kbd>s</kbd> Ϲ, <kbd>u</kbd> Θ, or type Greek. <kbd>?</kbd> unreadable letter,
-      <kbd>Backspace</kbd> delete, ${item.task === "detect" || item.simulated ? `<kbd>-</kbd> no ${detectWord()}, ` : ""}<kbd>1</kbd>–<kbd>3</kbd> how sure, <kbd>Enter</kbd> check.`}</p>`;
+    return `<div class="task-body">${item.task === "identify" ? `<fieldset class="question"><legend>${esc(item.question ?? "Name the handwritten letter")}</legend>
+      <div class="match-options">${choices.get(item.id)!.map(reading => `<button type="button" class="choice named-letter" data-reading="${reading}">${letterReference(reading)}</button>`).join("")}</div>
+      </fieldset>`
+      : item.task === "read" && !item.simulated ? letterPanel(item) : `<fieldset class="question"><legend>${item.simulated ? "Can you make out writing?" : `Is there ${detectWord()} here?`}</legend>
+        <div class="row">${c("said","yes","Yes",pick.said === "yes")}${c("said","no",`No ${detectWord()}`,pick.said === "no")}${c("said","unsure","Not sure",pick.said === "unsure")}</div></fieldset>
+        ${item.task === "detect" ? "" : letterPanel(item)}`}
+      </div>${quickChoice() ? `<div class="task-actions"><button type="button" data-reading="?">Not sure yet</button></div><p class="small muted reference-caption">Drawings and printed letters are guides.</p>` : `<div class="task-actions"><button type="button" class="primary" id="check" aria-describedby="check-hint" ${canCheck() ? "" : "disabled"}>Check answer</button></div>
+        <p class="small muted check-hint" id="check-hint">${checkHint()}</p>`}
+      ${!practice && item.optional_challenge ? `<button type="button" class="linkish" id="skip-challenge">Skip this optional challenge →</button>` : ""}
+      ${item.task === "detect" ? `<details class="optional-letters"><summary>Suggest letters <span class="muted">(not scored)</span></summary>${letterPanel(item)}</details>` : ""}`;
   }
 
   function checkHint(): string {
     if (!pick.said) return order[index].task === "identify" ? "Choose the letter name, or “Not sure yet”." : order[index].task === "read" && !order[index].simulated ? "Enter letters, or use ? where you cannot read one." : `Choose whether you see ${detectWord()}.`;
     if (order[index].task === "read" && pick.said === "yes" && !pick.letters.length) return "Enter letters, or use ? for a letter you cannot read.";
-    if (!pick.confidence) return "Choose how sure you are to check your answer.";
     return "Ready when you are.";
   }
 
   function updateQuestions(): void {
     main.querySelectorAll<HTMLButtonElement>("[data-said], [data-conf], [data-reading]").forEach((button) => {
       const pressed = button.dataset.reading ? button.dataset.reading === "?" ? pick.said === "unsure" : button.dataset.reading === pick.letters.join("")
-        : button.dataset.said ? button.dataset.said === pick.said : Number(button.dataset.conf) === pick.confidence;
+        : button.dataset.said ? button.dataset.said === pick.said : button.dataset.conf === "none" ? pick.confidence == null : Number(button.dataset.conf) === pick.confidence;
       button.setAttribute("aria-pressed", String(pressed));
     });
     const lettersQuestion = main.querySelector<HTMLFieldSetElement>("#letters-question");
@@ -314,6 +296,8 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
     if (checkButton) checkButton.disabled = !canCheck();
     const hint = main.querySelector<HTMLElement>("#check-hint");
     if (hint) hint.textContent = checkHint();
+    const confidence = main.querySelector<HTMLDetailsElement>(".confidence-options");
+    if (confidence && pick.confidence != null) confidence.open = true;
     persistRound();
   }
 
@@ -332,36 +316,25 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
   }
 
   function feedback(item: QuizItem, s: Score): string {
-    const reading = item.task === "identify"
-      ? `${readingBoxes(item, s)}<p class="small">You chose: ${pick.said === "unsure" ? "not sure yet" : esc(pick.letters.map(namedLetter).join(" · "))}.</p>`
-      : item.task === "read"
-      ? `${readingBoxes(item, s)}
-         <p class="small">${s.letters_ok ?? 0} of ${s.letters_total ?? Array.from(item.truth).length} letters read${s.extras ? `, ${s.extras} extra` : ""}.
-         You typed: <span class="greek">${pick.letters.length ? pick.letters.map(esc).join("") : "nothing"}</span></p>`
-      : `<dl class="compare"><dt>You said</dt><dd>${pick.said === "no" ? `no ${detectWord()}` : pick.said === "unsure" ? "not sure" : `${detectWord()}`}${pick.letters.length ? ` <span class="greek">(${pick.letters.map(esc).join("")})</span>` : ""}</dd>
-         <dt>Answer</dt><dd>${item.truth === "none" ? `no ${detectWord()}` : `${detectWord()}`}</dd></dl>`;
-    const provenance = item.task === "identify" || (item.task === "read" && item.sample_id) ? readingSource(item)
-      : item.task === "read" ? `<p class="edition-line greek" lang="grc">${esc(item.edition ?? "")}</p>
-        <p class="small muted">Source line: ${esc(item.reading ?? "")}, as printed in the edition.${item.edition_indices ? ` This crop uses letter positions ${item.edition_indices[0] + 1}–${item.edition_indices[1]}.` : ""} Letters with a dot below are uncertain there.</p>` : "";
-    const images = comparisonImages(item);
-    return `${newRank ? rankUpBanner(newRank) : ""}<div class="verdict v-${s.verdict}">
-      <h2 id="verdict" tabindex="-1">${esc(headline(item, pick, s, detectWord()))}</h2>
-      ${images ? `${images}${reading}` : `<div class="solution-pair">${sourcePhoto(item, item.truth.length > 4, "Your tile")}<div><h3>${item.task === "detect" ? "Reference answer" : "Published reading"}</h3>${reading}</div></div>`}
-      ${readingReview(item, s)}
-      ${provenance}
-      ${item.reference_answer_image ? `<details><summary>Compare the source ink tracing</summary>${imageComparison(
-        { file: item.reference_image!, label: "Unchanged source", alt: "Unchanged source image" },
-        { file: item.reference_answer_image, label: "Ink tracing", alt: "The unchanged source with the organizers' ink tracing in red" },
-      )}<p class="small muted">Red: the organizers' tracing on the unchanged source.</p></details>` : ""}
-      <p>${esc(item.explain)}</p>
-      ${helpUsed || item.assisted ? `<p class="small">${helpUsed ? "Clue or reading guide used" : "Letter clues provided"} · saved as assisted practice.</p>` : ""}
+    const reading = item.task === "identify" || item.task === "read"
+      ? `${readingBoxes(item, s)}<p class="small">Your answer: <span class="greek">${pick.said === "unsure" && !pick.letters.some(l => l !== "?") ? "not sure" : pick.said === "no" ? "no writing" : pick.letters.map(esc).join("") || "left open"}</span>${item.uncertain?.length ? " · dotted marks are uncertain in the edition" : ""}.</p>`
+      : `<p>Your answer: ${pick.said === "no" ? `no ${detectWord()}` : pick.said === "unsure" ? "not sure" : detectWord()}. Reference: ${item.truth === "none" ? "no visible " : ""}${detectWord()}.</p>`;
+    return `<div class="task-feedback v-${s.verdict}"><div class="task-body"><h2 id="verdict" tabindex="-1">${esc(headline(item, pick, s, detectWord()))}</h2>
+      ${reading}${item.letter_regions?.some(Boolean) ? `<p class="small muted">Tap a letter above to find its place in the image.</p>` : ""}<p class="learning-hint">${esc(shortHint(item))}</p>
+      ${item.simulated ? `<p class="small muted">The answer describes the unchanged source. Detail may be lost in this practice image.</p>` : ""}
+      </div>${nextAction()}
       <div class="points">${points(s)}</div>
-      ${item.task === "detect" && pick.letters.length ? `<p class="small">Your letter suggestion is saved. It is not marked wrong; this round checks visible ${detectWord()} only.</p>` : ""}
-      <p class="cite">${sourceLine(item)}</p>
-      ${item.practice_group && levelAvailable(state(), item.level) ? `<p><a class="button" href="#/practice/${item.level}/group/${item.practice_group}">Practise this group</a><span class="small muted"> Your place in this lesson is saved.</span></p>` : ""}
-      ${!practice && set!.id === "first-letters-500p2" && index === 2 && canStartFirstLine(state()) ? `<div class="lesson-choice"><p><strong>Three real examples. What would you like to try next?</strong></p><div class="row"><button type="button" class="primary" id="next">Explore more handwriting →</button><a class="button" href="#/quiz/first-line">Read a short group →</a></div><p class="small muted">Your place here is saved. You can return to the remaining guided examples.</p></div>` : `<button type="button" class="primary" id="next">${index + 1 < order.length ? "Next tile" : "See how it went"}</button>`}
-    </div>
-    ${s.verdict === "false-alarm" ? tip(`A familiar shape can be tempting. Compare the strokes with the reference, and use “Not sure” when the evidence is thin. Even the editors set aside ambiguous traces (${sourceLinks(["cerc54"])}).`) : ""}`;
+      ${!practice && set!.id === "first-letters-500p2" && index === 2 && canStartFirstLine(state()) ? `<p class="small"><a href="#/quiz/first-line">Try a short line now →</a></p>` : ""}
+      ${item.practice_group && levelAvailable(state(), item.level) ? `<details><summary>More practice</summary><a href="#/practice/${item.level}/group/${item.practice_group}">Practise this letter group</a></details>` : ""}
+      ${helpUsed || item.assisted ? `<p class="small muted">Saved as assisted practice.</p>` : ""}
+      ${item.task === "detect" && pick.letters.length ? `<p class="small">Your letter suggestion is saved, without a letter score.</p>` : ""}
+    </div>`;
+  }
+
+  function highlightFeedback(item: QuizItem, s: Score): void {
+    const wrong = s.marks.findIndex((mark, i) => mark !== "ok" && !!item.letter_regions?.[i]);
+    const first = item.letter_regions?.findIndex(Boolean) ?? -1;
+    if (wrong >= 0 || first >= 0) showLetterRegion(main, item, wrong >= 0 ? wrong : first);
   }
 
   function check(): void {
@@ -369,6 +342,7 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
     const item = order[index];
     if (item.task === "study") return;
     if (quickChoice()) pick.confidence = null;
+    else pick.confidence ??= null;
     const letters = pick.said === "no" ? "" : pick.letters.join("");
     const s = score({ text: item.truth, uncertain: item.uncertain, simulated: item.simulated }, { said: pick.said!, letters, confidence: pick.confidence!, presenceAsked: !quickChoice() });
     const rec: AnswerRecord = {
@@ -401,11 +375,33 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
     const news = progressAfterAnswer();
     newRank = news.rank?.id;
     if (newRank) ranksThisSet.push(newRank);
-    renderRound();
-    main.querySelector<HTMLElement>("#verdict")?.focus();
+    // Keep the image DOM, scale and pan. On desktop, also retain the action row's height.
+    const bodyHeight = main.querySelector<HTMLElement>(".task-body")?.getBoundingClientRect().height;
+    revealTaskViewer(main);
+    main.querySelector<HTMLElement>(".task-answer")!.innerHTML = feedback(item, s);
+    if (bodyHeight && window.matchMedia("(min-width: 701px)").matches) {
+      main.querySelector<HTMLElement>(".task-body")!.style.minHeight = `${bodyHeight}px`;
+    }
+    main.querySelector<HTMLElement>("#task-detail-area")!.innerHTML = taskDetails(item);
+    highlightFeedback(item, s);
+    main.querySelector<HTMLElement>("#verdict")?.focus({ preventScroll: true });
+    keepImageVisible();
   }
 
-  function next(): void {
+  /** A deliberate reading correction should show its image, even after scrolling to type. */
+  function keepImageVisible(): void {
+    if (!window.matchMedia("(max-width: 700px)").matches) return;
+    const image = main.querySelector<HTMLElement>(".viewer-images");
+    if (!image) return;
+    const bounds = image.getBoundingClientRect();
+    const available = window.innerHeight - 80;
+    const feedback = main.querySelector<HTMLElement>(".task-feedback .task-body");
+    if (bounds.top < 0 || bounds.bottom > available || (feedback && feedback.getBoundingClientRect().bottom > available)) {
+      window.scrollTo({ top: Math.max(0, window.scrollY + bounds.top - 12), behavior: "instant" });
+    }
+  }
+
+  function next(showSummary = false): void {
     if (index >= order.length || (!checked && order[index].task !== "study" && !order[index].optional_challenge)) return;
     index++;
     pick = { letters: [] };
@@ -418,6 +414,8 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
       if (!practice) markSetDone(set!.id);
       const news = progressAfterAnswer();
       if (news.rank) ranksThisSet.push(news.rank.id);
+      const destination = nextLesson();
+      if (!showSummary && destination) { window.location.hash = destination.href; return; }
       renderSummary();
       return;
     }
@@ -425,7 +423,9 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
     shownAt = performance.now();
     persistRound();
     renderRound();
-    main.querySelector<HTMLElement>("h1")?.focus();
+    main.querySelector<HTMLElement>("h1")?.focus({ preventScroll: true });
+    const task = main.querySelector<HTMLElement>(".learning-task")!;
+    if (task.getBoundingClientRect().top < -100) task.scrollIntoView({ block: "start" });
   }
 
   function renderSummary(): void {
@@ -485,6 +485,11 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
     if ((e.target as HTMLElement).closest("#reading-guide > summary, #shape-hint > summary") && !checked) { helpUsed = true; persistRound(); }
     const b = (e.target as HTMLElement).closest("button");
     if (!b || b.disabled) return;
+    if (b.dataset.letterIndex !== undefined && (checked || order[index].task === "study")) {
+      showLetterRegion(main, order[index], Number(b.dataset.letterIndex), true);
+      keepImageVisible();
+      return;
+    }
     if (b.id === "review-zoom") {
       zoom = !zoom;
       main.querySelector(".review-image")?.classList.toggle("enlarged", zoom);
@@ -492,7 +497,7 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
       b.textContent = zoom ? "Zoom out" : "Zoom in";
       return;
     }
-    if (handleComparisonClick(b)) return;
+    if (handleViewerClick(b) || handleComparisonClick(b)) return;
     if (b.id === "zoom") {
       zoom = !zoom;
       main.querySelector(".photo")?.classList.toggle("zoomed", zoom);
@@ -520,6 +525,7 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
     if (b.id === "skip-challenge" && !practice && order[index]?.optional_challenge) return next();
     if (b.id === "check") return check();
     if (b.id === "next") return next();
+    if (b.id === "finish-summary") return next(true);
     if (b.id === "study-next" && order[index].task === "study") return next();
     if (order[index].task === "study") return;
     if (checked) return;
@@ -530,7 +536,7 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
     } else if (b.dataset.said) {
       pick.said = b.dataset.said as SaidText;
       if (pick.said === "no") pick.letters = [];
-    } else if (b.dataset.conf) pick.confidence = Number(b.dataset.conf) as 1 | 2 | 3;
+    } else if (b.dataset.conf) pick.confidence = b.dataset.conf === "none" ? null : Number(b.dataset.conf) as 1 | 2 | 3;
     else if (b.dataset.key === "back") pick.letters.pop();
     else if (b.dataset.key) addLetter(b.dataset.key);
     else return;
@@ -543,8 +549,7 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
     const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
     if (k === "Enter") {
       if (e.repeat) { e.preventDefault(); return; }
-      if (quickChoice() && !checked && (e.target as HTMLElement).closest("[data-reading]")) return;
-      if ((e.target as HTMLElement).closest("a, summary, button:not([data-said]):not([data-conf]):not([data-key]):not([data-reading])")) return;
+      if ((e.target as HTMLElement).closest("a, summary, button")) return;
       e.preventDefault();
       if (checked || order[index].task === "study") next();
       else check();
@@ -583,19 +588,18 @@ export function renderQuiz(main: HTMLElement, setId: string, practiceGroup?: str
     if ((target.id === "reading-guide" || target.id === "shape-hint") && target.open && !checked) { helpUsed = true; persistRound(); }
   }
   main.addEventListener("scroll", syncComparisonScroll, true);
+  main.addEventListener("scroll", syncViewerScroll, true);
   main.addEventListener("toggle", onGuide, true);
   main.addEventListener("click", onClick);
   document.addEventListener("keydown", onKey);
   persistRound();
   renderRound();
   window.addEventListener("pagehide", persistRound);
-  window.addEventListener("resize", fitReadingImage);
   return () => {
     persistRound();
-    imageObserver?.disconnect();
     window.removeEventListener("pagehide", persistRound);
-    window.removeEventListener("resize", fitReadingImage);
     main.removeEventListener("scroll", syncComparisonScroll, true);
+    main.removeEventListener("scroll", syncViewerScroll, true);
     main.removeEventListener("toggle", onGuide, true);
     main.removeEventListener("click", onClick);
     document.removeEventListener("keydown", onKey);

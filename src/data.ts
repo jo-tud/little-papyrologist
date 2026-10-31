@@ -5,6 +5,7 @@ import itemData from "../data/items.yaml";
 import badgeData from "../data/badges.yaml";
 import rankData from "../data/ranks.yaml";
 import type { BadgeDef, Drill, Fact, Glyph, Group, Hero, PlaySet, QuizItem, QuizSet, RankDef, Source } from "./types";
+import { applyLetterRegions } from "./letter-regions";
 
 export const glyphs = (glyphData as { letters: Glyph[] }).letters;
 export const glyphByChar = new Map(glyphs.map((g) => [g.char, g]));
@@ -20,7 +21,7 @@ export const sources = (sourceData as { sources: Source[] }).sources;
 export const sourceById = new Map(sources.map((s) => [s.id, s]));
 
 const itemFile = itemData as { sets?: QuizSet[]; items?: QuizItem[] };
-export const quizItems = itemFile.items ?? [];
+export const quizItems = (itemFile.items ?? []).map(applyLetterRegions);
 export const quizSets = itemFile.sets ?? [];
 
 /** Short fingerprint of the exercise set, stored with exported results. */

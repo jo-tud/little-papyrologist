@@ -133,6 +133,66 @@ for (const it of items) {
   }
 }
 const itemById = new Map(items.map((it) => [it.id, it]));
+// Alphabet-only references keep their provenance, but must not enter scored rounds.
+const referenceItems = read("data/alphabet-items.yaml").items;
+const referenceConfig = read("data/crops.yaml").alphabet_references;
+const referenceIds = new Set();
+const expectedReferences = new Map([...referenceConfig.groups, ...referenceConfig.photographs].map(it => [it.id, it]));
+for (const it of referenceItems) {
+  const where = `alphabet reference ${it.id}`;
+  const config = expectedReferences.get(it.id);
+  if (!config || referenceIds.has(it.id) || itemById.has(it.id)) fail(`${where}: unknown or duplicate reference`);
+  referenceIds.add(it.id);
+  if (it.set !== "alphabet-reference" || it.task !== "study" || it.degradation !== 0 || it.simulated
+      || it.uncertain?.length || !/^[ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡϹΤΥΦΧΨΩ]+$/u.test(it.truth))
+    fail(`${where}: references need an unaltered, confirmed published reading`);
+  if (!it.source?.length || !it.explain || !it.alt || !it.reading || !it.changes || !DATE.test(String(it.checked)))
+    fail(`${where}: incomplete provenance`);
+  checkSources(where, it.source);
+  if (!LICENSES.includes(it.license) || !it.credit?.includes("Vesuvius Challenge")
+      || (it.source?.includes("grandprize") && !it.credit?.includes("EduceLab, University of Kentucky")))
+    fail(`${where}: incomplete license or image credit`);
+  for (const key of ["image", "answer_image"]) {
+    if ((key === "image" && !it[key]) || (it[key] && !existsSync(new URL(`../public/images/${it[key]}`, import.meta.url))))
+      fail(`${where}: missing ${key}`);
+  }
+  if (config?.indices) {
+    const [start, end] = config.indices;
+    if (it.edition !== config.edition || it.truth !== config.line_truth.slice(start, end)
+        || JSON.stringify(it.edition_indices) !== JSON.stringify(config.indices)
+        || JSON.stringify(it.source_crop) !== JSON.stringify(config.rect)
+        || !it.source.includes("cerc54")) fail(`${where}: crop and edition mapping disagree`);
+  } else if (config && (it.sample_id !== config.sample || !it.answer_image || !it.source.includes("profilometer"))) {
+    fail(`${where}: photograph must retain its named sample and organizer tracing`);
+  }
+}
+if (referenceIds.size !== expectedReferences.size) fail("alphabet: missing configured references");
+for (const reference of referenceItems) itemById.set(reference.id, reference);
+// Locations identify approximate letter areas, never additional readings.
+const regionEntries = read("data/letter-regions.yaml").items;
+const regionIds = new Set();
+for (const entry of regionEntries) {
+  const it = itemById.get(entry.id);
+  const where = `letter locations ${entry.id}`;
+  if (regionIds.has(entry.id)) fail(`${where}: duplicate ID`);
+  regionIds.add(entry.id);
+  if (!it || entry.truth !== it.truth || entry.image !== it.image
+    || JSON.stringify(entry.source_crop) !== JSON.stringify(it.source_crop)) fail(`${where}: image, crop or reading changed`);
+  if (!Array.isArray(entry.regions) || entry.regions.length !== Array.from(entry.truth).length) fail(`${where}: one region per edition position required`);
+  else for (const box of entry.regions) {
+    if (box !== null && (!Array.isArray(box) || box.length !== 4 || box.some(n => !Number.isFinite(n) || n < 0 || n > 1)
+      || box[0] >= box[2] || box[1] >= box[3])) fail(`${where}: invalid normalized rectangle`);
+  }
+  if (!entry.checked || !Array.isArray(entry.source) || !entry.source.length
+    || entry.source.some(id => !it?.source.includes(id))) fail(`${where}: missing source check`);
+}
+const regionImages = new Set(regionEntries.map(entry => `${entry.image}:${entry.truth}`));
+for (const it of items) {
+  if (it.task === "read" && !it.practice_only && !quizSets.find(s => s.id === it.set)?.practice_only && it.truth.length > 4)
+    fail(`item ${it.id}: required readings must be short groups`);
+  if (["read", "identify"].includes(it.task) && it.truth.length <= 4
+    && !regionImages.has(`${it.reference_image ?? it.image}:${it.truth}`)) fail(`item ${it.id}: short reading needs reviewed letter locations`);
+}
 for (const set of quizSets) {
   const steps = items.filter(it => it.set === set.id && !it.practice_only);
   if (steps.some((it, i) => it.optional_challenge && (i !== steps.length - 1 || !set.ordered)))
@@ -157,7 +217,8 @@ for (const it of items) {
 for (const level of [1, 2, 3]) {
   // Guided first-letter recognition introduces real ink before blank-tile discrimination.
   // Optional practice is sampled with its own blank quota by planPractice.
-  const list = items.filter((i) => i.level === level && !i.practice_only && !["identify", "study"].includes(i.task));
+  const list = items.filter((i) => i.level === level && !i.practice_only
+    && !quizSets.find(s => s.id === i.set)?.practice_only && !["identify", "study"].includes(i.task));
   if (list.length && share(list) < NULL_SHARE_MIN) fail(`level ${level}: only ${Math.round(100 * share(list))} % empty tiles`);
 }
 

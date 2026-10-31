@@ -40,7 +40,7 @@ export function renderAbout(main: HTMLElement): void {
   <h2>Your data</h2>
   <p>The page has no server, no tracking and no analytics. Your answers, badges and ranks are
   stored in your browser. You can save or copy them yourself to keep a backup or move them to
-  another browser (at the end of <a href="#/results">My results</a>).</p>
+  another browser (under Backup in <a href="#/results">My results</a>).</p>
 
   <h2>Licenses</h2>
   <p>The code and the drawn letters and exercise tiles are released under the MIT License. Fonts: Gentium Book Plus (SIL International) and

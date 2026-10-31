@@ -21,7 +21,8 @@ export interface PracticeSummary {
 function pool(items: readonly PracticeItem[], level: number): PracticeItem[] {
   const unique = new Map<string, PracticeItem>();
   for (const item of items)
-    if (item.level === level && item.task !== "study" && !unique.has(item.id)) unique.set(item.id, item);
+    if (item.level === level && item.task !== "study"
+      && (item.task !== "read" || item.truth.length <= 4) && !unique.has(item.id)) unique.set(item.id, item);
   return [...unique.values()];
 }
 

@@ -94,6 +94,8 @@ export interface QuizItem {
   assisted?: boolean;
   edition_indices?: [number, number];
   source_crop?: [number, number, number, number];
+  /** Reviewed approximate letter areas, normalized to the image. Not ink masks. */
+  letter_regions?: Array<[number, number, number, number] | null>;
   alt: string;
   /** Capitals as read; "*" = ink present, letters not confirmed; "none" = no text. */
   truth: string;
