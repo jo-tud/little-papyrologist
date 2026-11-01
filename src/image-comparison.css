@@ -1,7 +1,7 @@
 .image-comparison { margin: 1rem 0; }
 .comparison-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem; margin-bottom: .7rem; }
 .comparison-controls .row, .comparison-switch { gap: .4rem; }
-.comparison-controls [aria-pressed="true"], .comparison-switch [aria-pressed="true"] { background: var(--teal-soft); border-color: var(--teal); }
+.comparison-controls [aria-pressed="true"], .comparison-switch [aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); }
 .comparison-switch { margin: 0 0 .7rem; }
 .comparison-switch[hidden], .comparison-images > [hidden] { display: none; }
 .comparison-images { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .25rem 1rem; }

@@ -67,8 +67,8 @@
 }
 
 .drill-review-controls [aria-pressed="true"] {
-  border-color: var(--teal);
-  background: var(--teal-soft);
+  border-color: var(--accent);
+  background: var(--accent-soft);
 }
 
 .drill-drawing-credit {
@@ -131,13 +131,13 @@
 }
 
 .drawing-verdict {
-  border-top: 3px solid var(--teal);
+  border-top: 3px solid var(--correct);
   padding-top: 0.7rem;
 }
 
 .drawing-verdict.v-honest,
 .drawing-verdict.v-careful {
-  border-color: var(--ochre);
+  border-color: var(--notice);
 }
 
 .drawing-verdict.v-wrong,
@@ -180,7 +180,7 @@
 .drawing-summary summary {
   cursor: pointer;
   padding: 0.5rem 0;
-  color: var(--teal);
+  color: var(--accent);
 }
 
 .drawing-details details p {

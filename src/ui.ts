@@ -67,8 +67,8 @@ export function toast(text: string): void {
 /** A small seal for each badge. Earned seals are filled. */
 export function badgeIcon(): string {
   return `<svg viewBox="0 0 32 32" aria-hidden="true">
-    <circle cx="16" cy="16" r="13" fill="var(--ochre)" stroke="var(--basalt)" stroke-width="1.5"/>
-    <path d="M10 17 L14.5 21 L22 11" fill="none" stroke="var(--basalt)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="16" cy="16" r="13" fill="var(--notice)" stroke="var(--basalt)" stroke-width="1.5"/>
+    <path d="M10 17 L14.5 21 L22 11" fill="none" stroke="var(--on-notice)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>`;
 }
 

@@ -72,7 +72,7 @@
   border-radius: 50%;
   width: 1.7rem;
   height: 1.7rem;
-  background: var(--teal-soft);
+  background: var(--accent-soft);
   color: var(--basalt);
   font-family: var(--sans);
   flex: 0 0 auto;
@@ -107,8 +107,8 @@
   flex: 0 0 auto;
 }
 .lesson-stop.up-next {
-  border-color: var(--teal);
-  box-shadow: inset 3px 0 var(--teal);
+  border-color: var(--accent);
+  box-shadow: inset 3px 0 var(--accent);
 }
 .lesson-done {
   font-size: var(--step--1);

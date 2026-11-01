@@ -17,6 +17,7 @@ import { renderAbout } from "./views/about";
 import { renderRanks } from "./views/ranks";
 import { renderQuiz } from "./views/quiz";
 import { syncRankChip } from "./progress-ui";
+import { initAppearance } from "./appearance";
 
 type Cleanup = (() => void) | void;
 
@@ -61,6 +62,7 @@ function route(event?: Event): void {
   if (event || hash !== "#/") main.focus({ preventScroll: true });
 }
 
+initAppearance();
 load();
 document.addEventListener("click", (event) => {
   if ((event.target as HTMLElement).closest("[data-skip-intro]")) skipIntro();

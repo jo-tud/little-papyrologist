@@ -21,9 +21,9 @@
   font-size: 1.25rem;
 }
 .alphabet-index .choice[aria-pressed="true"] {
-  color: var(--on-teal);
-  background: var(--teal);
-  border-color: var(--teal);
+  color: var(--on-accent);
+  background: var(--accent);
+  border-color: var(--accent);
   font-weight: bold;
 }
 .alphabet-index .alphabet-unavailable { border-style: dashed; }
@@ -80,8 +80,8 @@
   pointer-events: none;
 }
 .alphabet-location rect {
-  fill: rgb(240 177 58 / 12%);
-  stroke: #f0b13a;
+  fill: var(--image-highlight-soft);
+  stroke: var(--image-highlight);
   stroke-width: 2;
 }
 .alphabet-image img {
@@ -106,8 +106,8 @@
 }
 .alphabet-reading button { min-width: 2.4rem; min-height: 2.75rem; }
 .alphabet-reading .alphabet-target, .alphabet-reading button[aria-pressed="true"] {
-  color: var(--on-teal);
-  background: var(--teal);
+  color: var(--on-accent);
+  background: var(--accent);
   font-weight: bold;
 }
 .alphabet-description { margin: 0.6rem 0; max-width: var(--measure); }
@@ -115,7 +115,7 @@
 .alphabet-credit { margin: 0.6rem 0; font-size: 0.75rem; }
 .alphabet-card details, .alphabet-background { font-size: var(--step--1); }
 .alphabet-card details { margin-top: 0.6rem; }
-.alphabet-card summary, .alphabet-background summary { cursor: pointer; color: var(--teal); }
+.alphabet-card summary, .alphabet-background summary { cursor: pointer; color: var(--accent); }
 .alphabet-card details[open] > summary, .alphabet-background[open] > summary { margin-bottom: 0.6rem; }
 .alphabet-source p { margin: 0.4rem 0; }
 .alphabet-drawing .pair { display: flex; align-items: center; gap: 0.9rem; }

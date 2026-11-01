@@ -3,7 +3,7 @@
 .letter-form-shapes svg { display: block; width: min(42%, 1.8rem); height: 1.8rem; flex: 0 1 auto; }
 .letter-form-label .form-print { font-size: .95rem; line-height: 1.15; }
 .letter-form-label .letter-name { line-height: 1.15; }
-.match-options .letter-form-shapes { gap: .25rem; padding: .15rem; color: #211c14; background: #e6d4a4; border-radius: .3rem; }
+.match-options .letter-form-shapes { gap: .25rem; padding: .15rem; color: var(--basalt); background: var(--accent-soft); border-radius: .3rem; }
 .match-options .letter-form-shapes svg { width: min(42%, 2.1rem); height: 2.5rem; }
 .match-options .letter-form-label .form-print { font-size: 1.25rem; }
 .keyboard .key:has(.letter-form-label) { min-height: 4.2rem; }
